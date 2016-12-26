@@ -1,0 +1,99 @@
+.box-widget {
+    border: none;
+    position: relative;
+}
+
+.widget-user-2 .widget-user-header {
+    padding: 20px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.widget-user-2 .widget-user-username {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 25px;
+    font-weight: 300;
+}
+.widget-user-2 .widget-user-desc {
+    margin-top: 0;
+}
+.widget-user-2 .widget-user-username,
+.widget-user-2 .widget-user-desc {
+    margin-left: 75px;
+}
+.widget-user-2 .widget-user-image > img {
+    width: 65px;
+    height: auto;
+    float: left;
+}
+
+.bg-yellow,
+.callout.callout-warning,
+.alert-warning,
+.label-warning,
+.modal-warning .modal-body {
+    background-color: #e1c7ff !important;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Source Sans Pro',sans-serif;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin-top: 0px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.button {
+    -moz-appearance: button;
+    /* Firefox */
+    -webkit-appearance: button;
+    /* Safari and Chrome */
+    padding: 10px;
+    margin: 10px;
+    width: 70px;
+}
+.drop-box {
+    background: #F8F8F8;
+    border: 5px dashed #337ab7;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 25px;
+    margin: 10px;
+    min-height: 200px;
+}
+.dragover {
+    border: 5px dashed blue;
+}
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:500px;
+    height:350px;
+}
+form .progress {
+    line-height: 15px;
+}
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
