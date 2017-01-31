@@ -54,6 +54,10 @@ class TreatmentsController extends Controller
             $clientTreament->taxa_cartao_utilizada = $cardTax->taxa;
         }
 
+        $paymentAmount = bcsub($clientTreament->preco, $clientTreament->desconto);
+        $percentage = bcsub('1',strval($clientTreament->taxa_cartao_utilizada),4);
+        $clientTreament->valor_final = bcmul($paymentAmount,$percentage,2);
+
         $clientTreament->save();
 
         //Create sessions
@@ -71,6 +75,8 @@ class TreatmentsController extends Controller
 
         if($formaPagamento == 'Débito'){
             $paymentDate = $today->addDays(5);
+        }else if($formaPagamento == 'Dinheiro'){
+            $paymentDate = $today;
         }else{
             $paymentDate = $today->addDays(30);
         }
@@ -82,10 +88,7 @@ class TreatmentsController extends Controller
             $payment->tratamento_cliente_id = $clientTreatments->id;
             $payment->data_prevista = $paymentDate;
 
-            $paymentAmount = bcsub($clientTreatments->preco, $clientTreatments->desconto);
-            $percentage = bcsub('1',strval($clientTreatments->taxa_cartao_utilizada),4);
-            $paymentAmount = bcmul($paymentAmount,$percentage,2);
-            $paymentAmount = bcdiv($paymentAmount, $clientTreatments->nro_parcelas,2);
+            $paymentAmount = bcdiv($clientTreatments->valor_final, $clientTreatments->nro_parcelas,2);
             $payment->valor_parcela = $paymentAmount;
 
             $payment->save();

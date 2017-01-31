@@ -18,6 +18,7 @@ class ClientTreatments extends Migration
             $table->unsignedInteger('cliente_id');
             $table->string('nome');
             $table->decimal('preco',7,2);
+            $table->decimal('preco_final',7,2);
             $table->string('forma_pagamento');
             $table->unsignedInteger('nro_parcelas');
             $table->decimal('taxa_cartao_utilizada',5,4);
