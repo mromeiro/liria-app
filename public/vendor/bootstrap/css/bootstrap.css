@@ -1150,6 +1150,12 @@ img {
   height: 140px;
 }
 
+.img-circle-search{
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
 hr {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -3035,6 +3041,29 @@ select[multiple].input-lg {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.btn-select {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;

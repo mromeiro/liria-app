@@ -59,6 +59,15 @@ class ClientController extends Controller
         return  response()->json(['result' => $client]);
     }
 
+    public function getClientByNameOrCpf(Request $request){
+
+        $clients = Clients::where('name', 'like', '%' . $request->searchString . '%')
+                            ->orWhere('sobrenome', 'like', '%' . $request->searchString . '%')
+                            ->orWhere('cpf', $request->searchString)->get();
+
+        return  response()->json(['result' => $clients]);
+    }
+
     public function uploadPhoto(Request $request){
 
         $file = $request->file('file');

@@ -24,6 +24,10 @@ liriaApp
             templateUrl : 'pages/cadastro_tratamentos_cliente.html',
             controller  : 'tratamentosController'
         })
+        .when('/clientes/busca', {
+            templateUrl : 'pages/busca_clientes.html',
+            controller  : 'clientesController'
+        })
     })
 
     .config(['$httpProvider', function($httpProvider) {

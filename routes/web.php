@@ -16,16 +16,30 @@
  */
 Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
 
+    //Login
     Route::post('login', 'APIController@login');
 
     Route::group(['middleware' => 'jwt-auth'], function () {
 
+        //Recover all clientes in the database
         Route::get('clients', 'ClientController@get');
+
+        //Recover the cliente based on their ID
         Route::get('clients/{clientId}', 'ClientController@getClient');
+
+        //Create a cliente
         Route::post('clients', 'ClientController@create');
+
+        //Create a cliente
+        Route::post('clients/search/nameOrCpf', 'ClientController@getClientByNameOrCpf');
+
+        //Upload images
         Route::post('upload','ClientController@uploadPhoto');
 
+        //Get the list of available treatments
         Route::get('treatments', 'TreatmentsController@get');
+
+        //Create a treatment for a specific cliente along with its payments
         Route::post('treatments/create/{clienteId}', 'TreatmentsController@createTreatmentForClient');
 
     });

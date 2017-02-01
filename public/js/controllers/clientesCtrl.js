@@ -9,7 +9,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 	$scope.noPhoto = true;
 	$scope.uploadedPhoto = 'not_found.png';
 
-	//When a photo is selected this moal will open for the image to be cropped
+	//When a photo is selected this modal will open for the image to be cropped
 	$scope.$watch('uploadFiles', function () {
 
 		if ($scope.uploadFiles != null){
@@ -18,6 +18,19 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			});
 		}
 	});
+
+	$scope.searchClientByNameOrCpf = function(){
+
+        $scope.loading = true;
+
+		Clients.searchClientByNameOrCpf($scope.search)
+
+			.success(function(data){
+				$scope.clientList = data;
+			})
+
+        $scope.loading = false;
+	}
 
 	$scope.uploadImage = function (dataUrl, name){
 
