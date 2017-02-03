@@ -90,5 +90,16 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 		$('.modal-backdrop').remove();
 		$location.path('/clientes/tratamentos/' + $scope.novoCliente.id);
 
+	};
+
+	$scope.redirectSearchPage = function(customerId){
+
+		var action = $location.search().action;
+
+       if(action == 'registrarPagamento'){
+       		$location.path('/clientes/pagamentos/' + customerId);
+       }else if (action == 'novoTratamento')
+           $location.path('/clientes/tratamentos/' + customerId);
 	}
+
 });

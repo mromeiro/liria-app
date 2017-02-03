@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clients;
+use App\ClientTreatments;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
@@ -55,6 +56,11 @@ class ClientController extends Controller
 
         $client = Clients::find($request->clientId);
         $client->treatments = Clients::find($request->clientId)->treatments;
+
+        foreach ($client->treatments as $treatment){
+            $treatment->payments = ClientTreatments::find($treatment->id)->payments;
+            $treatment->sessions = ClientTreatments::find($treatment->id)->sessions;
+        }
 
         return  response()->json(['result' => $client]);
     }

@@ -15,6 +15,10 @@ liriaApp.factory('Clients', function($http) {
 			},
 
             searchClientByNameOrCpf : function(search) {
+
+				if (search == null)
+					search = "";
+
                 return $http({
                     method: 'POST',
                     url: 'http://localhost:8000/api/clients/search/nameOrCpf',

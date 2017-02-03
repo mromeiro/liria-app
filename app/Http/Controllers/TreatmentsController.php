@@ -23,7 +23,8 @@ class TreatmentsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createTreatmentForClient(Request $request){
+    public function createTreatmentForClient(Request $request)
+    {
 
         $clientTreament = new ClientTreatments();
 
@@ -34,24 +35,38 @@ class TreatmentsController extends Controller
         $clientTreament->cliente_id = $request->clienteId;
         $clientTreament->preco = $request->preco;
 
-        if( $request->data_inicio != null){
+        if ($request->data_inicio != null) {
             $clientTreament->data_inicio = Carbon::createFromFormat('d/m/Y', $request->data_inicio);
         }
 
-        $clientTreament->desconto = $request->desconto;
-        $clientTreament->forma_pagamento = $request->forma_pagamento;
+        if($request->desconto == null){
+            $clientTreament->desconto = 0;
+        }else{
+            $clientTreament->desconto = $request->desconto;
+        }
+
         $clientTreament->nro_parcelas = $request->nro_parcelas;
         $clientTreament->nro_sessoes = $request->nro_sessoes;
 
         //Recover the correct tax for the treatment
-        $pieces = explode(" ", $clientTreament->forma_pagamento);
-        $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
-                           bandeira = ? and forma_pagamento = ?',
-            [$clientTreament->nro_parcelas, $clientTreament->nro_parcelas, $pieces[0], $pieces[1]])->get();
+        if ($request->forma_pagamento == "Dinheiro" || $request->forma_pagamento == "Cheque") {
 
-        foreach ($cardTaxes as $cardTax)
-        {
-            $clientTreament->taxa_cartao_utilizada = $cardTax->taxa;
+            $clientTreament->taxa_cartao_utilizada = 0;
+            $clientTreament->forma_pagamento = $request->forma_pagamento;
+
+        } else {
+
+            $pieces = explode(" ", $request->forma_pagamento);
+            $bandeira = $pieces[0];
+            $clientTreament->forma_pagamento = $pieces[1];
+
+            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
+                               bandeira = ? and forma_pagamento = ?',
+                [$clientTreament->nro_parcelas, $clientTreament->nro_parcelas, $bandeira, $clientTreament->forma_pagamento])->get();
+
+            foreach ($cardTaxes as $cardTax) {
+                $clientTreament->taxa_cartao_utilizada = $cardTax->taxa;
+            }
         }
 
         $paymentAmount = bcsub($clientTreament->preco, $clientTreament->desconto);
@@ -64,7 +79,7 @@ class TreatmentsController extends Controller
         $this->createSessions($clientTreament);
 
         //Create payments
-        $this->createPayments($clientTreament, $pieces[1]);
+        $this->createPayments($clientTreament, $clientTreament->forma_pagamento);
 
         return response()->json(['result' => $clientTreament]);
     }
