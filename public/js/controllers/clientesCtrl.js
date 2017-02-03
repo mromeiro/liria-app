@@ -4,10 +4,9 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
 	$rootScope.logged = true;
 	$scope.logged = true;
-	// function to handle submitting the form
 
 	$scope.noPhoto = true;
-	$scope.uploadedPhoto = 'not_found.png';
+	$scope.uploadedPhoto = 'not_found.png'; //Default image
 
 	//When a photo is selected this modal will open for the image to be cropped
 	$scope.$watch('uploadFiles', function () {
@@ -19,6 +18,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 		}
 	});
 
+	//Searchs the client for the busca_clientes.html page
 	$scope.searchClientByNameOrCpf = function(){
 
         $scope.loading = true;
@@ -32,6 +32,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
         $scope.loading = false;
 	}
 
+	//Upload an image for the new client
 	$scope.uploadImage = function (dataUrl, name){
 
 		Upload.upload({
@@ -47,6 +48,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			})
 	}
 
+	//Saves new client
 	$scope.submitClient = function() {
 
 		$scope.loading = true;
@@ -67,6 +69,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 					$('#myModalSucesso').modal({
 						show: 'true'
 					});
+
 					$scope.clienteCadastrado = true;
 					$rootScope.clienteCadastrado = true;
 
@@ -83,6 +86,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			});
 	};
 
+	//This functions is called after a client is created if the used wishes to create treatments for the client afterwards.
 	$scope.redirectToTreatment = function() {
 
 		$('#myModalSucesso').modal('hide');
@@ -92,6 +96,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
 	};
 
+	//This functions is called in all search pages. It defines where to go after the client is selected
 	$scope.redirectSearchPage = function(customerId){
 
 		var action = $location.search().action;

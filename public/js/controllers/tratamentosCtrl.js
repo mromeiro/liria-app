@@ -8,26 +8,31 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	$scope.sortType     = 'data_inicio'; // set the default sort type
 	$scope.searchClient   = '';     // set the default search/filter term
 
+	//If the URL contains a client ID then the customer is recovered here
+	if($routeParams.clienteId != null){
 
-	Tratamentos.getClient($routeParams.clienteId)
+		Tratamentos.getClient($routeParams.clienteId)
 
-		.success(function(data) {
+			.success(function(data) {
 
-			if(data.error){
+				if(data.error){
 
-				$rootScope.logged = false;
-				$scope.logged = false;
-				$location.path('/login');
+					$rootScope.logged = false;
+					$scope.logged = false;
+					$location.path('/login');
 
-			}else{
-				$scope.cliente = data.result;
-			}
-		})
+				}else{
+					$scope.cliente = data.result;
+				}
+			})
 
-		.error(function(data) {
-			$scope.errorMessage = true;
-		});
+			.error(function(data) {
+				$scope.errorMessage = true;
+			});
 
+    }
+
+    //Recover the list of available treatments
 	Tratamentos.get()
 
 		.success(function(data) {
@@ -50,6 +55,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 	$scope.loading = false;
 
+	//Updates the price field depending on the chosen treatment
 	$scope.fillPrice = function() {
 
 		var tratamento_json = JSON.parse($scope.tratamentoData.tratamento);
@@ -60,6 +66,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 	}
 
+	//Saves the new treatment
 	$scope.submitTreatment = function(){
 
 		Tratamentos.submitTreatment($scope.tratamentoData, $routeParams.clienteId)
