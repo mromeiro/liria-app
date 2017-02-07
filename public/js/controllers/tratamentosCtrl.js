@@ -1,4 +1,4 @@
-liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, $location, $routeParams) {
+liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, Clients, $location, $routeParams) {
 
 	$rootScope.logged = true;
 	$scope.logged = true;
@@ -11,7 +11,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	//If the URL contains a client ID then the customer is recovered here
 	if($routeParams.clienteId != null){
 
-		Tratamentos.getClient($routeParams.clienteId)
+        Clients.getClient($routeParams.clienteId)
 
 			.success(function(data) {
 

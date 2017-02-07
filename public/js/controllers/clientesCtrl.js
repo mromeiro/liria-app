@@ -1,4 +1,4 @@
-liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, Tratamentos, $location, Upload) {
+liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, $routeParams) {
 
 	$scope.clientData= {};
 
@@ -7,6 +7,31 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
 	$scope.noPhoto = true;
 	$scope.uploadedPhoto = 'not_found.png'; //Default image
+
+	//Client is being updated
+	if($location.url().lastIndexOf('clientes/alterar/')>0){
+
+        Clients.getClient($routeParams.clienteId)
+
+			.success(function(data) {
+
+					if(data.error){
+
+						$rootScope.logged = false;
+						$scope.logged = false;
+						$location.path('/login');
+
+					}else{
+						$scope.clientData = data.result;
+                        $scope.clientData.photoName = $scope.clientData.foto;
+                        $scope.uploadedPhoto = $scope.clientData.foto;
+					}
+				})
+
+			.error(function(data) {
+				$scope.errorMessage = true;
+			});
+	}
 
 	//When a photo is selected this modal will open for the image to be cropped
 	$scope.$watch('uploadFiles', function () {
@@ -36,7 +61,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 	$scope.uploadImage = function (dataUrl, name){
 
 		Upload.upload({
-			url: 'http://localhost:8000/api/upload',
+			url: 'http://dranathaly.app:8000/api/upload',
 			data: {
 				file: Upload.dataUrltoBlob(dataUrl, name)
 			},
@@ -44,6 +69,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
 			.success(function(data){
 				$scope.uploadedPhoto = data.result;
+                $scope.uploadedPhoto = data.result;
 				$scope.noPhoto = false;
 			})
 	}
@@ -53,7 +79,6 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
 		$scope.loading = true;
 
-		// save the comment. pass in comment data from the form
 		$scope.clientData.photoName = $scope.uploadedPhoto;
 		Clients.save($scope.clientData)
 
@@ -86,6 +111,43 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			});
 	};
 
+    //Saves new client
+    $scope.updateClient = function() {
+
+        $scope.loading = true;
+
+        $scope.clientData.photoName = $scope.uploadedPhoto;
+        Clients.update($scope.clientData)
+
+            .success(function(data) {
+
+                if(data.error){
+                    $rootScope.logged = false;
+                    $scope.logged = true;
+                    $location.path('/login');
+                }else{
+
+                    $scope.clientData = {};
+                    $('#myModalSucesso').modal({
+                        show: 'true'
+                    });
+
+                    $scope.clienteCadastrado = true;
+                    $rootScope.clienteCadastrado = true;
+
+                    //Return the client so that we can redirect the use to create their treatments
+                    $scope.clientData = data.result;
+
+                }
+            })
+            .error(function(data) {
+                $('#myModalErro').modal({
+                    show: 'true'
+                });
+                console.log(data);
+            });
+    };
+
 	//This functions is called after a client is created if the used wishes to create treatments for the client afterwards.
 	$scope.redirectToTreatment = function() {
 
@@ -103,8 +165,11 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
        if(action == 'registrarPagamento'){
        		$location.path('/clientes/pagamentos/' + customerId);
-       }else if (action == 'novoTratamento')
+       }else if (action == 'novoTratamento'){
            $location.path('/clientes/tratamentos/' + customerId);
+       }else if (action == 'alterarCliente'){
+           $location.path('/clientes/alterar/' + customerId);
+	   }
 	}
 
 });

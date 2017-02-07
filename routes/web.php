@@ -31,6 +31,9 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('clients', 'ClientController@create');
 
         //Create a cliente
+        Route::post('clients/update', 'ClientController@update');
+
+        //Create a cliente
         Route::post('clients/search/nameOrCpf', 'ClientController@getClientByNameOrCpf');
 
         //Upload images

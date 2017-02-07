@@ -9,7 +9,7 @@ liriaApp.factory('Login', function($http) {
 			return $http({
 				method: 'POST',
 				dataType: 'json',
-				url: 'http://localhost:8000/api/login',
+				url: 'http://dranathaly.app:8000/api/login',
 				headers: { 'Content-Type' : 'application/json' },
 				data: json
 			});
@@ -19,7 +19,7 @@ liriaApp.factory('Login', function($http) {
 
 			return $http({
 				method: 'GET',
-				url: 'http://llocalhost:8000/api/isLogged',
+				url: 'http://dranathaly.app:8000/api/isLogged',
 			});
 		}
 

@@ -6,7 +6,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <form role="form" ng-submit="submitClient()" >
+                <form role="form" ng-submit="updateClient()" >
                     <div class="col-lg-12">
                         <div class="panel  panel-primary">
                             <div class="panel-heading">
@@ -15,11 +15,8 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-2">
-                                        <div class="widget-user-image" ng-hide="noPhoto">
-                                            <img class="img-circle-cadastro" ng-model="clientData.photoName" src="images/{{uploadedPhoto}}" alt="User Avatar">
-                                        </div>
-                                        <div class="widget-user-image" ng-show="noPhoto">
-                                            <img class="img-circle-cadastro" src="images/not_found.png" alt="User Avatar">
+                                        <div class="widget-user-image" >
+                                            <img class="img-circle-cadastro" src="images/{{uploadedPhoto}}" alt="User Avatar">
                                         </div>
                                         <br>
                                         <button class="btn btn-primary btn-lg"  ngf-select ng-model="uploadFiles" accept="image/*">
@@ -127,7 +124,7 @@
                             <!-- /.panel-body -->
                         </div>
                         <!-- /.panel -->
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Salvar Cliente</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Atualizar Cliente</button>
                         <!-- Modal -->
                         <div class="modal fade" id="myModalSucesso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="vertical-alignment-helper">
@@ -140,10 +137,8 @@
                                             <h4 class="modal-title" id="myModalLabel">Cliente Cadastrado</h4>
 
                                         </div>
-                                        <div class="modal-body">Deseja incluir tratamentos para o cliente?</div>
                                         <div class="modal-footer">
-                                            <button id="yes" type="button" class="btn btn-default" data-dismiss="modal" ng-click="redirectToTreatment()">Sim</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                                         </div>
                                     </div>
                                 </div>

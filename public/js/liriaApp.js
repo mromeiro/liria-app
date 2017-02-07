@@ -28,6 +28,10 @@ liriaApp
             templateUrl : 'pages/busca_clientes.html',
             controller  : 'clientesController'
         })
+        .when('/clientes/alterar/:clienteId', {
+            templateUrl : 'pages/alteracao_cliente.html',
+            controller  : 'clientesController'
+        })
     })
 
     .config(['$httpProvider', function($httpProvider) {
