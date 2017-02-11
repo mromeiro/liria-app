@@ -15,7 +15,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 			.success(function(data) {
 
-				if(data.error){
+				if(data.error ){
 
 					$rootScope.logged = false;
 					$scope.logged = false;
