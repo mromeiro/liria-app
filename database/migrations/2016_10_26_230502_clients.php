@@ -29,6 +29,7 @@ class Clients extends Migration
             $table->string('email')->nullable();
             $table->text('obs')->nullable();
             $table->string('imagem')->nullable();
+            $table->string('foto')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

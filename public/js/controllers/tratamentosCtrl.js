@@ -82,7 +82,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 				}else{
 
 					//Update Treatments list
-					Tratamentos.getClient($routeParams.clienteId)
+					Clients.getClient($routeParams.clienteId)
 
 						.success(function(data) {
 

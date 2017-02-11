@@ -71,7 +71,7 @@ class TreatmentsController extends Controller
 
         $paymentAmount = bcsub($clientTreament->preco, $clientTreament->desconto);
         $percentage = bcsub('1',strval($clientTreament->taxa_cartao_utilizada),4);
-        $clientTreament->valor_final = bcmul($paymentAmount,$percentage,2);
+        $clientTreament->preco_final = bcmul($paymentAmount,$percentage,2);
 
         $clientTreament->save();
 

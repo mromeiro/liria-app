@@ -20,12 +20,12 @@ class ClientController extends Controller
         //Dados Gerais
         $client->name = $request->name;
 
-        if( $request->dataNascimento != null){
-            $client->data_nascimento = Carbon::createFromFormat('d/m/Y', $request->dataNascimento);
+        if( $request->data_nascimento != null){
+            $client->data_nascimento = Carbon::createFromFormat('d/m/Y', $request->data_nascimento);
         }
 
         $client->sobrenome = $request->sobrenome;
-        $client->tel_fixo = $request->telFixo;
+        $client->tel_fixo = $request->tel_fixo;
         $client->cpf = $request->cpf;
         $client->celular = $request->celular;
         $client->email = $request->email;
@@ -51,12 +51,12 @@ class ClientController extends Controller
         //Dados Gerais
         $client->name = $request->name;
 
-        if( $request->dataNascimento != null){
-            $client->data_nascimento = Carbon::createFromFormat('d/m/Y', $request->dataNascimento);
+        if( $request->data_nascimento != null){
+            $client->data_nascimento = Carbon::createFromFormat('d/m/Y', $request->data_nascimento);
         }
 
         $client->sobrenome = $request->sobrenome;
-        $client->tel_fixo = $request->telFixo;
+        $client->tel_fixo = $request->tel_fixo;
         $client->cpf = $request->cpf;
         $client->celular = $request->celular;
         $client->email = $request->email;
