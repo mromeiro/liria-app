@@ -39,7 +39,7 @@ liriaApp
     }]);
 
 // create the controller and inject Angular's $scope
-liriaApp.controller('mainController', function($rootScope, $scope, $location) {;
+liriaApp.controller('mainController', function($rootScope, $scope, $location) {
 
 
    if($location.path() == "/login"){
@@ -54,29 +54,30 @@ liriaApp.controller('homeController', function($scope) {
     $scope.logged = true;
 });
 
-liriaApp.factory('tokenInterceptor',['$q', function ($q) {
-        return {
+liriaApp.factory('tokenInterceptor',['$q', function ($q, $location, $http) {
 
-            'request': function (config) {
+    return {
 
-                config.headers = config.headers || {};
+        'request': function (config) {
 
-                if (window.localStorage.getItem('token')) {
-                    config.headers['token'] = window.localStorage.getItem('token');
-                }
+            config.headers = config.headers || {};
 
-                return config;
-            },
-
-
-            'responseError': function (response) {
-                if (response.status === 401 || response.status === 403) {
-
-                }
-                return $q.reject(response);
+            if (window.localStorage.getItem('token')) {
+                config.headers['token'] = window.localStorage.getItem('token');
             }
+
+            return config;
+        },
+
+
+        'responseError': function (response) {
+            if (response.status === 401 || response.status === 403) {
+
+            }
+            return $q.reject(response);
         }
-    }])
+    }
+}])
 
 
 

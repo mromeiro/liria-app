@@ -25,4 +25,8 @@ class APIController extends Controller
         return response()->json(['result' => $user]);
     }
 
+    public function loginCheck(Request $request){
+        return response()->json(['result' => 'logged']);
+    }
+
 }

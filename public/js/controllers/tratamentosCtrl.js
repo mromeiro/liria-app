@@ -8,6 +8,16 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	$scope.sortType     = 'data_inicio'; // set the default sort type
 	$scope.searchClient   = '';     // set the default search/filter term
 
+	//Check if the user is logged
+    Login.checkLogin()
+
+        .success(function (data) {
+
+            if (data.error) {
+                $location.path('/login');
+            }
+        });
+
 	//If the URL contains a client ID then the customer is recovered here
 	if($routeParams.clienteId != null){
 
@@ -15,7 +25,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 			.success(function(data) {
 
-				if(data.error ){
+				if(data.error){
 
 					$rootScope.logged = false;
 					$scope.logged = false;

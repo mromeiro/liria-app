@@ -24,6 +24,9 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Recover all clientes in the database
         Route::get('clients', 'ClientController@get');
 
+        //Check if the client is logged
+        Route::get('/isLogged', 'APIController@loginCheck');
+
         //Recover the cliente based on their ID
         Route::get('clients/{clientId}', 'ClientController@getClient');
 

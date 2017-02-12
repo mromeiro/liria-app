@@ -15,7 +15,7 @@ liriaApp.factory('Login', function($http) {
 			});
 		},
 
-		home : function(token) {
+		checkLogin : function() {
 
 			return $http({
 				method: 'GET',

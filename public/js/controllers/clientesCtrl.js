@@ -1,12 +1,21 @@
-liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, $routeParams) {
+liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, $routeParams) {
 
-	$scope.clientData= {};
+    $scope.clientData = {};
 
-	$rootScope.logged = true;
-	$scope.logged = true;
+    $rootScope.logged = true;
+    $scope.logged = true;
 
-	$scope.noPhoto = true;
-	$scope.uploadedPhoto = 'not_found.png'; //Default image
+    $scope.noPhoto = true;
+    $scope.uploadedPhoto = 'not_found.png'; //Default image
+
+    Login.checkLogin()
+
+        .success(function (data) {
+
+            if (data.error) {
+                $location.path('/login');
+            }
+        });
 
 	//Client is being updated
 	if($location.url().lastIndexOf('clientes/alterar/')>0){
