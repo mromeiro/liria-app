@@ -103,7 +103,7 @@ class TreatmentsController extends Controller
             $payment->tratamento_cliente_id = $clientTreatments->id;
             $payment->data_prevista = $paymentDate;
 
-            $paymentAmount = bcdiv($clientTreatments->valor_final, $clientTreatments->nro_parcelas,2);
+            $paymentAmount = bcdiv($clientTreatments->preco_final, $clientTreatments->nro_parcelas,2);
             $payment->valor_parcela = $paymentAmount;
 
             $payment->save();

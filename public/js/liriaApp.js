@@ -32,6 +32,10 @@ liriaApp
             templateUrl : 'pages/alteracao_cliente.html',
             controller  : 'clientesController'
         })
+        .when('/clientes/pagamentos/:clienteId', {
+            templateUrl : 'pages/registrar_pagamento.html',
+            controller  : 'pagamentosController'
+        })
     })
 
     .config(['$httpProvider', function($httpProvider) {

@@ -1,4 +1,4 @@
-liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, Clients, $location, $routeParams) {
+liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, Clients, Login, $location, $routeParams) {
 
 	$rootScope.logged = true;
 	$scope.logged = true;
