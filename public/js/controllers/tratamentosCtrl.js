@@ -6,8 +6,8 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 	$scope.loading = true;
 
-	$scope.sortType     = 'data_inicio'; // set the default sort type
-	$scope.searchClient   = '';     // set the default search/filter term
+	$scope.sortType  = 'data_inicio'; // set the default sort type
+	$scope.searchClient = '';     // set the default search/filter term
 
 	//Check if the user is logged
     Login.checkLogin()
@@ -71,9 +71,9 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 		var tratamento_json = JSON.parse($scope.tratamentoData.tratamento);
 
-		var preco = $('#preco');
-		preco.val(tratamento_json['preco']);
-		preco.trigger('input');
+        var preco = $('#preco');
+        preco.val(tratamento_json['preco']);
+        preco.trigger('input');
 
 	}
 

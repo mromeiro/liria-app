@@ -8,6 +8,10 @@ liriaApp
     $routeProvider
 
     // route for the home page
+        .when('/', {
+            templateUrl : 'pages/home.html',
+            controller  : 'mainController'
+        })
         .when('/home', {
             templateUrl : 'pages/home.html',
             controller  : 'mainController'
@@ -45,6 +49,8 @@ liriaApp
 // create the controller and inject Angular's $scope
 liriaApp.controller('mainController', function($rootScope, $scope, $location) {
 
+    //Show menu
+    $("#page-wrapper").css("margin", "0 0 0 250px");
 
    if($location.path() == "/login"){
        $rootScope.logged = false;

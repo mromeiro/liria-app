@@ -48,8 +48,14 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Create a treatment for a specific cliente along with its payments
         Route::post('treatments/create/{clienteId}', 'TreatmentsController@createTreatmentForClient');
 
+        //Create a treatment for a specific cliente along with its payments
+        Route::post('payments/updatePaymentDate', 'PaymentsController@updatePaymentDate');
+
     });
+
+
 });
+
 
 
 
