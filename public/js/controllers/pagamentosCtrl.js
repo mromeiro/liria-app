@@ -3,6 +3,7 @@
  */
 liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, Clients, $location, Login, $routeParams) {
 
+    $rootScope.userName = window.localStorage.getItem('name');
     $rootScope.logged = true;
     $scope.logged = true;
 
@@ -17,6 +18,8 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
             }
         });
 
+    //Hider the table containing the payments for the treatment. The table will be displayed
+    //once a treatment is selected
     $scope.treatmentSelected = false;
 
     Clients.getClient($routeParams.clienteId)

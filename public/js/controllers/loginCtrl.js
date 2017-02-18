@@ -1,4 +1,4 @@
-liriaApp.controller('loginController', function($scope, $http, Login, $location) {
+liriaApp.controller('loginController', function($rootScope, $scope, $http, Login, $location) {
 
 	// function to handle submitting the form
 	$scope.submitLogin = function() {
@@ -10,7 +10,11 @@ liriaApp.controller('loginController', function($scope, $http, Login, $location)
 				if(data.result == "wrong email or password."){
 					$scope.errorMessage = true;
 				}else{
-					window.localStorage.setItem('token',data.result);
+
+					$rootScope.userName = data.result.name;
+					window.localStorage.setItem('token',data.result.token);
+                    window.localStorage.setItem('name',data.result.name);
+                    window.localStorage.setItem('role',data.result.role);
 					$location.path('/home');
 				}
 			})

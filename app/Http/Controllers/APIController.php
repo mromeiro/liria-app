@@ -15,7 +15,10 @@ class APIController extends Controller
             return response()->json(['result' => 'wrong email or password.']);
 
         }
-        return response()->json(['result' => $token]);
+
+        $user = JWTAuth::toUser($token);
+        $user->token = $token;
+        return response()->json(['result' => $user]);
     }
 
     public function get_user_details(Request $request)
