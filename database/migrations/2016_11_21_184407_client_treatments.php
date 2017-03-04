@@ -24,7 +24,7 @@ class ClientTreatments extends Migration
             $table->decimal('taxa_cartao_utilizada',5,4)->nullable();
             $table->unsignedInteger('nro_sessoes')->nullable();
             $table->decimal('desconto',7,2)->nullable();
-            $table->timestamp('data_inicio')->nullable();
+            $table->date('data_inicio')->nullable();
             $table->timestamps();
         });
     }

@@ -85,15 +85,8 @@ class ClientController extends Controller
 
     public function getClient(Request $request){
 
-        $client = Clients::find($request->clientId);
-        $client->treatments = Clients::find($request->clientId)->treatments;
-
-        foreach ($client->treatments as $treatment){
-            $treatment->payments = ClientTreatments::find($treatment->id)->payments;
-            $treatment->sessions = ClientTreatments::find($treatment->id)->sessions;
-        }
-
-        return  response()->json(['result' => $client]);
+        $client = Clients::with('treatments.sessions','treatments.payments')->find($request->clientId);
+         return  response()->json(['result' => $client]);
     }
 
     public function getClientByNameOrCpf(Request $request){

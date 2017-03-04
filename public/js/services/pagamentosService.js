@@ -6,7 +6,7 @@ liriaApp.factory('Pagamentos', function($http) {
 
 			return $http({
                 method: 'POST',
-                url: 'http://localhost:80/api/payments/updatePaymentDate',
+                url: 'http://dranathaly.ddns.net:1989/api/payments/updatePaymentDate',
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(paymentData)
 			});

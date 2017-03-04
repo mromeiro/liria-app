@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Clients extends Model
@@ -10,10 +11,13 @@ class Clients extends Model
 
    protected $dates = ['data_nascimento'];
 
-    protected $treatments;
-
     public function treatments()
     {
         return $this->hasMany('App\ClientTreatments', 'cliente_id');
+    }
+
+    public function getDataNascimentoAttribute($value){
+
+        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
     }
 }

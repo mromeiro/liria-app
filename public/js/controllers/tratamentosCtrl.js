@@ -1,4 +1,4 @@
-liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, Clients, Login, $location, $routeParams) {
+liriaApp.controller('tratamentosController', function($scope, $rootScope, $http, Tratamentos, Clients, Login, $location, Utils, $routeParams) {
 
     $rootScope.userName = window.localStorage.getItem('name');
 	$rootScope.logged = true;

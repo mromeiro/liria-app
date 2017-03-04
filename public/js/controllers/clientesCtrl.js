@@ -1,4 +1,4 @@
-liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, $routeParams) {
+liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils, $routeParams) {
 
     $rootScope.userName = window.localStorage.getItem('name');
     $scope.clientData = {};
@@ -61,6 +61,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 		Clients.searchClientByNameOrCpf($scope.search)
 
 			.success(function(data){
+
 				$scope.clientList = data;
 			})
 
@@ -71,7 +72,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 	$scope.uploadImage = function (dataUrl, name){
 
 		Upload.upload({
-			url: 'http://localhost:80/api/upload',
+			url: 'http://dranathaly.ddns.net:1989/api/upload',
 			data: {
 				file: Upload.dataUrltoBlob(dataUrl, name)
 			},

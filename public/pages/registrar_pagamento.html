@@ -75,7 +75,7 @@
             </div>
 
             <div class="row" ng-show="treatmentSelected">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                 <div class="panel  panel-primary">
                     <div class="panel-heading">
                         Parcelas
@@ -98,7 +98,8 @@
                                     <td>{{ payment.valor_parcela }}</td>
                                     <td>{{ payment.data_prevista}}</td>
                                     <td>{{ payment.data_pagamento}}</td>
-                                    <td> <button ng-hide="payment.data_pagamento" ng-click="showPaymentModal(payment)" class="btn btn-primary" style="float: left">Registar</button>
+                                    <td>
+                                        <button ng-hide="payment.data_pagamento" ng-click="showPaymentModal(payment)" class="btn btn-primary" style="float: left">Registar</button>
                                         <img ng-show="payment.data_pagamento" class="img-circle" src="images/ico_pago.png" style="float: left">
                                     </td>
                                 </tr>
