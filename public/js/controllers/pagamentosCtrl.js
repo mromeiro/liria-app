@@ -5,6 +5,7 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
 
     $rootScope.userName = window.localStorage.getItem('name');
     $rootScope.logged = true;
+    $scope.paymentsFound = false;
 
     Login.checkLogin()
 
@@ -17,24 +18,24 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
             }
         });
 
-    //Hider the table containing the payments for the treatment. The table will be displayed
-    //once a treatment is selected
-    $scope.treatmentSelected = false;
+    //If the URL contains a client ID then the customer is recovered here
+    if($routeParams.clienteId != null) {
 
-    Clients.getClient($routeParams.clienteId)
+        Clients.getClient($routeParams.clienteId)
 
-        .success(function(data) {
+            .success(function (data) {
 
-            if(data.error){
+                if (data.error) {
 
-                $rootScope.logged = false;
-                $scope.logged = false;
-                $location.path('/login');
+                    $rootScope.logged = false;
+                    $scope.logged = false;
+                    $location.path('/login');
 
-            }else{
-                $scope.cliente = data.result;
-            }
-        });
+                } else {
+                    $scope.cliente = data.result;
+                }
+            });
+    }
 
     $scope.showPayments = function(treatmentId){
 
@@ -48,22 +49,15 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
                 $scope.treatmentSelected = true;
             }
         }
-    }
-
-    $scope.showPaymentModal = function(payment){
 
         $('#myModalPaymentDate').modal({
             show: 'true'
         });
-
-        $scope.payment = payment;
     }
 
-    $scope.recordPaymentDate = function(){
+    $scope.recordPaymentDate = function(payment){
 
-        $scope.paymentData.paymentId = $scope.payment.id;
-
-        Pagamentos.updatePaymentDate($scope.paymentData)
+        Pagamentos.updatePaymentDate(payment)
 
             .success(function(data) {
 
@@ -79,8 +73,28 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
                 }else{
 
                     //update payment date
-                    $scope.payment.data_pagamento = data.result.data_pagamento;
+                    payment.data_pagamento = data.result.data_pagamento;
+                    payment.pago = data.result.pago;
 
+                }
+            });
+    }
+
+    $scope.searchPayments = function(){
+
+        Pagamentos.searchPayments($scope.searchString)
+
+            .success(function(data) {
+
+                if(data.error){
+
+                    $rootScope.logged = false;
+                    $location.path('/login');
+
+                }else{
+
+                    $scope.payments = data.result;
+                    $scope.paymentsFound = true;
                 }
             });
     }

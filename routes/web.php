@@ -51,6 +51,8 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Create a treatment for a specific cliente along with its payments
         Route::post('payments/updatePaymentDate', 'PaymentsController@updatePaymentDate');
 
+        //Search Payments by date
+        Route::post('payments/searchByDate', 'PaymentsController@searchPaymentByDate');
     });
 
 

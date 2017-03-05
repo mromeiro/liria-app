@@ -36,7 +36,11 @@ liriaApp
             templateUrl : 'pages/alteracao_cliente.html',
             controller  : 'clientesController'
         })
-        .when('/clientes/pagamentos/:clienteId', {
+        .when('/financeiro/pagamentos/mes', {
+            templateUrl : 'pages/registar_pagamento_mes.html',
+            controller  : 'pagamentosController'
+        })
+        .when('/financeiro/pagamentos/:clienteId', {
             templateUrl : 'pages/registrar_pagamento.html',
             controller  : 'pagamentosController'
         })

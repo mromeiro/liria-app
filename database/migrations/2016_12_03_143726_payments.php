@@ -17,9 +17,10 @@ class Payments extends Migration
             $table->increments('id');
             $table->unsignedInteger('tratamento_cliente_id');
             $table->string('nro_parcela');
-            $table->timestamp('data_prevista')->nullable();
-            $table->timestamp('data_pagamento')->nullable();
+            $table->date('data_prevista')->nullable();
+            $table->date('data_pagamento')->nullable();
             $table->decimal('valor_parcela',7,2);
+            $table->string('pago');
         });
     }
 

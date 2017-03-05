@@ -10,7 +10,17 @@ liriaApp.factory('Pagamentos', function($http) {
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(paymentData)
 			});
-		}
+		},
+
+        searchPayments : function(searchString) {
+
+            return $http({
+                method: 'POST',
+                url: 'http://dranathaly.ddns.net:1989/api/payments/searchByDate',
+                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                data: $.param(searchString)
+            });
+        }
 	}
 
 });
