@@ -49,7 +49,7 @@ class TreatmentsController extends Controller
         $clientTreament->nro_sessoes = $request->nro_sessoes;
 
         //Recover the correct tax for the treatment
-        if ($request->forma_pagamento == "Dinheiro" || $request->forma_pagamento == "Cheque") {
+        if ($request->forma_pagamento == "Dinheiro" || $request->forma_pagamento == "Cheque" || $request->forma_pagamento == null) {
 
             $clientTreament->taxa_cartao_utilizada = 0;
             $clientTreament->forma_pagamento = $request->forma_pagamento;
@@ -61,7 +61,7 @@ class TreatmentsController extends Controller
             $clientTreament->forma_pagamento = $pieces[1];
 
             $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
-                               bandeira = ? and forma_pagamento = ?',
+                           bandeira = ? and forma_pagamento = ?',
                 [$clientTreament->nro_parcelas, $clientTreament->nro_parcelas, $bandeira, $clientTreament->forma_pagamento])->get();
 
             foreach ($cardTaxes as $cardTax) {
@@ -78,7 +78,7 @@ class TreatmentsController extends Controller
         //Create sessions
         $this->createSessions($clientTreament);
 
-        //Create payments
+       //Create payments
         $this->createPayments($clientTreament, $clientTreament->forma_pagamento);
 
         return response()->json(['result' => $clientTreament]);
@@ -90,7 +90,7 @@ class TreatmentsController extends Controller
 
         if($formaPagamento == 'Débito'){
             $paymentDate = $today->addDays(5);
-        }else if($formaPagamento == 'Dinheiro'){
+        }else if($formaPagamento == 'Dinheiro' || $formaPagamento == null){
             $paymentDate = $today;
         }else{
             $paymentDate = $today->addDays(30);

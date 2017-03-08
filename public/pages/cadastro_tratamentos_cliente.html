@@ -9,92 +9,97 @@
             <p class="text-center" ng-show="loading"><span class="fa fa-meh-o fa-5x fa-spin"></span></p>
 
             <div class="row">
-                <div class="box box-widget widget-user-2" ng-hide="loading">
-                    <!-- Add the bg color to the header using any of the bg-* classes -->
-                    <div class="alert client-info">
-                        <div class="widget-user-image">
-                            <img class="img-circle" src="images/{{cliente.foto}}" alt="User Avatar">
+                <div class="col-lg-12">
+                    <div class="box box-widget widget-user-2" ng-hide="loading">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="alert client-info">
+                            <div class="widget-user-image">
+                                <img class="img-circle" src="images/{{cliente.foto}}" alt="User Avatar">
+                            </div>
+                            <!-- /.widget-user-image -->
+                            <h3 class="widget-user-username">{{cliente.name}} {{cliente.sobrenome}}</h3>
+                            <h5 class="widget-user-desc">{{cliente.cpf}}</h5>
                         </div>
-                        <!-- /.widget-user-image -->
-                        <h3 class="widget-user-username">{{cliente.name}} {{cliente.sobrenome}}</h3>
-                        <h5 class="widget-user-desc">{{cliente.cpf}}</h5>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <form role="form" ng-submit="submitTreatment()" >
-                    <div class="panel  panel-primary">
-                        <div class="panel-heading">
-                            Dados do tratamento
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Tratamento:</label>
-                                        <select class="form-control" name="nome" id="nome" ng-change="fillPrice()" ng-model="tratamentoData.tratamento" >
-                                            <option ng-repeat="option in dataTratamento.result" value="{{option}}">{{option.nome}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Data de Início:</label>
-                                        <input class="form-control" id="data_inicio" name="data_inicio" ng-model="tratamentoData.data_inicio" >
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Preço:</label>
-                                        <input class="form-control" id="preco" name="preco" ng-model="tratamentoData.preco" >
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Desconto:</label>
-                                        <input class="form-control" name="desconto" ng-model="tratamentoData.desconto">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Forma de pagamento:</label>
-                                        <select class="form-control" ng-model="tratamentoData.forma_pagamento">
-                                            <option value="Dinheiro">Dinheiro</option>
-                                            <option value="Visa Débito">Visa Débito</option>
-                                            <option value="Visa Crédito">Visa Crédito</option>
-                                            <option value="Mastercard Débito">Mastercard Débito</option>
-                                            <option value="Mastercard Crédito">Mastercard Crédito</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Numero de parcelas:</label>
-                                        <input class="form-control" name="nro_parcelas" ng-model="tratamentoData.nro_parcelas" >
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Numero de sessões:</label>
-                                        <input class="form-control" name="nro_sessoes" ng-model="tratamentoData.nro_sessoes" >
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-primary btn-lg">Incluir Tratamento</button>
-                                </div>
+                <div class="col-lg-12">
+                    <form role="form" ng-submit="submitTreatment()" >
+                        <div class="panel  panel-primary">
+                            <div class="panel-heading">
+                                Dados do tratamento
                             </div>
-                            <!-- /.row (nested) -->
+                            <div class="panel-body">
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Tratamento:</label>
+                                            <select class="form-control" name="nome" id="nome" ng-change="fillPrice()" ng-model="tratamentoData.tratamento" >
+                                                <option ng-repeat="option in dataTratamento.result" value="{{option}}">{{option.nome}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Data de Início:</label>
+                                            <input class="form-control" id="data_inicio" name="data_inicio" ng-model="tratamentoData.data_inicio" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Preço:</label>
+                                            <input class="form-control" id="preco" name="preco" ng-model="tratamentoData.preco" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Desconto:</label>
+                                            <input class="form-control" name="desconto" ng-model="tratamentoData.desconto">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Forma de pagamento:</label>
+                                            <select class="form-control" ng-model="tratamentoData.forma_pagamento">
+                                                <option value="Dinheiro">Dinheiro</option>
+                                                <option value="Visa Débito">Visa Débito</option>
+                                                <option value="Visa Crédito">Visa Crédito</option>
+                                                <option value="Mastercard Débito">Mastercard Débito</option>
+                                                <option value="Mastercard Crédito">Mastercard Crédito</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Numero de parcelas:</label>
+                                            <input class="form-control" name="nro_parcelas" ng-model="tratamentoData.nro_parcelas" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Numero de sessões:</label>
+                                            <input class="form-control" name="nro_sessoes" ng-model="tratamentoData.nro_sessoes" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                            <button type="submit" class="btn btn-primary btn-lg">Incluir Tratamento</button>
+                                    </div>
+                                </div>
+                                <!-- /.row (nested) -->
+                            </div>
+                            <!-- /.panel-body -->
+
                         </div>
-                        <!-- /.panel-body -->
 
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
             <br>
             <div class="row">
+                <div class="col-lg-12">
                     <div class="panel  panel-primary">
                         <div class="panel-heading">
                             Tratamentos Atuais
@@ -141,6 +146,6 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-
+                </div>
             </div>
 
