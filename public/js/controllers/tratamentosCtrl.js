@@ -9,6 +9,8 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	$scope.sortType  = 'data_inicio'; // set the default sort type
 	$scope.searchClient = '';     // set the default search/filter term
 
+	$scope.showTreatmentDiv = false;
+
 	//Check if the user is logged
     Login.checkLogin()
 
@@ -117,5 +119,9 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 			.error(function(data) {
 				$scope.errorMessage = true;
 			});
+	}
+
+	$scope.showPaymentData = function(treatment){
+		$scope.showTreatmentDiv = true;
 	}
 });
