@@ -45,6 +45,9 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Get the list of available treatments
         Route::get('treatments', 'TreatmentsController@get');
 
+        //Get the list of available treatments
+        Route::post('treatments/update/{clienteId}', 'TreatmentsController@updateTreatment');
+
         //Create a treatment for a specific cliente along with its payments
         Route::post('treatments/create/{clienteId}', 'TreatmentsController@createTreatmentForClient');
 

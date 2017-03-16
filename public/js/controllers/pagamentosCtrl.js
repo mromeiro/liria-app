@@ -98,4 +98,6 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
                 }
             });
     }
+
+
 });

@@ -181,7 +181,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
        }else if (action == 'alterarCliente'){
            $location.path('/clientes/alterar/' + customerId);
 	   }else if (action == 'incluirFormaPagamento'){
-       		$location.path('/financeiro/tratamentos/incluirFormaPagamento/' + customerId)
+       		$location.path('/clientes/tratamentos/incluirFormaPagamento/' + customerId)
 	   }
 	}
 

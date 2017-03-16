@@ -18,7 +18,17 @@ liriaApp.factory('Tratamentos', function($http) {
 				headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 				data: $.param(treatmentData)
 			})
-		}
+		},
+
+        updateTreatment : function(treatmentData){
+
+            return $http({
+                method: 'POST',
+                url: 'http://dranathaly.ddns.net:1989/api/treatments/update/' + treatmentData.cliente_id,
+                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                data: $.param(treatmentData)
+            })
+        }
 	}
 
 });

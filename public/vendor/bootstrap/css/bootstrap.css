@@ -5994,6 +5994,15 @@ button.close {
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 15%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
        -o-transition:      -o-transform .3s ease-out;
@@ -6002,12 +6011,14 @@ button.close {
       -ms-transform: translate(0, -25%);
        -o-transform: translate(0, -25%);
           transform: translate(0, -25%);
+  vertical-align: middle;
 }
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
       -ms-transform: translate(0, 0);
        -o-transform: translate(0, 0);
           transform: translate(0, 0);
+  vertical-align: middle;
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -6017,6 +6028,7 @@ button.close {
   position: relative;
   width: auto;
   margin: 10px;
+  vertical-align: middle;
 }
 .modal-content {
   position: relative;

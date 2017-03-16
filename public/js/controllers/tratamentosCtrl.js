@@ -4,6 +4,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	$rootScope.logged = true;
 	$scope.logged = true;
 
+
 	$scope.loading = true;
 
 	$scope.sortType  = 'data_inicio'; // set the default sort type
@@ -77,6 +78,9 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
         preco.val(tratamento_json['preco']);
         preco.trigger('input');
 
+        $('#nro_parcelas').disabled = false;
+        $('#nro_sessoes').disabled = false;
+
 	}
 
 	//Saves the new treatment
@@ -121,7 +125,50 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 			});
 	}
 
-	$scope.showPaymentData = function(treatment){
-		$scope.showTreatmentDiv = true;
+    $scope.showPaymentData = function(treatment){
+
+		$scope.treatmentSelected = treatment;
+        $scope.selectedTreatmentToUpdate = angular.copy(treatment);
+        $('#myModalUpdateTreatment').modal({
+            show: 'true'
+        });
+    }
+
+    $scope.updateTreatment = function(){
+
+        Tratamentos.updateTreatment($scope.selectedTreatmentToUpdate)
+
+            .success(function(data) {
+
+                if(data.error){
+
+                    $rootScope.logged = false;
+                    $scope.logged = false;
+                    $location.path('/login');
+
+                }else{
+
+                	//Treatment updated in the treatment table
+                    $scope.treatmentSelected.data_inicio = data.result.data_inicio;
+                    $scope.treatmentSelected.preco = data.result.preco;
+                    $scope.treatmentSelected.desconto = data.result.desconto;
+                    $scope.treatmentSelected.forma_pagamento = data.result.forma_pagamento;
+                    $scope.treatmentSelected.nro_parcelas = data.result.nro_parcelas;
+                    $scope.treatmentSelected.nro_sessoes = data.result.nro_sessoes;
+                }
+            })
+
+            .error(function(data) {
+                $scope.errorMessage = true;
+            });
+    }
+
+    $scope.evaluateFirstPaymentDate = function(){
+
+    	if($scope.tratamentoData.forma_pagamento == 'Cheque' || $scope.tratamentoData.forma_pagamento == 'Dinheiro' )
+            $scope.showFirstPaymentDate = true;
+		else
+            $scope.showFirstPaymentDate = false;
 	}
+
 });

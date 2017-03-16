@@ -44,9 +44,9 @@ liriaApp
             templateUrl : 'pages/registrar_pagamento.html',
             controller  : 'pagamentosController'
         })
-        .when('/financeiro/tratamentos/incluirFormaPagamento/:clienteId', {
+        .when('/clientes/tratamentos/incluirFormaPagamento/:clienteId', {
             templateUrl : 'pages/incluir_forma_pagamento.html',
-            controller  : 'pagamentosController'
+            controller  : 'tratamentosController'
         })
     })
 

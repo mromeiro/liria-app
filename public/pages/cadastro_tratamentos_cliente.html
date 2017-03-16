@@ -63,7 +63,9 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Forma de pagamento:</label>
-                                            <select class="form-control" ng-model="tratamentoData.forma_pagamento">
+                                            <select class="form-control" ng-model="tratamentoData.forma_pagamento" ng-change="evaluateFirstPaymentDate()">
+                                                <option value="" selected></option>
+                                                <option value="Cheque">Cheque</option>
                                                 <option value="Dinheiro">Dinheiro</option>
                                                 <option value="Visa Débito">Visa Débito</option>
                                                 <option value="Visa Crédito">Visa Crédito</option>
@@ -75,13 +77,19 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Numero de parcelas:</label>
-                                            <input class="form-control" name="nro_parcelas" ng-model="tratamentoData.nro_parcelas" >
+                                            <input class="form-control" id="nro_pacelas" ng-disabled="!tratamentoData.forma_pagamento" name="nro_parcelas" ng-model="tratamentoData.nro_parcelas" >
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Numero de sessões:</label>
-                                            <input class="form-control" name="nro_sessoes" ng-model="tratamentoData.nro_sessoes" >
+                                            <input class="form-control" id="nro_sessoes" name="nro_sessoes" ng-disabled="!tratamentoData.forma_pagamento" ng-model="tratamentoData.nro_sessoes" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" ng-show="showFirstPaymentDate" >
+                                        <div class="form-group">
+                                            <label>Data da Primeira Parcela</label>
+                                            <input class="form-control" id="data_primeira_parcela" name="data_primeira_parcela" ng-model="tratamentoData.data_primeira_parcela" >
                                         </div>
                                     </div>
                                     <div class="col-lg-12">

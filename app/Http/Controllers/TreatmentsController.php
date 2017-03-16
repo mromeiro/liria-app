@@ -124,4 +124,58 @@ class TreatmentsController extends Controller
         }
 
     }
+
+    public function updateTreatment(Request $request){
+
+        $clientTreament = ClientTreatments::find($request->id);
+
+        if ($request->data_inicio != null) {
+            $clientTreament->data_inicio = Carbon::createFromFormat('d/m/Y', $request->data_inicio);
+        }
+
+        $clientTreament->preco = $request->preco;
+        $clientTreament->desconto = $request->desconto;
+        $clientTreament->forma_pagamento = $request->forma_pagamento;
+        $clientTreament->nro_parcelas = $request->nro_parcelas;
+        $clientTreament->nro_sessoes = $request->nro_sessoes;
+
+        $clientTreament->update();
+
+        //Recover the correct tax for the treatment
+        if ($request->forma_pagamento == "Dinheiro" || $request->forma_pagamento == "Cheque" || $request->forma_pagamento == null) {
+
+            $clientTreament->taxa_cartao_utilizada = 0;
+            $clientTreament->forma_pagamento = $request->forma_pagamento;
+
+        } else {
+
+            $pieces = explode(" ", $request->forma_pagamento);
+            $bandeira = $pieces[0];
+            $clientTreament->forma_pagamento = $pieces[1];
+
+            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
+                           bandeira = ? and forma_pagamento = ?',
+                [$clientTreament->nro_parcelas, $clientTreament->nro_parcelas, $bandeira, $clientTreament->forma_pagamento])->get();
+
+            foreach ($cardTaxes as $cardTax) {
+                $clientTreament->taxa_cartao_utilizada = $cardTax->taxa;
+            }
+        }
+
+        $paymentAmount = bcsub($clientTreament->preco, $clientTreament->desconto);
+        $percentage = bcsub('1',strval($clientTreament->taxa_cartao_utilizada),4);
+        $clientTreament->preco_final = bcmul($paymentAmount,$percentage,2);
+
+        $clientTreament->save();
+
+        //Create sessions
+        Sessions::where('tratamento_cliente_id',$clientTreament->id)->delete();
+        $this->createSessions($clientTreament);
+
+        //Create payments
+        Payments::where('tratamento_cliente_id',$clientTreament->id)->delete();
+        $this->createPayments($clientTreament, $clientTreament->forma_pagamento);
+
+        return response()->json(['result' => $clientTreament]);
+    }
 }
