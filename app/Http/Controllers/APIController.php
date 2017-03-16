@@ -32,4 +32,11 @@ class APIController extends Controller
         return response()->json(['result' => 'logged']);
     }
 
+    public function logout(Request $request)
+    {
+        JWTAuth::invalidate($request->header('token'));
+
+        return response()->json(['result' => 'logout_ok']);
+    }
+
 }

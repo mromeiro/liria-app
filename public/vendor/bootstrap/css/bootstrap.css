@@ -4083,7 +4083,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eee;
+  /*background-color: #eee;*/
   border-color: #337ab7;
 }
 .nav .nav-divider {
@@ -5779,12 +5779,12 @@ button.list-group-item-danger.active:focus {
   border-bottom: 1px solid #ddd;
 }
 .panel-default {
-  border-color: #cc81c7;
+  border-color: #337ab7;
 }
 .panel-default > .panel-heading {
-  color: #333;
-  background-color: #cc81c7;
-  border-color: #cc81c7;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #ddd;

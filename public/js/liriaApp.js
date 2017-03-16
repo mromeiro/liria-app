@@ -9,14 +9,18 @@ liriaApp
 
     // route for the home page
         .when('/', {
-            templateUrl : 'pages/home.html',
-            controller  : 'mainController'
+            templateUrl : 'pages/cadastro_cliente.html',
+            controller  : 'clientesController'
         })
         .when('/home', {
             templateUrl : 'pages/home.html',
             controller  : 'mainController'
         })
         .when('/login', {
+            templateUrl : 'pages/login.html',
+            controller  : 'loginController'
+        })
+        .when('/logout', {
             templateUrl : 'pages/login.html',
             controller  : 'loginController'
         })

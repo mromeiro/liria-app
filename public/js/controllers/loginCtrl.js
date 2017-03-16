@@ -3,6 +3,15 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
 	//Hide menu
     $("#page-wrapper").css("margin", "0 0 0 0px");
     $rootScope.logged = false;
+
+    if($location.url().lastIndexOf('logout')>0) {
+
+		Login.logout()
+            .success(function (data) {
+                window.localStorage.removeItem('token');
+            });
+    }
+
 	// function to handle submitting the form
 	$scope.submitLogin = function() {
 
@@ -15,7 +24,7 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
 				}else{
 
 					$rootScope.userName = data.result.name;
-					window.localStorage.setItem('token',data.result.token);
+                    window.localStorage.setItem('token',data.result.token);
                     window.localStorage.setItem('name',data.result.name);
                     window.localStorage.setItem('role',data.result.role);
 					$location.path('/home');

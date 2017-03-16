@@ -56,6 +56,8 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
 
         //Search Payments by date
         Route::post('payments/searchByDate', 'PaymentsController@searchPaymentByDate');
+
+        Route::post('/logout', 'APIController@logout');
     });
 
 

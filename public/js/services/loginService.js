@@ -21,7 +21,15 @@ liriaApp.factory('Login', function($http) {
 				method: 'GET',
 				url: 'http://dranathaly.ddns.net:1989/api/isLogged',
 			});
-		}
+		},
+
+        logout : function() {
+
+            return $http({
+                method: 'POST',
+                url: 'http://dranathaly.ddns.net:1989/api/logout',
+            });
+        }
 
 	}
 
