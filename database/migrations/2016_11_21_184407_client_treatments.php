@@ -25,6 +25,7 @@ class ClientTreatments extends Migration
             $table->unsignedInteger('nro_sessoes')->nullable();
             $table->decimal('desconto',7,2)->nullable();
             $table->date('data_inicio')->nullable();
+            $table->date('data_primeira_parcela')->nullable();
             $table->timestamps();
         });
     }

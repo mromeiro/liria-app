@@ -108,7 +108,7 @@
                                         <td>{{ payment.data_prevista}}</td>
                                         <td ng-show="payment.pago">{{ payment.data_pagamento}}</td>
                                         <td ng-hide="payment.pago">
-                                            <input class="form-control" name="cep" ng-model="payment.data_pagamento" >
+                                            <input class="form-control" name="cep" ng-model="payment.data_pagamento" ui-mask="99/99/9999" model-view-value="true">
                                         </td>
                                         <td>
                                             <button ng-hide="payment.pago" ng-click="recordPaymentDate(payment)" class="btn btn-primary" style="float: left">Registar</button>

@@ -45,13 +45,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Data de Início:</label>
-                                            <input class="form-control" id="data_inicio" name="data_inicio" ng-model="tratamentoData.data_inicio" >
+                                            <input class="form-control" id="data_inicio" name="data_inicio" ng-model="tratamentoData.data_inicio" ui-mask="99/99/9999" model-view-value="true">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Preço:</label>
-                                            <input class="form-control" id="preco" name="preco" ng-model="tratamentoData.preco" >
+                                            <input class="form-control" id="preco" name="preco" ng-model="tratamentoData.preco">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -89,7 +89,7 @@
                                     <div class="col-lg-3" ng-show="showFirstPaymentDate" >
                                         <div class="form-group">
                                             <label>Data da Primeira Parcela</label>
-                                            <input class="form-control" id="data_primeira_parcela" name="data_primeira_parcela" ng-model="tratamentoData.data_primeira_parcela" >
+                                            <input class="form-control" id="data_primeira_parcela" name="data_primeira_parcela" ng-model="tratamentoData.data_primeira_parcela" ui-mask="99/99/9999" model-view-value="true">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">

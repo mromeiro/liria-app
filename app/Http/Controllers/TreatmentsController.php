@@ -39,14 +39,27 @@ class TreatmentsController extends Controller
             $clientTreament->data_inicio = Carbon::createFromFormat('d/m/Y', $request->data_inicio);
         }
 
+        if ($request->data_primeira_parcela != null) {
+            $clientTreament->data_primeira_parcela = Carbon::createFromFormat('d/m/Y', $request->data_primeira_parcela);
+        }
+
         if($request->desconto == null){
             $clientTreament->desconto = 0;
         }else{
             $clientTreament->desconto = $request->desconto;
         }
 
-        $clientTreament->nro_parcelas = $request->nro_parcelas;
-        $clientTreament->nro_sessoes = $request->nro_sessoes;
+        if($request->nro_parcelas == null){
+            $clientTreament->nro_parcelas = 1;
+        }else{
+            $clientTreament->nro_parcelas = $request->nro_parcelas;
+        }
+
+        if($request->nro_sessoes == null){
+            $clientTreament->nro_sessoes = 1;
+        }else{
+            $clientTreament->nro_sessoes = $request->nro_parcelas;
+        }
 
         //Recover the correct tax for the treatment
         if ($request->forma_pagamento == "Dinheiro" || $request->forma_pagamento == "Cheque" || $request->forma_pagamento == null) {
@@ -90,8 +103,10 @@ class TreatmentsController extends Controller
 
         if($formaPagamento == 'Débito'){
             $paymentDate = $today->addDays(5);
-        }else if($formaPagamento == 'Dinheiro' || $formaPagamento == null){
+        }else if($formaPagamento == null){
             $paymentDate = $today;
+        }else if($formaPagamento == 'Cheque' || $formaPagamento == 'Dinheiro'){
+            $paymentDate = $clientTreatments->data_primeira_parcela;
         }else{
             $paymentDate = $today->addDays(30);
         }

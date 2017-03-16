@@ -1,5 +1,5 @@
 // create the module and name it scotchApp
-var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop']);
+var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop','ui.mask']);
 
 // configure our routes
 liriaApp
