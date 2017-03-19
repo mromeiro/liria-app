@@ -28,6 +28,8 @@ class TreatmentsController extends Controller
 
         $clientTreament = new ClientTreatments();
 
+        $clientTreament->alterado_por = $request->usuario;
+
         //Treatment data is received as a json inside the form data
         $tratamento_json = json_decode($request->tratamento);
         $clientTreament->nome = $tratamento_json->{'nome'};
@@ -89,15 +91,15 @@ class TreatmentsController extends Controller
         $clientTreament->save();
 
         //Create sessions
-        $this->createSessions($clientTreament);
+        $this->createSessions($clientTreament, $request->usuario);
 
        //Create payments
-        $this->createPayments($clientTreament, $clientTreament->forma_pagamento);
+        $this->createPayments($clientTreament, $clientTreament->forma_pagamento, $request->usuario);
 
         return response()->json(['result' => $clientTreament]);
     }
 
-    private function createPayments(ClientTreatments $clientTreatments, $formaPagamento){
+    private function createPayments(ClientTreatments $clientTreatments, $formaPagamento, $usuario){
 
         $today = Carbon::today();
 
@@ -120,6 +122,7 @@ class TreatmentsController extends Controller
 
             $paymentAmount = bcdiv($clientTreatments->preco_final, $clientTreatments->nro_parcelas,2);
             $payment->valor_parcela = $paymentAmount;
+            $payment->alterado_por = $usuario;
 
             $payment->save();
 
@@ -127,13 +130,14 @@ class TreatmentsController extends Controller
         }
     }
 
-    private function createSessions(ClientTreatments $clientTreatments){
+    private function createSessions(ClientTreatments $clientTreatments, $usuario){
 
         for ($x = 1; $x <= $clientTreatments->nro_sessoes; $x++){
 
             $session = new Sessions();
             $session->tratamento_cliente_id = $clientTreatments->id;
             $session->nro_sessao = $x;
+            $session->alterado_por = $usuario;
 
             $session->save();
         }
@@ -153,6 +157,7 @@ class TreatmentsController extends Controller
         $clientTreament->forma_pagamento = $request->forma_pagamento;
         $clientTreament->nro_parcelas = $request->nro_parcelas;
         $clientTreament->nro_sessoes = $request->nro_sessoes;
+        $clientTreament->alterado_por = $request->usuario;
 
         $clientTreament->update();
 
@@ -185,11 +190,11 @@ class TreatmentsController extends Controller
 
         //Create sessions
         Sessions::where('tratamento_cliente_id',$clientTreament->id)->delete();
-        $this->createSessions($clientTreament);
+        $this->createSessions($clientTreament, $request->usuario);
 
         //Create payments
         Payments::where('tratamento_cliente_id',$clientTreament->id)->delete();
-        $this->createPayments($clientTreament, $clientTreament->forma_pagamento);
+        $this->createPayments($clientTreament, $clientTreament->forma_pagamento, $request->usuario);
 
         return response()->json(['result' => $clientTreament]);
     }

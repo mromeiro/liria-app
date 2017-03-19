@@ -42,9 +42,16 @@
     <script src="js/controllers/pagamentosCtrl.js"></script>
     <script src="js/services/pagamentosService.js"></script>
 
-    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/metisMenu/metisMenu.min.js"></script>
     <script src="dist/js/sb-admin-2.min.js"></script>
+
+    <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+    <!-- AutobahnJS
+    <script src="vendor/bower_components/autobahn/autobahn.js"></script> -->
+
+    <!-- AngularWAMP
+    <script src="vendor/bower_components/angular-wamp/release/angular-wamp.js"></script>-->
 
 </head>
 
@@ -69,7 +76,7 @@
 
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" >
-                    {{userName}}<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    {{userName}}  <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="#/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -135,9 +142,9 @@
 <footer class="text-center" style="background-color: #ecf0f5">
 
 </footer>
-<!-- /#page-wrapper -
+
 
 
 </body>
 
-</html
+</html>

@@ -13,7 +13,7 @@ class Clients extends Model
 
     public function treatments()
     {
-        return $this->hasMany('App\ClientTreatments', 'cliente_id');
+        return $this->hasMany('App\ClientTreatments', 'cliente_id')->orderBy('id','DESC');
     }
 
     public function getDataNascimentoAttribute($value){

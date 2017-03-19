@@ -28,6 +28,18 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
                     window.localStorage.setItem('name',data.result.name);
                     window.localStorage.setItem('role',data.result.role);
 					$location.path('/home');
+
+					//Once the client is connected it subscribes to the publisher for warnings
+                    /*var socket = io.connect('http://localhost:8890');
+
+                    socket.on('message', function (data) {
+                        console.log(data);
+
+                    });
+
+                    socket.emit('disconnect','teste');
+                    alert('teste');*/
+
 				}
 			})
 			.error(function(data) {

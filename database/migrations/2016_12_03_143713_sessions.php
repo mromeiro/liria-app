@@ -18,6 +18,7 @@ class Sessions extends Migration
             $table->unsignedInteger('tratamento_cliente_id');
             $table->string('nro_sessao');
             $table->timestamp('data_sessao')->nullable();
+            $table->string('alterado_por')->nullable();
         });
     }
 

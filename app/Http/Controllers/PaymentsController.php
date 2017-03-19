@@ -19,6 +19,7 @@ class PaymentsController extends Controller
         }
 
         $payment->pago = 'SIM';
+        $payment->alterado_por = $request->usuario;
 
         $payment->update();
         return response()->json(['result' => $payment]);

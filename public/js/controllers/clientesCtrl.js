@@ -1,5 +1,6 @@
 liriaApp.controller('clientesController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils, $routeParams) {
 
+    //$wamp.open();
     $rootScope.userName = window.localStorage.getItem('name');
     $scope.clientData = {};
 
@@ -18,7 +19,8 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
             }
         });
 
-	//Client is being updated
+
+ 	//Client is being updated
 	if($location.url().lastIndexOf('clientes/alterar/')>0){
 
         Clients.getClient($routeParams.clienteId)
@@ -91,6 +93,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 		$scope.loading = true;
 
 		$scope.clientData.photoName = $scope.uploadedPhoto;
+		$scope.clientData.usuario = window.localStorage.getItem('name')
 		Clients.save($scope.clientData)
 
 			.success(function(data) {
@@ -128,6 +131,8 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
         $scope.loading = true;
 
         $scope.clientData.photoName = $scope.uploadedPhoto;
+        $scope.clientData.usuario = window.localStorage.getItem('name');
+
         Clients.update($scope.clientData)
 
             .success(function(data) {

@@ -1,5 +1,5 @@
 // create the module and name it scotchApp
-var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop','ui.mask']);
+var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop','ui.mask'/*,'vxWamp'*/]);
 
 // configure our routes
 liriaApp
@@ -56,7 +56,8 @@ liriaApp
 
     .config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push('tokenInterceptor');
-    }]);
+    }])
+
 
 // create the controller and inject Angular's $scope
 liriaApp.controller('mainController', function($rootScope, $scope, $location) {

@@ -30,6 +30,7 @@ class Clients extends Migration
             $table->text('obs')->nullable();
             $table->string('imagem')->nullable();
             $table->string('foto')->nullable();
+            $table->string('alterado_por')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

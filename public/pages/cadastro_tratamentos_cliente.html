@@ -138,7 +138,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="treatment in cliente.treatments | filter:searchClient">
+                                <tr ng-repeat="treatment in cliente.treatments | orderBy:orderByField:reverseSort | filter:searchClient">
                                     <td>{{ treatment.nome }}</td>
                                     <td>{{ treatment.preco}}</td>
                                     <td>{{ treatment.desconto }}</td>

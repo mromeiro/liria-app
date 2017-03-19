@@ -13,21 +13,25 @@ class ClientTreatments extends Model
 
     public function sessions()
     {
-        return $this->hasMany('App\Sessions', 'tratamento_cliente_id');
+        return $this->hasMany('App\Sessions', 'tratamento_cliente_id')->orderBy('id','ASC');;
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Payments', 'tratamento_cliente_id');
+        return $this->hasMany('App\Payments', 'tratamento_cliente_id')->orderBy('id','ASC');;
     }
 
     public function getDataInicioAttribute($value){
 
+        if($value == null)
+            return null;
         return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
     }
 
     public function getCreatedAtAttribute($value){
 
+        if($value == null)
+            return null;
         return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i:s');
     }
 }

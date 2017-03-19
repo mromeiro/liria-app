@@ -21,6 +21,8 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
 
     Route::group(['middleware' => 'jwt-auth'], function () {
 
+        Route::post('message', 'BroadcastController@sendMessage');
+
         //Recover all clientes in the database
         Route::get('clients', 'ClientController@get');
 
@@ -33,6 +35,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Create a cliente
         Route::post('clients', 'ClientController@create');
 
+        
         //Create a cliente
         Route::post('clients/update', 'ClientController@update');
 

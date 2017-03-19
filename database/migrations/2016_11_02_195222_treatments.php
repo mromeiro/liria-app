@@ -17,6 +17,7 @@ class Treatments extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->decimal('preco',7,2);
+            $table->string('alterado_por')->nullable();
 
             $table->timestamps();
         });

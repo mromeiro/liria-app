@@ -36,6 +36,7 @@ class ClientController extends Controller
         $client->estado = $request->estado;
         $client->cep = $request->cep;
         $client->foto = $request->photoName;
+        $client->alterado_por = $request->usuario;
 
         $client->obs = $request->obs;
 
@@ -67,16 +68,13 @@ class ClientController extends Controller
         $client->estado = $request->estado;
         $client->cep = $request->cep;
         $client->foto = $request->photoName;
+        $client->alterado_por = $request->usuario;
 
         $client->obs = $request->obs;
 
         $client->update();
 
         return response()->json(['result' => $client]);
-    }
-
-    private function createTreatments(Request $request){
-
     }
 
     public function get(){

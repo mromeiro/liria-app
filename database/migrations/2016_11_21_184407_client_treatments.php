@@ -26,6 +26,7 @@ class ClientTreatments extends Migration
             $table->decimal('desconto',7,2)->nullable();
             $table->date('data_inicio')->nullable();
             $table->date('data_primeira_parcela')->nullable();
+            $table->string('alterado_por')->nullable();
             $table->timestamps();
         });
     }

@@ -86,6 +86,8 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	//Saves the new treatment
 	$scope.submitTreatment = function(){
 
+
+        $scope.tratamentoData.usuario = window.localStorage.getItem('name');
 		Tratamentos.submitTreatment($scope.tratamentoData, $routeParams.clienteId)
 
 			.success(function(data) {
@@ -136,6 +138,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
     $scope.updateTreatment = function(){
 
+        $scope.selectedTreatmentToUpdate.usuario = window.localStorage.getItem('name');
         Tratamentos.updateTreatment($scope.selectedTreatmentToUpdate)
 
             .success(function(data) {
@@ -165,7 +168,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
     $scope.evaluateFirstPaymentDate = function(){
 
-    	if($scope.tratamentoData.forma_pagamento == 'Cheque' || $scope.tratamentoData.forma_pagamento == 'Dinheiro' )
+    	if($scope.tratamentoData.forma_pagamento == 'Cheque')
             $scope.showFirstPaymentDate = true;
 		else
             $scope.showFirstPaymentDate = false;
