@@ -14,7 +14,7 @@ liriaApp.factory('Utils', function($http) {
 
         apiUrl : function(date){
 
-            return 'http://dranathaly.ddns.net:1989/';
+            return 'http://localhost:80/';
         }
 
 	}
