@@ -164,7 +164,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Askedio\LaravelRatchet\Providers\LaravelRatchetServiceProvider::class,
 
         /*
          * Package Service Providers...
