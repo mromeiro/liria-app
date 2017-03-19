@@ -14,7 +14,7 @@ liriaApp.factory('Tratamentos', function($http, Utils) {
 
 			return $http({
 				method: 'POST',
-				url: Utils.apiUrl() + 'api/treatments/create/' + clientId,
+				url: Utils.apiUrl() + 'api/treatments/create/' +  clientId,
 				headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 				data: $.param(treatmentData)
 			})
