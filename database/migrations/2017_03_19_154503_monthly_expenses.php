@@ -16,7 +16,6 @@ class MonthlyExpenses extends Migration
         Schema::create('despesas_mensais', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descricao');
-            $table->date('data_despesa');
             $table->string('alterado_por');
         });
     }

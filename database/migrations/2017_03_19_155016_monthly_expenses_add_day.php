@@ -15,7 +15,6 @@ class MonthlyExpensesAddDay extends Migration
     {
         Schema::table('despesas_mensais', function (Blueprint $table) {
             $table->string('dia_despesa');
-            $table->string('recibo');
         });
     }
 
