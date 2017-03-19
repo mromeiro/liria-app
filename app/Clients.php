@@ -18,6 +18,8 @@ class Clients extends Model
 
     public function getDataNascimentoAttribute($value){
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
+        if(value != null)
+            return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
+        else return null;
     }
 }
