@@ -52,6 +52,10 @@ liriaApp
             templateUrl : 'pages/incluir_forma_pagamento.html',
             controller  : 'tratamentosController'
         })
+        .when('/financeiro/despesas/mes', {
+            templateUrl : 'pages/despesas_mensais.html',
+            controller  : 'despesasController'
+        })
     })
 
     .config(['$httpProvider', function($httpProvider) {

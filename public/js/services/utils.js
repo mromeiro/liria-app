@@ -12,7 +12,7 @@ liriaApp.factory('Utils', function($http) {
             return formattedDate;
         },
 
-        apiUrl : function(date){
+        apiUrl : function(){
 
             return 'http://localhost:80/';
         }

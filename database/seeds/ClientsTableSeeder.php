@@ -13,17 +13,17 @@ class ClientsTableSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'name' => 'Matheus',
-            'email' => 'matheus.romeiro@gmail.com',
-            'password' => Hash::make('gordobobo'),
+            'name' => 'Nathaly',
+            'email' => 'nathaly_biomedicina@hotmail.com',
+            'password' => Hash::make('273273Nlb'),
             'role' => 'admin'
 
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Fulana',
-            'email' => 'fulana@email.com',
-            'password' => Hash::make('gordobobo'),
+            'name' => 'Amanda',
+            'email' => 'dranathalybrandao@gmail.com',
+            'password' => Hash::make('doutoranlbr2017'),
             'role' => 'secretaria'
         ]);
     }

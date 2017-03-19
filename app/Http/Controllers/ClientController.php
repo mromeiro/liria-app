@@ -101,7 +101,7 @@ class ClientController extends Controller
         $file = $request->file('file');
 
         //filename
-        $today = Carbon::today()->format('dymhis');
+        $today = Carbon::now()->format('dymhis');
         $fileNamePieces = explode(".", $file->getClientOriginalName());
         $fileName = $fileNamePieces[0] . '_' . $today . '.' . $fileNamePieces[1];
 

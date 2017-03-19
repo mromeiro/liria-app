@@ -9,6 +9,7 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
 		Login.logout()
             .success(function (data) {
                 window.localStorage.removeItem('token');
+                $rootScope.userName = null;
             });
     }
 

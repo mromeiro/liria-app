@@ -61,6 +61,10 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('payments/searchByDate', 'PaymentsController@searchPaymentByDate');
 
         Route::post('/logout', 'APIController@logout');
+
+        Route::get('/expenses/mes', 'MonthlyExpensesController@getMonthlyExpenses');
+        Route::post('/expenses/new', 'MonthlyExpensesController@create');
+        Route::post('/expenses/receipt/{expenseId}', 'MonthlyExpensesController@saveReceipt');
     });
 
 
