@@ -35,7 +35,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         //Create a cliente
         Route::post('clients', 'ClientController@create');
 
-        
+
         //Create a cliente
         Route::post('clients/update', 'ClientController@update');
 
