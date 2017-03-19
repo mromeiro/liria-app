@@ -1,4 +1,4 @@
-liriaApp.factory('Login', function($http) {
+liriaApp.factory('Login', function($http, Utils) {
 
 	return {
 
@@ -9,7 +9,7 @@ liriaApp.factory('Login', function($http) {
 			return $http({
 				method: 'POST',
 				dataType: 'json',
-				url: 'http://dranathaly.ddns.net:1989/api/login',
+				url: Utils.apiUrl() + 'api/login',
 				headers: { 'Content-Type' : 'application/json' },
 				data: json
 			});
@@ -19,7 +19,7 @@ liriaApp.factory('Login', function($http) {
 
 			return $http({
 				method: 'GET',
-				url: 'http://dranathaly.ddns.net:1989/api/isLogged',
+				url: Utils.apiUrl() + 'api/isLogged',
 			});
 		},
 
@@ -27,7 +27,7 @@ liriaApp.factory('Login', function($http) {
 
             return $http({
                 method: 'POST',
-                url: 'http://dranathaly.ddns.net:1989/api/logout',
+                url: Utils.apiUrl() + 'api/logout',
             });
         }
 

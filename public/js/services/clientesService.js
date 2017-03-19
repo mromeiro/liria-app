@@ -1,4 +1,4 @@
-liriaApp.factory('Clients', function($http) {
+liriaApp.factory('Clients', function($http, Utils) {
 
 		return {
 			get : function() {
@@ -8,7 +8,7 @@ liriaApp.factory('Clients', function($http) {
 			save : function(clientsData) {
 				return $http({
 					method: 'POST',
-					url: 'http://dranathaly.ddns.net:1989/api/clients',
+					url: Utils.apiUrl() + 'api/clients',
 					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 					data: $.param(clientsData)
 				});
@@ -17,7 +17,7 @@ liriaApp.factory('Clients', function($http) {
             update : function(clientsData) {
                 return $http({
                     method: 'POST',
-                    url: 'http://dranathaly.ddns.net:1989/api/clients/update',
+                    url: Utils.apiUrl() + 'api/clients/update',
                     headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                     data: $.param(clientsData)
                 });
@@ -30,7 +30,7 @@ liriaApp.factory('Clients', function($http) {
 
                 return $http({
                     method: 'POST',
-                    url: 'http://dranathaly.ddns.net:1989/api/clients/search/nameOrCpf',
+                    url: Utils.apiUrl() + 'api/clients/search/nameOrCpf',
                     headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                     data: $.param(search)
                 });
@@ -40,7 +40,7 @@ liriaApp.factory('Clients', function($http) {
 
                 return $http({
                     method: 'GET',
-                    url: 'http://dranathaly.ddns.net:1989/api/clients/' + clienteId
+                    url: Utils.apiUrl() + 'api/clients/' + clienteId
                 })
             },
 

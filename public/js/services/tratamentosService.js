@@ -1,4 +1,4 @@
-liriaApp.factory('Tratamentos', function($http) {
+liriaApp.factory('Tratamentos', function($http, Utils) {
 
 	return {
 
@@ -6,7 +6,7 @@ liriaApp.factory('Tratamentos', function($http) {
 
 			return $http({
 				method: 'GET',
-				url: 'http://dranathaly.ddns.net:1989/api/treatments'
+				url: Utils.apiUrl() + 'api/treatments'
 			});
 		},
 
@@ -14,7 +14,7 @@ liriaApp.factory('Tratamentos', function($http) {
 
 			return $http({
 				method: 'POST',
-				url: 'http://dranathaly.ddns.net:1989/api/treatments/create/' + clientId,
+				url: Utils.apiUrl() + 'api/treatments/create/' + clientId,
 				headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 				data: $.param(treatmentData)
 			})
@@ -24,7 +24,7 @@ liriaApp.factory('Tratamentos', function($http) {
 
             return $http({
                 method: 'POST',
-                url: 'http://dranathaly.ddns.net:1989/api/treatments/update/' + treatmentData.cliente_id,
+                url: Utils.apiUrl() + 'api/treatments/update/' + treatmentData.cliente_id,
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(treatmentData)
             })

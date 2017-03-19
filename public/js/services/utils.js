@@ -10,6 +10,11 @@ liriaApp.factory('Utils', function($http) {
 
             var formattedDate = minute + '/' + split[1] + '/' + split[0];
             return formattedDate;
+        },
+
+        apiUrl : function(date){
+
+            return 'http://dranathaly.ddns.net:1989/';
         }
 
 	}

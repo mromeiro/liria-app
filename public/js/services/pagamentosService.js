@@ -1,4 +1,4 @@
-liriaApp.factory('Pagamentos', function($http) {
+liriaApp.factory('Pagamentos', function($http, Utils) {
 
 	return {
 
@@ -6,7 +6,7 @@ liriaApp.factory('Pagamentos', function($http) {
 
 			return $http({
                 method: 'POST',
-                url: 'http://dranathaly.ddns.net:1989/api/payments/updatePaymentDate',
+                url: Utils.apiUrl() + 'api/payments/updatePaymentDate',
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(paymentData)
 			});
@@ -16,7 +16,7 @@ liriaApp.factory('Pagamentos', function($http) {
 
             return $http({
                 method: 'POST',
-                url: 'http://dranathaly.ddns.net:1989/api/payments/searchByDate',
+                url: Utils.apiUrl() + 'api/payments/searchByDate',
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(searchString)
             });

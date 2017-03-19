@@ -74,7 +74,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 	$scope.uploadImage = function (dataUrl, name){
 
 		Upload.upload({
-			url: 'http://dranathaly.ddns.net:1989/api/upload',
+			url: Utils.apiUrl() + 'api/upload',
 			data: {
 				file: Upload.dataUrltoBlob(dataUrl, name)
 			},
