@@ -166,9 +166,10 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
             });
     }
 
+    //Displays the first payment date if the payments method is Cheque or Dinheiro
     $scope.evaluateFirstPaymentDate = function(){
 
-    	if($scope.tratamentoData.forma_pagamento == 'Cheque')
+    	if($scope.tratamentoData.forma_pagamento == 'Cheque' || $scope.tratamentoData.forma_pagamento == 'Dinheiro')
             $scope.showFirstPaymentDate = true;
 		else
             $scope.showFirstPaymentDate = false;
