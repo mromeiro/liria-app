@@ -29,27 +29,28 @@
 
             <p class="text-center" ng-show="loading"><span class="fa fa-meh-o fa-5x fa-spin"></span></p>
 
-            <div class="col-lg-6">
-            <div ng-repeat="cliente in clientList.result" class="row">
+            <div class="col-lg-6" id="searchDiv" style="overflow-y: scroll">
 
-                    <div class="panel  panel-primary" ng-hide="loading">
-                        <div class="panel-body" style="padding: 5px">
-                            <div class="col-lg-2">
-                                <div class="widget-user-image">
-                                    <img class="img-circle-search" src="images/{{cliente.foto}}" alt="User Avatar">
+                <div ng-repeat="cliente in clientList.result" class="row">
+
+                        <div class="panel  panel-primary" ng-hide="loading">
+                            <div class="panel-body" style="padding: 5px">
+                                <div class="col-lg-2">
+                                    <div class="widget-user-image">
+                                        <img class="img-circle-search" src="images/{{cliente.foto}}" alt="User Avatar">
+                                    </div>
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <div class="col-lg-5">
+                                    <h5 class="widget-user-username">{{cliente.name}} {{cliente.sobrenome}}</h5>
+                                    <h5 class="widget-user-desc">{{cliente.cpf}}</h5>
+                                </div>
+                                <div class="col-lg-4">
+                                 <button ng-click="redirectSearchPage(cliente.id)" class="btn-select btn-primary" style="float: right">Selecionar</button>
                                 </div>
                             </div>
-                            <!-- /.widget-user-image -->
-                            <div class="col-lg-5">
-                                <h5 class="widget-user-username">{{cliente.name}} {{cliente.sobrenome}}</h5>
-                                <h5 class="widget-user-desc">{{cliente.cpf}}</h5>
-                            </div>
-                            <div class="col-lg-4">
-                             <button ng-click="redirectSearchPage(cliente.id)" class="btn-select btn-primary" style="float: right">Selecionar</button>
-                            </div>
                         </div>
-                    </div>
 
-            </div>
+                </div>
             </div>
 

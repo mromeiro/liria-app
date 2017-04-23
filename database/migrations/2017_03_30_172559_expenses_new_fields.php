@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MonthlyExpensesAddDay extends Migration
+class ExpensesNewFields extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class MonthlyExpensesAddDay extends Migration
      */
     public function up()
     {
-        Schema::table('despesas_mensais', function (Blueprint $table) {
-            $table->unsignedInteger('dia_despesa');
+        Schema::table('despesas_diversas', function (Blueprint $table) {
+            $table->unsignedInteger('parcela');
+            $table->unsignedInteger('nro_parcelas');
+            $table->date('mes_parcela');
+            $table->decimal('valor_parcela',7,2);
         });
     }
 

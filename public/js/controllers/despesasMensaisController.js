@@ -1,4 +1,4 @@
-liriaApp.controller('despesasController', function($rootScope, $scope, $http, $location, Upload, Login, Expenses) {
+liriaApp.controller('despesasMensaisController', function($rootScope, $scope, $http, $location, Upload, Login, Expenses) {
 
     $rootScope.logged = true;
     $scope.logged = true;

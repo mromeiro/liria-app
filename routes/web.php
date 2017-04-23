@@ -62,9 +62,10 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
 
         Route::post('/logout', 'APIController@logout');
 
-        Route::get('/expenses/mes', 'MonthlyExpensesController@getMonthlyExpenses');
-        Route::post('/expenses/new', 'MonthlyExpensesController@create');
-        Route::post('/expenses/receipt/{expenseId}', 'MonthlyExpensesController@saveReceipt');
+        Route::get('/expenses/monthlyExpenses', 'MonthlyExpensesController@getMonthlyExpenses');
+        Route::post('/expenses/monthly/new', 'MonthlyExpensesController@create');
+        Route::post('/expenses/receipt/{expenseId}', 'ExpensesController@saveReceipt');
+        Route::post('/expenses/receipt/new', 'ExpensesController@create');
     });
 
 

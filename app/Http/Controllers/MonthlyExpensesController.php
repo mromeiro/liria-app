@@ -11,7 +11,7 @@ class MonthlyExpensesController extends Controller
 
     public function getMonthlyExpenses(Request $request) {
 
-        $expenses = MontlyExpenses::all();
+        $expenses = MontlyExpenses::orderBy('dia_despesa','ASC')->get();
 
         return response()->json(['result' => $expenses]);
     }
@@ -27,22 +27,4 @@ class MonthlyExpensesController extends Controller
         return response()->json(['result' => $expenses]);
     }
 
-    public function saveReceipt(Request $request) {
-
-        $file = $request->file('file');
-
-        //filename
-        $today = Carbon::now()->format('dmyhis');
-        $fileNamePieces = explode(".", $file->getClientOriginalName());
-        $fileName = $fileNamePieces[0] . '_' . $today . '.' . $fileNamePieces[1];
-
-        //Save file
-        $file->move('images/receipts', $fileName);
-
-        $expense = MontlyExpenses::find($request->expenseId);
-        $expense->recibo = $fileName;
-        $expense->update();
-
-        return response()->json(['result' => $expense]);
-    }
 }

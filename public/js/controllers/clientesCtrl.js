@@ -19,6 +19,22 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
             }
         });
 
+    //resizes the screen for the search result
+    $(window).bind("load resize", function() {
+
+        var topOffset = 220;
+        var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+        if (width < 768) {
+            topOffset = 270; // 2-row-menu
+        }
+
+        var height = ((this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height) - 1;
+        height = height - topOffset;
+        if (height < 1) height = 1;
+
+		$("#searchDiv").css("max-height", (height) + "px");
+    });
+
 
  	//Client is being updated
 	if($location.url().lastIndexOf('clientes/alterar/')>0){
@@ -45,6 +61,7 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			});
 	}
 
+
 	//When a photo is selected this modal will open for the image to be cropped
 	$scope.$watch('uploadFiles', function () {
 
@@ -65,6 +82,17 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 			.success(function(data){
 
 				$scope.clientList = data;
+
+                var topOffset = 220;
+                var width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+                if (width < 768) {
+                    topOffset = 270; // 2-row-menu
+                }
+                var height = ((this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height) - 1;
+                height = height - topOffset;
+                if (height < 1) height = 1;
+                    $("#searchDiv").css("max-height", (height) + "px");
+
 			})
 
         $scope.loading = false;

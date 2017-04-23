@@ -52,7 +52,11 @@ liriaApp
             templateUrl : 'pages/incluir_forma_pagamento.html',
             controller  : 'tratamentosController'
         })
-        .when('/financeiro/despesas/mes', {
+        .when('/financeiro/cadastro/despesas/mes', {
+            templateUrl : 'pages/cadastro_despesas_mensais.html',
+            controller  : 'despesasMensaisController'
+        })
+        .when('/financeiro/despesas', {
             templateUrl : 'pages/despesas_mensais.html',
             controller  : 'despesasController'
         })
