@@ -14,13 +14,19 @@ class Expenses extends Migration
     public function up()
     {
         Schema::create('despesas_diversas', function (Blueprint $table) {
+
             $table->increments('id');
             $table->string('tipo');
             $table->string('descricao');
             $table->date('data_despesa');
+            $table->date('data_parcela');
             $table->string('metodo_pagamento');
-            $table->string('recibo');
+            $table->string('recibo')->nullable();
+            $table->decimal('valor_parcela',10,2);
+            $table->decimal('valor_total',10,2);
             $table->string('alterado_por');
+            $table->integer('total_parcelas');
+            $table->integer('parcela');
         });
     }
 
@@ -31,6 +37,6 @@ class Expenses extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('despesas');
+        Schema::dropIfExists('despesas_diversas');
     }
 }

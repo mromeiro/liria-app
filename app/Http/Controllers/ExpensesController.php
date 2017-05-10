@@ -4,21 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Expenses;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ExpensesController extends Controller
 {
 
     public function create(Request $request) {
 
-        $expenses = new MontlyExpenses();
-        $expenses->tipo = $request->tipo;
-        $expenses->descricao = $request->descricao;
-        $expenses->data_despesa = $request->data_despesa;
-        $expenses->metodo_pagamento = $request->metodo_pagamento;
-        $expenses->alterado_por = $request->usuario;
+        $expenses = new Expenses();
+        $expenseList = array();
 
-        $expenses->save();
-        return response()->json(['result' => $expenses]);
+        if($request->total_parcelas == null)
+            $request->total_parcelas = 1;
+
+        $paymentAmount = bcdiv($request->valor, $request->total_parcelas,2);
+
+        $expenseDate = Carbon::createFromFormat('d/m/Y', $request->data_despesa);
+        $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_despesa);
+        if($request->fatura_fechada == 'true')
+            $paymentDate->addDays(30);
+
+        for($x = 1 ; $x <= $request->total_parcelas ; $x++){
+
+            $expenses->alterado_por = $request->usuario;
+            $expenses->tipo = $request->tipo;
+            $expenses->descricao = $request->descricao;
+            $expenses->data_parcela = new Carbon($paymentDate);
+            $expenses->data_despesa = $expenseDate;
+            $expenses->metodo_pagamento = $request->metodo_pagamento;
+            $expenses->alterado_por = $request->usuario;
+            $expenses->valor_parcela = $paymentAmount;
+            $expenses->total_parcelas = $request->total_parcelas;
+            $expenses->parcela = $x;
+            $expenses->recibo = $request->recibo;
+            $expenses->valor_total = $request->valor;
+
+            $expenses->save();
+            $expenseList[] = $expenses;
+
+            $expenses = new Expenses();
+            $paymentDate->addDays(30);
+        }
+        return response()->json(['result' => $expenseList]);
     }
 
     public function saveReceipt(Request $request) {
@@ -27,16 +54,12 @@ class ExpensesController extends Controller
 
         //filename
         $today = Carbon::now()->format('dmyhis');
-        $fileNamePieces = explode(".", $file->getClientOriginalName());
+        $fileNamePieces = explode(".", $file[0]->getClientOriginalName());
         $fileName = $fileNamePieces[0] . '_' . $today . '.' . $fileNamePieces[1];
 
         //Save file
-        $file->move('receipts', $fileName);
+        $file[0]->move('receipts', $fileName);
 
-        $expense = Expenses::find($request->expenseId);
-        $expense->recibo = $fileName;
-        $expense->update();
-
-        return response()->json(['result' => $expense]);
+        return response()->json(['result' => $fileName]);
     }
 }

@@ -3,7 +3,8 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
     $rootScope.logged = true;
     $scope.logged = true;
     $scope.expenseData = {};
-    $scope.expenseDataList = {};
+    $scope.photo = null;
+    $scope.expenseDataList = [];
     $rootScope.userName = window.localStorage.getItem('name');
     $scope.recibo = 'Recibo';
 
@@ -59,30 +60,50 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
     var date = new Date();
     $scope.expenseData.date = date.ddmmyyyy();
 
-    Expenses.getExpenses($scope.expenseData)
-
-        .success(function(data) {
-            $scope.expenseDataList = data.result;
-        });
-
     //Records expenses in the database
-	$scope.submitExpense = function(file){
+	$scope.checkClosedInvoice = function(){
 
-	    $scope.expenseData.usuario = $rootScope.userName;
+        if($scope.expenseData.metodo_pagamento == 'Crédito'){
+            $('#myModalFaturaFechada').modal({
+                show: 'true'
+            });
+        }else{
+            $scope.submitExpense('false');
+        }
 
-        Expenses.submitExpense($scope.expenseData)
+	}
+
+    $scope.submitExpense = function(fatura_fechada){
+
+        var expense;
+        $scope.expenseData.usuario = $rootScope.userName;
+
+        $scope.expenseData.fatura_fechada = fatura_fechada;
+
+        Expenses.submitExpenseReceipt($scope.photo.picFile)
 
             .success(function(data){
 
-                $scope.expense = data.result;
-                $scope.expenseDataList.push($scope.expense);
-
-                Expenses.submitExpenseReceipt(file, data.result.id)
+                $scope.expenseData.recibo = data.result;
+                Expenses.submitExpense($scope.expenseData)
 
                     .success(function(data){
-                        $scope.expense.recibo = data.result.recibo;
+
+                        $scope.expensePayments = data.result;
+
+                        for(i = 0; i < $scope.expensePayments.length ; i++){
+                            $scope.expenseDataList.push($scope.expensePayments[i]);
+                        }
+
                     });
+
             });
-	}
+
+
+    }
+
+    $scope.redirectToPage = function (page){
+        $location.path(page);
+    }
 
 });

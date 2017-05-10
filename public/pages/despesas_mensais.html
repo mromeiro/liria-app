@@ -7,7 +7,17 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-8" style="max-width: 890px">
+    <div class="col-lg-2" style="max-width: 160px">
+        <button class="btn btn-primary">Cadastrar Despesas</button>
+    </div>
+    <div class="col-lg-2">
+        <button class="btn btn-tab-unselected" ng-click="redirectToPage('/financeiro/despesas/consulta')">Consultar Despesas</button>
+    </div>
+</div>
+<br><br><br>
+
+<div class="row">
+    <div class="col-lg-10" style="max-width: 1100px">
         <form role="form" >
             <div class="panel  panel-primary">
                 <div class="panel-heading">
@@ -30,7 +40,7 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Valor:</label>
-                                <input class="form-control" id="valor_despesa" name="valor_despesa" ng-model="expenseData.valor_despesa">
+                                <input class="form-control" id="valor" name="valor" ng-model="expenseData.valor">
                             </div>
                         </div>
                     </div>
@@ -59,27 +69,19 @@
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>Parcelas:</label>
-                                <input class="form-control" id="nro_parcelas" name="nro_parcelas" ng-disabled="!(expenseData.metodo_pagamento =='Crédito')" ng-model="expenseData.nro_parcelas">
+                                <input class="form-control" id="total_parcelas" name="total_parcelas" ng-disabled="!(expenseData.metodo_pagamento =='Crédito')" ng-model="expenseData.total_parcelas">
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label>Recibo:</label>
-                                <input ngf-select ng-model="picFile" type="file" name="file[]" id="file" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />
-                                <label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Incluir</span></label>
-
+                                <input ngf-select ng-model="photo.picFile" type="file" name="file[]" id="file" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />
+                                <label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Recibo</span></label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-3">
-                            <button  ng-click="submitExpense(picFile)" class="btn btn-primary">Incluir Despesa</button>
-                        </div>
-                        <div class="col-lg-6" ng-show="expenseData.metodo_pagamento =='Crédito'">
-                            <span class="button-checkbox">
-                                <button type="button" class="btn btn-primary" data-color="primary">Fatura Fechada</button>
-                                <input type="checkbox" class="hidden" unchecked ng-model="expenseData.fatura_fechada"/>
-                            </span>
+                            <button  ng-click="checkClosedInvoice()" class="btn btn-primary">Incluir Despesa</button>
                         </div>
                     </div>
                     <!-- /.row (nested) -->
@@ -88,48 +90,54 @@
 
             </div>
 
+            <div class="modal fade" id="myModalFaturaFechada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="vertical-alignment-helper">
+                    <div class="modal-dialog vertical-align-center">
+                        <div class="modal-content">
+                            <div class="modal-header"/>
+
+                            <div class="modal-body">A fatura do cartão já está fechada?</div>
+                            <div class="modal-footer">
+                                <button id="yes" type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitExpense('true')">Sim</button>
+                                <button id="no" type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitExpense('false')">Não</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8" style="max-width: 890px">
-        <div class="panel  panel-primary">
-            <div class="panel-heading">
-                Despesas Mensais Atuais
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-
-                <form>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                            <input type="text" class="form-control" placeholder="Despesa" ng-model="searchClient">
-                        </div>
-                    </div>
-                </form>
-
-                <table id="table" class="table table-striped table-bordered table-hover dataTables-example">
-                    <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Dia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="despesa in expenseDataList">
-                        <td style="padding: 5px 5px; text-align: left">{{ despesa.descricao }}</td>
-                        <td style="padding: 5px 2px">{{ despesa.dia_despesa}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.panel-body -->
-        </div>
+    <div class="col-lg-10" style="max-width: 1100px">
+        <table id="table" class="table table-striped table-bordered table-hover dataTables-example">
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor parcela</th>
+                <th>Valor total</th>
+                <th>Parcela</th>
+                <th>Data da compra</th>
+                <th>Data da parcela</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="despesa in expenseDataList track by $index">
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.descricao }}</td>
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.valor_parcela }}</td>
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.valor_total}}</td>
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.parcela}} de {{ despesa.total_parcelas}} </td>
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.data_despesa}}</td>
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.data_parcela}}</td>
+            </tr>
+            </tbody>
+        </table>
         <!-- /.panel -->
     </div>
 </div>
 <script>
+
+    //Style for the closed invoice checkbox
     $(function () {
         $('.button-checkbox').each(function () {
 

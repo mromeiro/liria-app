@@ -46,10 +46,10 @@ liriaApp.factory('Expenses', function($http, Utils, Upload) {
             },
 
             //Upload expense receipt
-            submitExpenseReceipt: function(file, expenseId) {
+            submitExpenseReceipt: function(file) {
 
                 return Upload.upload({
-                    url: Utils.apiUrl() + 'api/expenses/receipt/' + expenseId,
+                    url: Utils.apiUrl() + 'api/expenses/receipt',
                     data: {file: file},
                 });
             }
