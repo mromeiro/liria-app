@@ -20,7 +20,7 @@ class Payments extends Migration
             $table->date('data_prevista')->nullable();
             $table->date('data_pagamento')->nullable();
             $table->decimal('valor_parcela',7,2);
-            $table->string('pago');
+            $table->string('pago')->nullable();
             $table->string('alterado_por')->nullable();
         });
     }

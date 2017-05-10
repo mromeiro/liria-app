@@ -106,7 +106,7 @@ class ClientController extends Controller
         $fileName = $fileNamePieces[0] . '_' . $today . '.' . $fileNamePieces[1];
 
         //Save file
-        $file->move('images', $fileName);
+        $file->move('images/clientes', $fileName);
 
         //Return the name of the file
         return response()->json(['result' => $fileName]);
