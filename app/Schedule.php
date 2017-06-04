@@ -15,11 +15,11 @@ class Schedule extends Model
 
     public function getDataInicioAttribute($value){
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i:s');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i');
     }
 
     public function getDataFinalAttribute($value){
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i:s');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i');
     }
 }

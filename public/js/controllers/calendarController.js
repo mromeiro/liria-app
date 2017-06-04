@@ -52,8 +52,39 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                 right: 'month,agendaWeek,agendaDay'
             },
 
+            //Called every time the schedule date range changes
+            viewRender: function(view, element){
+
+                $('#calendar').fullCalendar('removeEvents');
+
+                $scope.searchSchedule = new Object();
+                $scope.searchSchedule.dataIniEvento = Utils.formatCalendarToDate(view.start.format()) + ' 00:00';
+                $scope.searchSchedule.dataFimEvento = Utils.formatCalendarToDate(view.end.format()) + ' 23:59';
+
+                Calendar.getCalendarEvents($scope.searchSchedule)
+
+                    .success(function(data){
+
+                        $scope.scheduleEntry = data.result;
+
+                        for(i = 0; i < $scope.scheduleEntry.length ; i++){
+
+                            var newEvent = new Object();
+
+                            newEvent.id = $scope.scheduleEntry[i].id; //The ID of the event in the database
+                            newEvent.title = $scope.scheduleEntry[i].tratamento;
+                            newEvent.start = Utils.formatDateToCalendar($scope.scheduleEntry[i].data_inicio);
+                            newEvent.end = Utils.formatDateToCalendar($scope.scheduleEntry[i].data_final);
+                            newEvent.allDay = false;
+                            newEvent.client = $scope.scheduleEntry[i].cliente;
+                            $('#calendar').fullCalendar('renderEvent', newEvent);
+                        }
+                    });
+            },
+
+            //Addes the
             eventRender: function(event, element) {
-                var title = element.find('.fc-title').append("<br/>" + event.description);
+                var title = element.find('.fc-title').append("<br/>" + event.client);
             },
 
             dayClick: function(date, jsEvent, view) {
@@ -125,7 +156,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                 newEvent.start = Utils.formatDateToCalendar($scope.entradaCalendario.dataIniEvento + " " + $scope.entradaCalendario.horaIniEvento);
                 newEvent.end = Utils.formatDateToCalendar($scope.entradaCalendario.dataFimEvento + " " + $scope.entradaCalendario.horaFimEvento);
                 newEvent.allDay = false;
-                newEvent.description = $scope.entradaCalendario.cliente;
+                newEvent.client = $scope.entradaCalendario.cliente;
                 $('#calendar').fullCalendar('renderEvent', newEvent);
 
                 $('#myModalCalendarEvent').modal('hide');

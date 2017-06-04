@@ -68,6 +68,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('/expenses/new', 'ExpensesController@create');
 
         Route::post('/schedule/createEvent', 'ScheduleController@createEvent');
+        Route::post('/schedule/getEvents','ScheduleController@getEvents');
     });
 
 

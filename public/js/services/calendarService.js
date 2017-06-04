@@ -12,6 +12,16 @@ liriaApp.factory('Calendar', function($http, Utils) {
 			});
 		},
 
+        getCalendarEvents : function(scheduleEvent) {
+
+            return $http({
+                method: 'POST',
+                url: Utils.apiUrl() + 'api/schedule/getEvents',
+                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                data: $.param(scheduleEvent)
+            });
+        },
+
 	}
 
 });
