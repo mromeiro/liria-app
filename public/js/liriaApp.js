@@ -64,6 +64,10 @@ liriaApp
             templateUrl : 'pages/consultar_despesas_mensais.html',
             controller  : 'despesasController'
         })
+        .when('/calendar', {
+            templateUrl : 'pages/calendar.html',
+            controller  : 'calendarController'
+        })
     })
 
     .config(['$httpProvider', function($httpProvider) {
