@@ -22,6 +22,26 @@ class ScheduleController extends Controller
         return response()->json(['result' => $schedule]);
     }
 
+    public function updateEvent(Request $request){
+
+        $schedule = Schedule::find($request->id);
+        $schedule->cliente = $request->cliente;
+        $schedule->tratamento = $request->tratamento;
+        $schedule->data_inicio = Carbon::createFromFormat('d/m/Y H:i', $request->dataIniEvento . ' ' . $request->horaIniEvento);
+        $schedule->data_final = Carbon::createFromFormat('d/m/Y H:i', $request->dataFimEvento . ' ' . $request->horaFimEvento);
+        $schedule->alterado_por = $request->usuario;
+
+        $schedule->update();
+
+        return response()->json(['result' => $schedule]);
+    }
+
+    public function removeEvent(Request $request){
+
+        Schedule::destroy($request->id);
+        return response()->json(['result' => 'ok']);
+    }
+
     public function getEvents(Request $request){
 
         $dataInicial = Carbon::createFromFormat('d/m/Y H:i', $request->dataIniEvento);

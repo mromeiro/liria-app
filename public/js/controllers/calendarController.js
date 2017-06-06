@@ -52,6 +52,46 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                 right: 'month,agendaWeek,agendaDay'
             },
 
+            eventClick: function(calEvent, jsEvent, view) {
+
+                $scope.warning = null;
+                $scope.isExistingEvent = true;
+
+                var field = $('#tratamento');
+                field.val(calEvent.title);
+                field.trigger('input');
+
+                field = $('#cliente');
+                field.val(calEvent.client);
+                field.trigger('input');
+
+                field = $('#dataIniEvento');
+                field.val(Utils.formatCalendarTimestampToDate(calEvent.start.format(), 'date'));
+                field.trigger('input');
+                field.removeAttr('disabled');
+
+                field = $('#horaIniEvento');
+                field.val(Utils.formatCalendarTimestampToDate(calEvent.start.format(), 'hour'));
+                field.trigger('input');
+                field.removeAttr('disabled');
+
+                field = $('#dataFimEvento');
+                field.val(Utils.formatCalendarTimestampToDate(calEvent.end.format(), 'date'));
+                field.trigger('input');
+                field.removeAttr('disabled');
+
+                field = $('#horaFimEvento');
+                field.val(Utils.formatCalendarTimestampToDate(calEvent.end.format(), 'hour'));
+                field.trigger('input');
+
+                //Display the modal to input the schedule information
+                $('#myModalCalendarEvent').modal({
+                    show: 'true'
+                });
+
+                $scope.selectedEvent = calEvent;
+            },
+
             //Called every time the schedule date range changes
             viewRender: function(view, element){
 
@@ -88,6 +128,10 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
             },
 
             dayClick: function(date, jsEvent, view) {
+
+
+                $scope.warning = null;
+                $scope.isExistingEvent = false;
 
                 $scope.entradaCalendario.tratamento = '';
                 $scope.entradaCalendario.cliente = '';
@@ -145,24 +189,87 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
     $scope.createCalendarEvent = function(){
 
         $scope.entradaCalendario.usuario = window.localStorage.getItem('name');
-        Calendar.createCalendarEvent($scope.entradaCalendario)
+
+        if($scope.entradaCalendario.tratamento == ''
+            || $scope.entradaCalendario.dataIniEvento == ''
+            || $scope.entradaCalendario.horaIniEvento == ''
+            || $scope.entradaCalendario.dataFimEvento == ''
+            || $scope.entradaCalendario.horaFimEvento == ''
+            || $scope.entradaCalendario.cliente == ''){
+
+            $scope.warning = "Todos os campos devem ser preenchidos.";
+
+        }else {
+
+            Calendar.createCalendarEvent($scope.entradaCalendario)
+
+                .success(function (data) {
+
+                    var newEvent = new Object();
+
+                    newEvent.id = data.result.id; //The ID of the event in the database
+                    newEvent.title = $scope.entradaCalendario.tratamento;
+                    newEvent.start = Utils.formatDateToCalendar($scope.entradaCalendario.dataIniEvento + " " + $scope.entradaCalendario.horaIniEvento);
+                    newEvent.end = Utils.formatDateToCalendar($scope.entradaCalendario.dataFimEvento + " " + $scope.entradaCalendario.horaFimEvento);
+                    newEvent.allDay = false;
+                    newEvent.client = $scope.entradaCalendario.cliente;
+                    $('#calendar').fullCalendar('renderEvent', newEvent);
+
+                    $('#myModalCalendarEvent').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                });
+        }
+    }
+
+    $scope.updateCalendarEvent = function(){
+
+        if($('#tratamento').val() == ''
+            || $('#dataIniEvento').val() == ''
+            || $('#horaIniEvento').val() == ''
+            || $('#dataFimEvento').val() == ''
+            || $('#horaFimEvento').val() == ''
+            || $('#cliente').val() == ''){
+
+            $scope.warning = "Todos os campos devem ser preenchidos.";
+
+        }else {
+
+            $scope.entradaCalendario.usuario = window.localStorage.getItem('name');
+            $scope.entradaCalendario.id = $scope.selectedEvent.id;
+            $scope.entradaCalendario.tratamento = $('#tratamento').val();
+            Calendar.updateCalendarEvent($scope.entradaCalendario)
+
+                .success(function (data) {
+
+                    $scope.selectedEvent.title = $('#tratamento').val();
+                    $scope.selectedEvent.start = Utils.formatDateToCalendar($('#dataIniEvento').val() + " " + $('#horaIniEvento').val());
+                    $scope.selectedEvent.end = Utils.formatDateToCalendar($('#dataFimEvento').val() + " " + $('#horaFimEvento').val());
+                    $scope.selectedEvent.allDay = false;
+                    $scope.selectedEvent.client = $('#cliente').val();
+                    $('#calendar').fullCalendar('updateEvent', $scope.selectedEvent);
+
+                    $('#myModalCalendarEvent').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                });
+        }
+    }
+
+    $scope.removeCalendarEvent = function(){
+
+        $scope.entradaCalendario.id = $scope.selectedEvent.id;
+        Calendar.removeCalendarEvent($scope.entradaCalendario)
 
             .success(function(data){
 
-                var newEvent = new Object();
-
-                newEvent.id = data.result.id; //The ID of the event in the database
-                newEvent.title = $scope.entradaCalendario.tratamento;
-                newEvent.start = Utils.formatDateToCalendar($scope.entradaCalendario.dataIniEvento + " " + $scope.entradaCalendario.horaIniEvento);
-                newEvent.end = Utils.formatDateToCalendar($scope.entradaCalendario.dataFimEvento + " " + $scope.entradaCalendario.horaFimEvento);
-                newEvent.allDay = false;
-                newEvent.client = $scope.entradaCalendario.cliente;
-                $('#calendar').fullCalendar('renderEvent', newEvent);
+                $('#calendar').fullCalendar('removeEvents', $scope.selectedEvent.id);
 
                 $('#myModalCalendarEvent').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-
             });
     }
 
