@@ -26,6 +26,7 @@ class Expenses extends Migration
             $table->decimal('valor_total',10,2);
             $table->string('alterado_por');
             $table->integer('total_parcelas');
+            $table->integer('id_despesa_mensal');
             $table->integer('parcela');
         });
     }

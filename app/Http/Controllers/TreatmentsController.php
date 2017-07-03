@@ -106,7 +106,7 @@ class TreatmentsController extends Controller
         if($formaPagamento == 'Débito'){
             $paymentDate = $today->addDays(5);
         }else if($formaPagamento == null){
-            $paymentDate = $today;
+            $paymentDate = Carbon::createFromFormat('d/m/Y', $clientTreatments->data_inicio);
         }else if($formaPagamento == 'Cheque' || $formaPagamento == 'Dinheiro'){
             $paymentDate = $clientTreatments->data_primeira_parcela;
         }else{

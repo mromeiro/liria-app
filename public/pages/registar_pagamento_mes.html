@@ -57,6 +57,7 @@
                     <tr>
                         <th>Cliente</th>
                         <th>Tratamento</th>
+                        <th>Forma de Pagamento</th>
                         <th>Parcela</th>
                         <th>Valor</th>
                         <th>Data Prevista</th>
@@ -68,6 +69,7 @@
                     <tr ng-repeat="payment in payments">
                         <td>{{ payment.nome_cliente }}</td>
                         <td>{{ payment.nome_tratamento }}</td>
+                        <td>{{ payment.forma_pagamento}}</td>
                         <td>{{ payment.nro_parcela }} de {{payment.nro_parcelas}}</td>
                         <td>{{ payment.valor_parcela }}</td>
                         <td>{{ payment.data_prevista}}</td>
@@ -76,7 +78,7 @@
                             <input class="form-control" name="cep" ng-model="payment.data_pagamento" style="width: 120px" ui-mask="99/99/9999" model-view-value="true">
                         </td>
                         <td>
-                            <button ng-hide="payment.pago" ng-click="recordPaymentDate(payment)" class="btn btn-primary" style="float: left">Registar</button>
+                            <button ng-hide="payment.pago " ng-click="recordPaymentDate(payment)" class="btn btn-primary" style="float: left">Registar</button>
                             <img ng-show="payment.pago" class="img-circle" src="images/ico_pago.png" style="float: left">
                         </td>
                     </tr>

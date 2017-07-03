@@ -1,0 +1,261 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Fluxo de caixa</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<hr style="margin-top: 1px">
+<div class="row">
+    <div class="row col-lg-6">
+        <form role="form" ng-submit="generateExpenseReport()" >
+            <div class="col-lg-3" style="max-width: 130px">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select class="form-control" ng-model="searchString.mes">
+                            <option value="" disabled selected>Mês</option>
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3" style="max-width: 100px">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="ano" name="ano" ng-model="searchString.ano" placeholder="Ano">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-primary" style="float: right">Gerar Relatório</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr style="margin-top: 1px">
+<div class="row" ng-show="relatorioPronto">
+    <div class="col-lg-12">
+        <ul class="nav nav-pills">
+            <li><a ng-click="tab='Entradas Confirmadas'" style="margin-right: 10px" ng-class="tab=='Entradas Confirmadas' ? 'btn btn-primary': 'btn btn-tab-unselected'" >Pagamentos Recebidos</a></li>
+            <li><a ng-click="tab='Entradas a Confirmar'" style="margin-right: 10px" ng-class="tab=='Entradas a Confirmar' ? 'btn btn-primary': 'btn btn-tab-unselected'" >Pagamentos a Confirmar</a></li>
+            <li><a ng-click="tab='Tratamentos Pendentes'" style="margin-right: 10px" ng-class="tab=='Tratamentos Pendentes' ? 'btn btn-primary': 'btn btn-tab-unselected'" >Tratamentos Pendentes</a></li>
+            <li><a ng-click="tab='Saida'" style="margin-right: 10px" ng-class="tab=='Saida' ? 'btn btn-primary': 'btn btn-tab-unselected'">Saída</a></li>
+            <li><a ng-click="tab='Resumo'" style="margin-right: 10px" ng-class="tab=='Resumo' ? 'btn btn-primary': 'btn btn-tab-unselected'">Resumo</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <br><br>
+        <div class="tabs-container">
+            <div class="tab-content" ng-show="tab == 'Entradas Confirmadas'">
+
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px; margin-top: 20px">
+                        <b style="font-size: large">Pagamentos Confirmados: R${{report.totalConfirmedPayments}}</b><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px">
+                        <table id="table" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Tratamento</th>
+                                <th>Data Prevista</th>
+                                <th>Data Pagamento</th>
+                                <th>Parcela</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="income in report.confirmedPayments track by $index">
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nome_cliente}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.tratamento}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.data_prevista}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.data_pagamento }}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nro_parcela}} de {{ income.nro_parcelas}} </td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.valor_parcela}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" ng-show="tab == 'Entradas a Confirmar'">
+
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px; margin-top: 20px">
+                        <b style="font-size: large">Pagamentos a Confirmar: R${{report.totalPaymentsToConfirm}}</b><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px">
+                        <table id="table2" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Tratamento</th>
+                                <th>Data Prevista</th>
+                                <th>Parcela</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="income in report.paymentsToConfirm track by $index">
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nome_cliente}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.tratamento}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.data_prevista}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nro_parcela}} de {{ income.nro_parcelas}} </td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.valor_parcela}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" ng-show="tab == 'Tratamentos Pendentes'">
+
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px; margin-top: 20px">
+                        <b style="font-size: large">Tratamentos Pendentes: R${{report.totalTreatmentsNotConfirmed}}</b><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px">
+                        <table id="table3" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Tratamento</th>
+                                <th>Data Prevista</th>
+                                <th>Parcela</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="income in report.treatmentsNotConfirmed track by $index">
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nome_cliente}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.tratamento}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.data_prevista}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.nro_parcela}} de {{ income.nro_parcelas}} </td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.valor_parcela}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-content" ng-show="tab == 'Saida'">
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px; margin-top: 20px">
+                        <b style="font-size: large">Total de saídas: R${{report.totalExpenses}}</b><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="max-width: 1100px">
+                        <table id="table4" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Despesa</th>
+                                <th>Data da Despesa</th>
+                                <th>Data da Parcela</th>
+                                <th>Parcela</th>
+                                <th>Método de Pagamento</th>
+                                <th>Valor da Despesa</th>
+                                <th>Valor da Parcela</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="expense in report.expenses track by $index">
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.tipo}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.descricao}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.data_despesa}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.data_parcela }}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.parcela}} de {{ expense.total_parcelas}} </td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.metodo_pagamento}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.valor_total}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ expense.valor_parcela}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-content" ng-show="tab == 'Resumo'">
+
+                <div class="row">
+                    <div class="col-lg-6" style="max-width: 1100px">
+                        <table id="table5" class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Dimensão</th>
+                                <th>Valor</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left">Pagamentos Confirmados</td>
+                                <td style="padding: 5px 5px; text-align: right">{{report.totalConfirmedPayments}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left">Pagamentos a Confirmar</td>
+                                <td style="padding: 5px 5px; text-align: right">{{report.totalPaymentsToConfirm}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left">Tratamentos Pendentes</td>
+                                <td style="padding: 5px 5px; text-align: right">{{report.totalTreatmentsNotConfirmed}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left">Gastos</td>
+                                <td style="padding: 5px 5px; text-align: right">-{{report.totalExpenses}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left; background-color: wheat;"><b>PREVISÃO (INCLUI TRATAMENTOS PENDENTES)</b></td>
+                                <td style="padding: 5px 5px; text-align: right; background-color: wheat;"><b>{{totalForecast.toFixed(2)}}</b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left; background-color: wheat;"><b>TOTAL <u>COM</u> PAGAMENTOS NÃO CONFIRMADOS</b></td>
+                                <td style="padding: 5px 5px; text-align: right; background-color: wheat;"><b>{{totalWithPaymentsToConfirm.toFixed(2)}}</b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 5px; text-align: left; background-color: wheat;"><b>TOTAL <u>SEM</u> PAGAMENTOS NÃO CONFIRMADOS</u></b></td>
+                                <td style="padding: 5px 5px; text-align: right; background-color: wheat;"><b>{{totalWithoutPaymentsToConfirm.toFixed(2)}}</b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

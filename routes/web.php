@@ -66,11 +66,17 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('/expenses/monthly/new', 'MonthlyExpensesController@create');
         Route::post('/expenses/receipt', 'ExpensesController@saveReceipt');
         Route::post('/expenses/new', 'ExpensesController@create');
+        Route::post('/expenses/get','ExpensesController@getExpenses');
 
         Route::post('/schedule/createEvent', 'ScheduleController@createEvent');
         Route::post('/schedule/updateEvent', 'ScheduleController@updateEvent');
         Route::post('/schedule/removeEvent', 'ScheduleController@removeEvent');
         Route::post('/schedule/getEvents','ScheduleController@getEvents');
+
+
+        Route::post('/clients/search/birthdays','ClientController@getBirthdaysClient');
+
+        Route::post('/reports/monthlyBalance','ReportController@monthlyBalanceReport');
     });
 
 

@@ -62,4 +62,16 @@ class ExpensesController extends Controller
 
         return response()->json(['result' => $fileName]);
     }
+
+    public function getExpenses(Request $request){
+
+        $initialDate = Carbon::create($request->ano, $request->mes, 1,0,0,0);
+        $finalDate = Carbon::create($request->ano, $request->mes, 1,0,0,0)->lastOfMonth();
+
+        $expenses = Expenses::where('data_parcela', '>=', $initialDate)
+                    ->where('data_parcela', '<=', $finalDate)
+                    ->orderBy('tipo', 'asc')->orderBy('data_parcela', 'asc')->get();
+
+        return response()->json(['result' => $expenses]);
+    }
 }

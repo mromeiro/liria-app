@@ -14,7 +14,7 @@ liriaApp
         })
         .when('/home', {
             templateUrl : 'pages/home.html',
-            controller  : 'mainController'
+            controller  : 'homeController'
         })
         .when('/login', {
             templateUrl : 'pages/login.html',
@@ -67,6 +67,10 @@ liriaApp
         .when('/calendar', {
             templateUrl : 'pages/calendar.html',
             controller  : 'calendarController'
+        })
+        .when('/relatorios/fluxo', {
+            templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
+            controller  : 'relatorioController'
         })
     })
 

@@ -14,11 +14,10 @@
         <button class="btn btn-primary">Consultar Despesas</button>
     </div>
 </div>
-<hr>
-
+<hr style="margin-top: 20px">
 <div class="row">
     <div class="row col-lg-6">
-        <form role="form" ng-submit="searchPayments()" >
+        <form role="form" ng-submit="searchExpenses()" >
             <div class="col-lg-3" style="max-width: 130px">
                 <div class="form-group">
                     <div class="input-group">
@@ -57,11 +56,13 @@
         </form>
     </div>
 </div>
+<hr style="margin-top: 1px">
 <div class="row">
     <div class="col-lg-10" style="max-width: 1100px">
         <table id="table" class="table table-striped table-bordered table-hover dataTables-example">
             <thead>
             <tr>
+                <th>Tipo</th>
                 <th>Descrição</th>
                 <th>Valor parcela</th>
                 <th>Valor total</th>
@@ -72,6 +73,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="despesa in expenseDataList track by $index">
+                <td style="padding: 5px 5px; text-align: left">{{ despesa.tipo}}</td>
                 <td style="padding: 5px 5px; text-align: left">{{ despesa.descricao }}</td>
                 <td style="padding: 5px 5px; text-align: left">{{ despesa.valor_parcela }}</td>
                 <td style="padding: 5px 5px; text-align: left">{{ despesa.valor_total}}</td>

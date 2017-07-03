@@ -44,6 +44,15 @@ liriaApp.factory('Clients', function($http, Utils) {
                 })
             },
 
+            searchBirthdays : function(mes){
+                return $http({
+                    method: 'POST',
+                    url: Utils.apiUrl() + 'api/clients/search/birthdays',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(mes)
+                });
+            }
+
 		}
 
 	});

@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
@@ -16,8 +16,6 @@
     <link href="css/component.css" rel="stylesheet">
     <link href="css/normalize.css" rel="stylesheet">
     <link href="vendor/bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet">
-
-    <script src="https://apis.google.com/js/client.js"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -52,12 +50,13 @@
     <script src="js/controllers/despesasController.js"></script>
     <script src="js/controllers/calendarController.js"></script>
     <script src="js/services/calendarService.js"></script>
+    <script src="js/controllers/homeCtrl.js"></script>
+    <script src="js/services/relatorioService.js"></script>
+    <script src="js/controllers/relatorioCtrl.js"></script>
 
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/metisMenu/metisMenu.min.js"></script>
     <script src="dist/js/sb-admin-2.min.js"></script>
-
-    <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
 
     <script src="vendor/bower_components/moment/moment.js"></script>
     <script src="vendor/bower_components/fullcalendar/dist/fullcalendar.js"></script>
@@ -109,6 +108,9 @@
                 <ul class="nav" id="side-menu">
 
                     <li>
+                        <a href="#/home"><i class="glyphicon glyphicon-calendar"></i> Dashboard</a>
+                    </li>
+                    <li>
                         <a href="#/calendar"><i class="glyphicon glyphicon-calendar"></i> Agenda</a>
                     </li>
                     <li>
@@ -142,7 +144,15 @@
                                 <a href="#/financeiro/cadastro/despesas/mes">Cadastro Despesas Mensais</a>
                             </li>
                             <li>
-                                <a href="#/financeiro/despesas">Despesas</a>
+                                <a href="#/financeiro/despesas">Registrar Despesas</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="glyphicon glyphicon-usd"></i>Relatórios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#/relatorios/fluxo">Fluxo de caixa</a>
                             </li>
                         </ul>
                     </li>

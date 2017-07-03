@@ -37,10 +37,11 @@ class PaymentsController extends Controller
                                           DATE_FORMAT(pagamentos.data_prevista,\'%d/%m/%Y\') as data_prevista,
                                           pagamentos.nro_parcela, tratamentos_cliente.nro_parcelas,
                                           clientes.name as nome_cliente, tratamentos_cliente.nome as nome_tratamento,
-                                          pagamentos.valor_parcela, pagamentos.pago'))
+                                          pagamentos.valor_parcela, pagamentos.pago, tratamentos_cliente.forma_pagamento'))
                         ->where([
                             ['pagamentos.data_prevista','>=', $dataInicial],
-                            ['pagamentos.data_prevista','<=', $dataFinal]])
+                            ['pagamentos.data_prevista','<=', $dataFinal],
+                            ['tratamentos_cliente.forma_pagamento','<>','']])
                         ->orderBy('pagamentos.data_prevista', 'asc')
                         ->get();
 

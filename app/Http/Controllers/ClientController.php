@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Clients;
-use App\ClientTreatments;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -110,5 +109,16 @@ class ClientController extends Controller
 
         //Return the name of the file
         return response()->json(['result' => $fileName]);
+    }
+
+    public function getBirthdaysClient(Request $request){
+
+        $clients = DB::table('clientes')
+            ->select(DB::raw('name, sobrenome, foto, DATE_FORMAT(data_nascimento,\'%d/%m\') as dia_aniversario'))
+            ->whereRaw('month(data_nascimento) = ' . $request->mes)
+            ->orderBy('data_nascimento', 'asc')
+            ->get();
+
+        return response()->json(['result' => $clients]);
     }
 }

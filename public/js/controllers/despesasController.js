@@ -80,30 +80,64 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
 
         $scope.expenseData.fatura_fechada = fatura_fechada;
 
-        Expenses.submitExpenseReceipt($scope.photo.picFile)
+        if($scope.photo == null){
 
-            .success(function(data){
+            Expenses.submitExpense($scope.expenseData)
 
-                $scope.expenseData.recibo = data.result;
-                Expenses.submitExpense($scope.expenseData)
+                .success(function(data){
 
-                    .success(function(data){
+                    $scope.expensePayments = data.result;
 
-                        $scope.expensePayments = data.result;
+                    for(i = 0; i < $scope.expensePayments.length ; i++){
+                        $scope.expenseDataList.push($scope.expensePayments[i]);
+                    }
 
-                        for(i = 0; i < $scope.expensePayments.length ; i++){
-                            $scope.expenseDataList.push($scope.expensePayments[i]);
-                        }
+                });
 
-                    });
+        }else{
 
-            });
+            Expenses.submitExpenseReceipt($scope.photo.picFile)
+
+                .success(function(data){
+
+                    if (data.error) {
+                        $location.path('/login');
+                        $rootScope.logged = false;
+                        $scope.logged = false;
+                    }
+
+                    $scope.expenseData.recibo = data.result;
+                    Expenses.submitExpense($scope.expenseData)
+
+                        .success(function(data){
+
+                            $scope.expensePayments = data.result;
+
+                            for(i = 0; i < $scope.expensePayments.length ; i++){
+                                $scope.expenseDataList.push($scope.expensePayments[i]);
+                            }
+
+                        });
+
+                });
+        }
+
 
 
     }
 
     $scope.redirectToPage = function (page){
         $location.path(page);
+    }
+
+    $scope.searchExpenses = function(){
+
+        Expenses.getExpenses($scope.searchString)
+
+            .success(function(data){
+
+                $scope.expenseDataList = data.result;
+            });
     }
 
 });

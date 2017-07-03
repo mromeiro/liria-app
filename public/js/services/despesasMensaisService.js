@@ -28,7 +28,7 @@ liriaApp.factory('Expenses', function($http, Utils, Upload) {
 
                 return $http({
                     method: 'POST',
-                    url: Utils.apiUrl() + 'api/expenses/month',
+                    url: Utils.apiUrl() + 'api/expenses/get',
                     headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                     data: $.param(expenseData)
                 })

@@ -16,7 +16,11 @@ class Expenses extends Model
         if($value == null)
             return $value;
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
+        if(is_string($value)){
+            return Carbon::createFromFormat('Y-m-d', $value)->format('d/m/Y');
+        }else{
+            return $value->format('d/m/Y');
+        }
     }
 
     public function getDataParcelaAttribute($value){
@@ -24,6 +28,11 @@ class Expenses extends Model
         if($value == null)
             return $value;
 
-        return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y');
+        if(is_string($value)){
+            return Carbon::createFromFormat('Y-m-d', $value)->format('d/m/Y');
+        }else{
+            return $value->format('d/m/Y');
+        }
+
     }
 }
