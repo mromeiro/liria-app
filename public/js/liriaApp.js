@@ -5,73 +5,73 @@ var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop',
 liriaApp
 
     .config(function($routeProvider) {
-    $routeProvider
+        $routeProvider
 
-    // route for the home page
-        .when('/', {
-            templateUrl : 'pages/cadastro_cliente.html',
-            controller  : 'clientesController'
-        })
-        .when('/home', {
-            templateUrl : 'pages/home.html',
-            controller  : 'homeController'
-        })
-        .when('/login', {
-            templateUrl : 'pages/login.html',
-            controller  : 'loginController'
-        })
-        .when('/logout', {
-            templateUrl : 'pages/login.html',
-            controller  : 'loginController'
-        })
-        .when('/clientes/novo', {
-            templateUrl : 'pages/cadastro_cliente.html',
-            controller  : 'clientesController'
-        })
-        .when('/clientes/tratamentos/:clienteId', {
-            templateUrl : 'pages/cadastro_tratamentos_cliente.html',
-            controller  : 'tratamentosController'
-        })
-        .when('/clientes/busca', {
-            templateUrl : 'pages/busca_clientes.html',
-            controller  : 'clientesController'
-        })
-        .when('/clientes/alterar/:clienteId', {
-            templateUrl : 'pages/alteracao_cliente.html',
-            controller  : 'clientesController'
-        })
-        .when('/financeiro/pagamentos/mes', {
-            templateUrl : 'pages/registar_pagamento_mes.html',
-            controller  : 'pagamentosController'
-        })
-        .when('/financeiro/pagamentos/:clienteId', {
-            templateUrl : 'pages/registrar_pagamento.html',
-            controller  : 'pagamentosController'
-        })
-        .when('/clientes/tratamentos/incluirFormaPagamento/:clienteId', {
-            templateUrl : 'pages/incluir_forma_pagamento.html',
-            controller  : 'tratamentosController'
-        })
-        .when('/financeiro/cadastro/despesas/mes', {
-            templateUrl : 'pages/cadastro_despesas_mensais.html',
-            controller  : 'despesasMensaisController'
-        })
-        .when('/financeiro/despesas', {
-            templateUrl : 'pages/despesas_mensais.html',
-            controller  : 'despesasController'
-        })
-        .when('/financeiro/despesas/consulta', {
-            templateUrl : 'pages/consultar_despesas_mensais.html',
-            controller  : 'despesasController'
-        })
-        .when('/calendar', {
-            templateUrl : 'pages/calendar.html',
-            controller  : 'calendarController'
-        })
-        .when('/relatorios/fluxo', {
-            templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
-            controller  : 'relatorioController'
-        })
+        // route for the home page
+            .when('/', {
+                templateUrl : 'pages/cadastro_cliente.html',
+                controller  : 'clientesController'
+            })
+            .when('/home', {
+                templateUrl : 'pages/home.html',
+                controller  : 'homeController'
+            })
+            .when('/login', {
+                templateUrl : 'pages/login.html',
+                controller  : 'loginController'
+            })
+            .when('/logout', {
+                templateUrl : 'pages/login.html',
+                controller  : 'loginController'
+            })
+            .when('/clientes/novo', {
+                templateUrl : 'pages/cadastro_cliente.html',
+                controller  : 'clientesController'
+            })
+            .when('/clientes/tratamentos/:clienteId', {
+                templateUrl : 'pages/cadastro_tratamentos_cliente.html',
+                controller  : 'tratamentosController'
+            })
+            .when('/clientes/busca', {
+                templateUrl : 'pages/busca_clientes.html',
+                controller  : 'clientesController'
+            })
+            .when('/clientes/alterar/:clienteId', {
+                templateUrl : 'pages/alteracao_cliente.html',
+                controller  : 'clientesController'
+            })
+            .when('/financeiro/pagamentos/mes', {
+                templateUrl : 'pages/registar_pagamento_mes.html',
+                controller  : 'pagamentosController'
+            })
+            .when('/financeiro/pagamentos/:clienteId', {
+                templateUrl : 'pages/registrar_pagamento.html',
+                controller  : 'pagamentosController'
+            })
+            .when('/clientes/tratamentos/incluirFormaPagamento/:clienteId', {
+                templateUrl : 'pages/incluir_forma_pagamento.html',
+                controller  : 'tratamentosController'
+            })
+            .when('/financeiro/cadastro/despesas/mes', {
+                templateUrl : 'pages/cadastro_despesas_mensais.html',
+                controller  : 'despesasMensaisController'
+            })
+            .when('/financeiro/despesas', {
+                templateUrl : 'pages/despesas_mensais.html',
+                controller  : 'despesasController'
+            })
+            .when('/financeiro/despesas/consulta', {
+                templateUrl : 'pages/consultar_despesas_mensais.html',
+                controller  : 'despesasController'
+            })
+            .when('/calendar', {
+                templateUrl : 'pages/calendar.html',
+                controller  : 'calendarController'
+            })
+            .when('/relatorios/fluxo', {
+                templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
+                controller  : 'relatorioController'
+            })
     })
 
     .config(['$httpProvider', function($httpProvider) {
@@ -85,11 +85,11 @@ liriaApp.controller('mainController', function($rootScope, $scope, $location) {
     //Show menu
     $("#page-wrapper").css("margin", "0 0 0 0px");
     alert('test');
-   if($location.path() == "/login"){
-       $rootScope.logged = false;
-   }else{
-       $rootScope.logged = true;
-   }
+    if($location.path() == "/login"){
+        $rootScope.logged = false;
+    }else{
+        $rootScope.logged = true;
+    }
 
 });
 
