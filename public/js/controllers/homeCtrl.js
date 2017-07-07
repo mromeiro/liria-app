@@ -1,7 +1,7 @@
 liriaApp.controller('homeController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils, $routeParams) {
 
     //Show menu
-    $("#page-wrapper").css("margin", "0 0 0 250px");
+    //$("#page-wrapper").css("margin", "0 0 0 250px");
 
     $scope.tab = 1;
 

@@ -69,7 +69,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 
 	$scope.loading = false;
 
-	//Updates the price field depending on the chosen treatment
+	/*Updates the price field depending on the chosen treatment
 	$scope.fillPrice = function() {
 
 		var tratamento_json = JSON.parse($scope.tratamentoData.tratamento);
@@ -81,7 +81,7 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
         $('#nro_parcelas').disabled = false;
         $('#nro_sessoes').disabled = false;
 
-	}
+	}*/
 
 	//Saves the new treatment
 	$scope.submitTreatment = function(){
@@ -173,6 +173,18 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
             $scope.showFirstPaymentDate = true;
 		else
             $scope.showFirstPaymentDate = false;
+	}
+
+	$scope.renderTreatment = function(tratamento){
+    	return tratamento.nome;
+	}
+
+	$scope.setPrice = function(tratamento){
+
+        var preco = $('#preco');
+        preco.val(tratamento.preco);
+        preco.trigger('input');
+
 	}
 
 });

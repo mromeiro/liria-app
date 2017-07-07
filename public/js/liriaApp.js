@@ -1,5 +1,5 @@
 // create the module and name it scotchApp
-var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop','ui.mask'/*,'vxWamp'*/]);
+var liriaApp = angular.module('liriaApp', ['ngRoute','ngFileUpload','ngImgCrop','ui.mask','autocomplete'/*,'vxWamp'*/]);
 
 // configure our routes
 liriaApp
@@ -83,8 +83,8 @@ liriaApp
 liriaApp.controller('mainController', function($rootScope, $scope, $location) {
 
     //Show menu
-    $("#page-wrapper").css("margin", "0 0 0 250px");
-
+    $("#page-wrapper").css("margin", "0 0 0 0px");
+    alert('test');
    if($location.path() == "/login"){
        $rootScope.logged = false;
    }else{
