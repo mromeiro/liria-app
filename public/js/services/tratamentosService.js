@@ -2,6 +2,8 @@ liriaApp.factory('Tratamentos', function($http, Utils) {
 
 	return {
 
+		scope: null,
+
 		get : function() {
 
 			return $http({
@@ -29,6 +31,7 @@ liriaApp.factory('Tratamentos', function($http, Utils) {
                 data: $.param(treatmentData)
             })
         }
+
 	}
 
 });

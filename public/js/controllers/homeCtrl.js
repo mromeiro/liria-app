@@ -4,6 +4,7 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
     //$("#page-wrapper").css("margin", "0 0 0 250px");
 
     $scope.tab = 1;
+    $scope.birthdaysFound = false;
 
     $rootScope.userName = window.localStorage.getItem('name');
 
@@ -26,5 +27,6 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
 
 		.success(function(data){
 			$scope.listaAniversariantes = data.result;
+			$scope.birthdaysFound = true;
 		})
 });

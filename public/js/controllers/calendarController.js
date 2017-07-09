@@ -1,4 +1,4 @@
-liriaApp.controller('calendarController', function($rootScope, $scope, $log, Login, $location, Calendar, Utils, Tratamentos) {
+liriaApp.controller('calendarController', function($rootScope, $scope, $log, Login, $location, Calendar, Utils, Tratamentos, Utils) {
 
     $rootScope.logged = true;
     $scope.logged = true;
@@ -57,9 +57,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                 $scope.warning = null;
                 $scope.isExistingEvent = true;
 
-                var field = $('#tratamento');
-                field.val(calEvent.title);
-                field.trigger('input');
+                Utils.setAutoCompleteSearchParam(calEvent.title);
 
                 field = $('#cliente');
                 field.val(calEvent.client);
@@ -271,6 +269,10 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             });
+    }
+
+    $scope.renderTreatment = function(tratamento){
+        return tratamento.nome;
     }
 
 });

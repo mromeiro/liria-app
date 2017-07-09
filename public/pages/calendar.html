@@ -26,12 +26,18 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <!--<div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Tratamento:</label>
                                                     <select class="form-control" name="nome" id="tratamento"  ng-model="entradaCalendario.tratamento" >
                                                         <option ng-repeat="option in dataTratamento.result" value="{{option.nome}}">{{option.nome}}</option>
                                                     </select>
+                                                </div>
+                                            </div>-->
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Tratamento:</label>
+                                                    <autocomplete id="tratamento" ng-model="entradaCalendario.tratamento" data="dataTratamento.result" attr-input-class="form-control" render="renderTreatment"></autocomplete>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">

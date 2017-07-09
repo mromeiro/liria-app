@@ -4,7 +4,6 @@ liriaApp.controller('tratamentosController', function($scope, $rootScope, $http,
 	$rootScope.logged = true;
 	$scope.logged = true;
 
-
 	$scope.loading = true;
 
 	$scope.sortType  = 'data_inicio'; // set the default sort type

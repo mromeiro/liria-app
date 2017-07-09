@@ -16,7 +16,9 @@ app.directive('autocomplete', function() {
       disableFilter: '=disableFilter',
       render: '=render',
     },
-    controller: ['$scope', function($scope){
+    controller: ['$scope', 'Utils', function($scope, Utils){
+
+      Utils.bindAutoCompleteScope($scope);
       // the index of the suggestions that's currently selected
       $scope.selectedIndex = -1;
 

@@ -31,8 +31,7 @@ class TreatmentsController extends Controller
         $clientTreament->alterado_por = $request->usuario;
 
         //Treatment data is received as a json inside the form data
-        $tratamento_json = json_decode($request->tratamento);
-        $clientTreament->nome = $tratamento_json->{'nome'};
+        $clientTreament->nome = $request->tratamento;
 
         $clientTreament->cliente_id = $request->clienteId;
         $clientTreament->preco = $request->preco;
