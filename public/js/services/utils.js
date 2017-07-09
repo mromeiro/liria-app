@@ -2,6 +2,8 @@ liriaApp.factory('Utils', function($http) {
 
 	return {
 
+	    scope : null,
+
         apiUrl : function(){
 
             return 'http://localhost:80/';
@@ -47,6 +49,16 @@ liriaApp.factory('Utils', function($http) {
             }else if(exportInfo == 'hour'){
                 return formattedHour;
             }
+        },
+
+        //Bind the scope from the auto complete app
+        bindAutoCompleteScope : function(scope){
+            this.scope = scope;
+        },
+
+        //Displays the search param in the input field of the auto complete
+        setAutoCompleteSearchParam : function(searchParam){
+            this.scope.searchParam = searchParam;
         }
 
 	}
