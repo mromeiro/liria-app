@@ -9,6 +9,8 @@ liriaApp.factory('Utils', function($http) {
             return 'http://localhost:80/';
         },
 
+        //input: DD/MM/YYYY HH:MI
+        //output: YYYY-MM-DD HH:MI:00
         formatDateToCalendar : function(date){
 
             //2017-06-04T15:20:00
@@ -23,6 +25,8 @@ liriaApp.factory('Utils', function($http) {
             return formattedDate;
         },
 
+        //input: YYYY-MM-DD
+        //output: DD/MM/YYYY
         formatCalendarToDate : function(date){
 
             var split = date.split("-");
@@ -33,6 +37,8 @@ liriaApp.factory('Utils', function($http) {
             return formattedDate;
         },
 
+        //input: YYYY-MM-DDTHH:MI:SS 
+        //output: DD/MM/YYYY HH:MI
         formatCalendarTimestampToDate : function(date, exportInfo){
 
             //2017-06-04T15:20:00

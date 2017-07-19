@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    public function scheduleReport(Request $request){
+
+    }
+
     public function monthlyBalanceReport(Request $request) {
 
         $confirmedPayments = DB::table('pagamentos')
