@@ -37,7 +37,7 @@ liriaApp.factory('Utils', function($http) {
             return formattedDate;
         },
 
-        //input: YYYY-MM-DDTHH:MI:SS 
+        //input: YYYY-MM-DDTHH:MI:SS
         //output: DD/MM/YYYY HH:MI
         formatCalendarTimestampToDate : function(date, exportInfo){
 

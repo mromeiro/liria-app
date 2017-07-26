@@ -59,6 +59,10 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
 
                 Utils.setAutoCompleteSearchParam(calEvent.title);
 
+                field = $('#tratamento');
+                field.val(calEvent.title);
+                field.trigger('input');
+
                 field = $('#cliente');
                 field.val(calEvent.client);
                 field.trigger('input');
