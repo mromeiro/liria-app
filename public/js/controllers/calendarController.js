@@ -240,12 +240,11 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
 
             $scope.entradaCalendario.usuario = window.localStorage.getItem('name');
             $scope.entradaCalendario.id = $scope.selectedEvent.id;
-            $scope.entradaCalendario.tratamento = $('#tratamento').val();
             Calendar.updateCalendarEvent($scope.entradaCalendario)
 
                 .success(function (data) {
 
-                    $scope.selectedEvent.title = $('#tratamento').val();
+                    $scope.selectedEvent.title = $scope.entradaCalendario.tratamento;
                     $scope.selectedEvent.start = Utils.formatDateToCalendar($('#dataIniEvento').val() + " " + $('#horaIniEvento').val());
                     $scope.selectedEvent.end = Utils.formatDateToCalendar($('#dataFimEvento').val() + " " + $('#horaFimEvento').val());
                     $scope.selectedEvent.allDay = false;
