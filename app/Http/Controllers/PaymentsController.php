@@ -113,6 +113,9 @@ class PaymentsController extends Controller
         $usedTax = 0;
         $paymentsList = array();
 
+        $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+        $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+
         //Recover the correct tax for the treatment
         $pieces = explode(" ", $request->forma_pagamento);
         if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
@@ -125,23 +128,18 @@ class PaymentsController extends Controller
             foreach ($cardTaxes as $cardTax) {
                 $usedTax = $cardTax->taxa;
             }
+
+            if($pieces[1] == 'Débito'){
+
+                $paymentForecastDate = $paymentForecastDate->addDays(5);
+
+            }else{
+
+                $paymentForecastDate = $paymentForecastDate->addDays(30);
+
+            }
         }
 
-        $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-        $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-        if($pieces[1] == 'Débito'){
-
-            $paymentForecastDate = $paymentForecastDate->addDays(5);
-
-        }else if($request->forma_pagamento == 'Cheque' || $request->forma_pagamento == 'Dinheiro' || $request->forma_pagamento == null){
-
-            //Keep payment date
-
-        }else{
-
-            $paymentForecastDate = $paymentForecastDate->addDays(30);
-
-        }
 
         $percentage = bcsub('1',strval($usedTax),4);
         $finalPrice = bcmul($request->valor_bruto,$percentage,2);
