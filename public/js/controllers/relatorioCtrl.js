@@ -6,6 +6,8 @@ liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $
     $rootScope.userName = window.localStorage.getItem('name');
     $rootScope.logged = true;
     $scope.relatorioPronto = false;
+    $scope.showPaymentsToConfirm = false;
+    $scope.showExpensesToConfirm = false;
 
     Login.checkLogin()
 
@@ -39,10 +41,14 @@ liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $
                     $scope.totalWithPaymentsToConfirm = parseFloat($scope.report.totalConfirmedPayments) + parseFloat($scope.report.totalPaymentsToConfirm)
                                                             - parseFloat($scope.report.totalExpenses);
 
-                    $scope.totalForecast = parseFloat($scope.report.totalConfirmedPayments) + parseFloat($scope.report.totalPaymentsToConfirm)
-                        + parseFloat($scope.report.totalTreatmentsNotConfirmed) - parseFloat($scope.report.totalExpenses);
+                    $scope.totalWithPaymentsToConfirmAndExpensesToConfirm = parseFloat($scope.report.totalConfirmedPayments) + parseFloat($scope.report.totalPaymentsToConfirm)
+                        - parseFloat($scope.report.totalExpenses) - parseFloat($scope.report.totalExpensesWaitingToConfirm);
 
-                    $scope.totalWithoutPaymentsToConfirm = parseFloat($scope.report.totalConfirmedPayments).toFixed(2) - parseFloat($scope.report.totalExpenses).toFixed(2);
+                    $scope.totalWithExpensesToConfirm = parseFloat($scope.report.totalConfirmedPayments) - parseFloat($scope.report.totalExpenses)
+                        - parseFloat($scope.report.totalExpensesWaitingToConfirm);
+
+                    $scope.total = parseFloat($scope.report.totalConfirmedPayments) - parseFloat($scope.report.totalExpenses);
+
                 }
             });
     }

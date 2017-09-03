@@ -114,9 +114,8 @@ class PaymentsController extends Controller
         $paymentsList = array();
 
         //Recover the correct tax for the treatment
+        $pieces = explode(" ", $request->forma_pagamento);
         if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
-
-            $pieces = explode(" ", $request->forma_pagamento);
 
             //Payment method has the format "<Carrier> <Payment Method>"
             $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
@@ -130,7 +129,7 @@ class PaymentsController extends Controller
 
         $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
         $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-        if($request->forma_pagamento == 'Débito'){
+        if($pieces[1] == 'Débito'){
 
             $paymentForecastDate = $paymentForecastDate->addDays(5);
 
