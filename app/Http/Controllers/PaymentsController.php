@@ -164,6 +164,7 @@ class PaymentsController extends Controller
 
             if($request->forma_pagamento == 'Dinheiro'){
                 $payment->data_pagamento_confirmado = $paymentDate;
+                $payment->pago = 'SIM';
             }
 
             if($x != 1){
@@ -239,6 +240,7 @@ class PaymentsController extends Controller
 
             if($request->forma_pagamento == 'Dinheiro'){
                 $payment->data_pagamento_confirmado = $paymentDate;
+                $payment->pago = 'SIM';
             }
 
             if($x != 1){
