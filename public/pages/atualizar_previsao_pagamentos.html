@@ -1,0 +1,203 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Atualizar Previsão de Entrada</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+
+<div class="row">
+    <div class="row col-lg-6">
+        <form role="form" ng-submit="searchPaymentsForecast()" >
+             <div class="col-lg-3" style="max-width: 150px">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select class="form-control" ng-model="searchString.mes">
+                            <option value="" disabled selected>Mês</option>
+                            <option value="01">Janeiro</option>
+                            <option value="02">Fevereiro</option>
+                            <option value="03">Março</option>
+                            <option value="04">Abril</option>
+                            <option value="05">Maio</option>
+                            <option value="06">Junho</option>
+                            <option value="07">Julho</option>
+                            <option value="08">Agosto</option>
+                            <option value="09">Setembro</option>
+                            <option value="10">Outubro</option>
+                            <option value="11">Novembro</option>
+                            <option value="12">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3" style="max-width: 100px">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="ano" name="ano" ng-model="searchString.ano" placeholder="Ano">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-primary" style="float: right">Buscar Entradas Previstas</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row " ng-show="paymentsFound">
+    <div class="col-lg-12" style="max-width: 900px">
+
+        <table id="table" class="table table-striped table-bordered table-hover dataTables-example">
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Cliente</th>
+                <th>Forma de Pagamento</th>
+                <th>Nro de Parcelas</th>
+                <th>Data do Pagamento</th>
+                <th>Valor total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="payment in payments track by $index">
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.descricao }}</td>
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.cliente}}</td>
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.forma_pagamento }}</td>
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.nro_parcelas}}</td>
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.data_pagamento_efetuado}} </td>
+                <td style="padding: 5px 5px; text-align: left; vertical-align: middle">{{ payment.valor_bruto}}</td>
+                <td>
+                    <button ng-click="showPayments(payment)" class="btn btn-primary" style="float: left">Atualizar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.panel -->
+</div>
+
+<div class="modal fade" id="myModalPaymentUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Entradas</h4>
+                </div>
+                <div class="modal-body col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12" style="max-width: 1100px">
+                            <form role="form">
+                                <div class="panel  panel-primary">
+                                    <div class="panel-heading">
+                                        Dados do pagamento
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Descricao:</label>
+                                                    <input class="form-control" id="descricao" name="descricao" ng-model="selectedPayment.descricao" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Cliente:</label>
+                                                    <input class="form-control" id="cliente" name="cliente" ng-model="selectedPayment.cliente">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Data do Pagamento:</label>
+                                                    <input class="form-control" id="data_pagamento" name="data_pagamento_efetuado" ng-model="selectedPayment.data_pagamento_efetuado" ui-mask="99/99/9999" model-view-value="true">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Forma de pagamento:</label>
+                                                    <select class="form-control" ng-model="selectedPayment.forma_pagamento" ng-change="evaluateFirstPaymentDate()">
+                                                        <option value="" selected></option>
+                                                        <option value="Cheque">Cheque</option>
+                                                        <option value="Dinheiro">Dinheiro</option>
+                                                        <option value="Visa Débito">Visa Débito</option>
+                                                        <option value="Visa Crédito">Visa Crédito</option>
+                                                        <option value="Mastercard Débito">Mastercard Débito</option>
+                                                        <option value="Mastercard Crédito">Mastercard Crédito</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Valor:</label>
+                                                    <input class="form-control" id="valor" name="valor" ng-model="selectedPayment.valor_bruto">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Numero de parcelas:</label>
+                                                    <input class="form-control" id="nro_pacelas" ng-disabled="!selectedPayment.forma_pagamento" name="nro_parcelas" ng-model="selectedPayment.nro_parcelas" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <button ng-click="updatePayments(selectedPayment)" class="btn btn-primary">Atualizar</button>
+                                                <button ng-click="removePayments(selectedPayment)" class="btn btn-primary">Remover</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.panel-body -->
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="max-width: 1100px">
+                            <table id="table2" class="table table-striped table-bordered table-hover dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>Parcela</th>
+                                    <th>Data Prevista</th>
+                                    <th>Valor da parcela</th>
+                                    <th>Valor total</th>
+                                    <th>Valor Após Taxa</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="padding: 5px 5px; text-align: left">{{ selectedPayment.nro_parcela}} de {{ selectedPayment.nro_parcelas}} </td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ selectedPayment.data_prevista}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ selectedPayment.valor_parcela}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ selectedPayment.valor_bruto}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ selectedPayment.valor_depois_taxa}}</td>
+                                </tr>
+                                <tr ng-repeat="payment in selectedPayment.remainingPayments track by $index">
+                                    <td style="padding: 5px 5px; text-align: left">{{ payment.nro_parcela}} de {{ payment.nro_parcelas}} </td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ payment.data_prevista}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ payment.valor_parcela}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ payment.valor_bruto}}</td>
+                                    <td style="padding: 5px 5px; text-align: left">{{ payment.valor_depois_taxa}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.panel -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

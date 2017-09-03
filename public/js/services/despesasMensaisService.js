@@ -45,6 +45,16 @@ liriaApp.factory('Expenses', function($http, Utils, Upload) {
                 });
             },
 
+            updateExpense: function(expenseData) {
+
+                return $http({
+                    method: 'POST',
+                    url: Utils.apiUrl() + 'api/expenses/update',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(expenseData)
+                });
+            },
+
             //Upload expense receipt
             submitExpenseReceipt: function(file) {
 
@@ -52,7 +62,18 @@ liriaApp.factory('Expenses', function($http, Utils, Upload) {
                     url: Utils.apiUrl() + 'api/expenses/receipt',
                     data: {file: file},
                 });
-            }
+            },
+
+            //Submit a new expense
+            searchExpenseForecast: function(expenseData) {
+
+                return $http({
+                    method: 'POST',
+                    url: Utils.apiUrl() + 'api/expenses/forecast/searchByDate',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(expenseData)
+                });
+            },
 
 		}
 

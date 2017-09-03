@@ -41,11 +41,7 @@ liriaApp
                 controller  : 'clientesController'
             })
             .when('/financeiro/pagamentos/mes', {
-                templateUrl : 'pages/registar_pagamento_mes.html',
-                controller  : 'pagamentosController'
-            })
-            .when('/financeiro/pagamentos/:clienteId', {
-                templateUrl : 'pages/registrar_pagamento.html',
+                templateUrl : 'pages/confirmar_pagamento_mes.html',
                 controller  : 'pagamentosController'
             })
             .when('/clientes/tratamentos/incluirFormaPagamento/:clienteId', {
@@ -53,7 +49,7 @@ liriaApp
                 controller  : 'tratamentosController'
             })
             .when('/financeiro/cadastro/despesas/mes', {
-                templateUrl : 'pages/cadastro_despesas_mensais.html',
+                templateUrl : 'pages/cadastro_despesas_recorrentes.html',
                 controller  : 'despesasMensaisController'
             })
             .when('/financeiro/despesas', {
@@ -71,6 +67,18 @@ liriaApp
             .when('/relatorios/fluxo', {
                 templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
                 controller  : 'relatorioController'
+            })
+            .when('/financeiro/pagamentos/registrar', {
+                templateUrl : 'pages/registrar_pagamento.html',
+                controller  : 'pagamentosController'
+            })
+            .when('/financeiro/pagamentos/previsao/atualizar', {
+                templateUrl : 'pages/atualizar_previsao_pagamentos.html',
+                controller  : 'pagamentosController'
+            })
+            .when('/financeiro/despesas/previsao/atualizar', {
+                templateUrl : 'pages/atualizar_previsao_despesas.html',
+                controller  : 'despesasController'
             })
     })
 

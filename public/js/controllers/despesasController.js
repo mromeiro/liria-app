@@ -3,10 +3,13 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
     $rootScope.logged = true;
     $scope.logged = true;
     $scope.expenseData = {};
+    $scope.expenses = [];
     $scope.photo = null;
     $scope.expenseDataList = [];
     $rootScope.userName = window.localStorage.getItem('name');
     $scope.recibo = 'Recibo';
+    $scope.expenseData.previsao = false;
+    $scope.expensesFound = false;
 
     //Button to upload a file
     ;( function ( document, window, index )
@@ -63,7 +66,7 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
     //Records expenses in the database
 	$scope.checkClosedInvoice = function(){
 
-        if($scope.expenseData.metodo_pagamento == 'Crédito'){
+	    if($scope.expenseData.metodo_pagamento == 'Crédito'){
             $('#myModalFaturaFechada').modal({
                 show: 'true'
             });
@@ -72,6 +75,18 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
         }
 
 	}
+
+    $scope.checkClosedInvoiceToUpdate = function(){
+
+        if($scope.selectedExpense.metodo_pagamento == 'Crédito'){
+            $('#myModalFaturaFechada').modal({
+                show: 'true'
+            });
+        }else{
+            $scope.updateExpense('false');
+        }
+
+    }
 
     $scope.submitExpense = function(fatura_fechada){
 
@@ -140,4 +155,145 @@ liriaApp.controller('despesasController', function($rootScope, $scope, $http, $l
             });
     }
 
+    $scope.searchExpenseForecast = function(){
+
+        $scope.expenses = [];
+
+        Expenses.searchExpenseForecast($scope.searchString)
+
+            .success(function(data) {
+
+                if(data.error){
+
+                    $rootScope.logged = false;
+                    $location.path('/login');
+
+                }else{
+
+                    for(i = 0; i < data.result.length ; i++){
+
+                        if(data.result[i].previsao == 'false')
+                            data.result[i].previsao = false;
+                        else if(data.result[i].previsao == 'true')
+                            data.result[i].previsao = true;
+
+                        $scope.expenses.push(data.result[i]);
+                    }
+
+                    $scope.expensesFound = true;
+                }
+            });
+    }
+
+    $scope.showExpenses = function(expense){
+
+        $scope.selectedExpense = expense;
+
+        if($scope.selectedExpense.previsao == 'false')
+            $scope.selectedExpense.previsao = false
+        else if($scope.selectedExpense.previsao == 'true')
+            $scope.selectedExpense.previsao = true;
+
+        $('#myModalExpenseUpdate').modal({
+            show: 'true'
+        });
+    }
+
+    $scope.updateExpense = function(fatura_fechada) {
+
+        var expense;
+        $scope.selectedExpense.usuario = $rootScope.userName;
+
+        $scope.selectedExpense.fatura_fechada = fatura_fechada;
+
+        if ($scope.photo == null) {
+
+            Expenses.updateExpense($scope.selectedExpense)
+
+                .success(function (data) {
+
+                    if (data.error) {
+
+                        $('#myModalExpenseUpdate').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        $rootScope.logged = false;
+                        $location.path('/login');
+
+                    } else {
+
+                        $scope.selectedExpense.data_despesa = data.result.data_despesa;
+                        $scope.selectedExpense.data_parcela = data.result.data_parcela;
+                        $scope.selectedExpense.descricao = data.result.descricao;
+                        $scope.selectedExpense.id = data.result.id;
+                        $scope.selectedExpense.metodo_pagamento = data.result.metodo_pagamento;
+                        $scope.selectedExpense.parcela = data.result.parcela;
+                        $scope.selectedExpense.remainingExpenses = data.result.remainingExpenses;
+                        $scope.selectedExpense.tipo = data.result.tipo;
+                        $scope.selectedExpense.total_parcelas = data.result.total_parcelas;
+                        $scope.selectedExpense.valor_parcela = data.result.valor_parcela;
+                        $scope.selectedExpense.valor_total = data.result.valor_total;
+
+                        if(data.result.previsao == 'false')
+                            $scope.selectedExpense.previsao = false
+                        else if(data.result.previsao == 'true')
+                            $scope.selectedExpense.previsao = true;
+
+                    }
+                });
+
+        } else {
+
+            Expenses.submitExpenseReceipt($scope.photo.picFile)
+
+                .success(function (data) {
+
+                    if (data.error) {
+                        $location.path('/login');
+                        $rootScope.logged = false;
+                        $scope.logged = false;
+                    }
+
+                    $scope.selectedExpense.recibo = data.result;
+                    Expenses.updateExpense($scope.selectedExpense)
+
+                        .success(function (data) {
+
+                            if (data.error) {
+
+                                $('#myModalExpenseUpdate').modal('hide');
+                                $('body').removeClass('modal-open');
+                                $('.modal-backdrop').remove();
+
+                                $rootScope.logged = false;
+                                $location.path('/login');
+
+                            } else {
+
+                                $scope.selectedExpense.data_despesa = data.result.data_despesa;
+                                $scope.selectedExpense.data_parcela = data.result.data_parcela;
+                                $scope.selectedExpense.descricao = data.result.descricao;
+                                $scope.selectedExpense.id = data.result.id;
+                                $scope.selectedExpense.metodo_pagamento = data.result.metodo_pagamento;
+                                $scope.selectedExpense.parcela = data.result.parcela;
+                                $scope.selectedExpense.remainingExpenses = data.result.remainingExpenses;
+                                $scope.selectedExpense.tipo = data.result.tipo;
+                                $scope.selectedExpense.total_parcelas = data.result.total_parcelas;
+                                $scope.selectedExpense.valor_parcela = data.result.valor_parcela;
+                                $scope.selectedExpense.valor_total = data.result.valor_total;
+
+                                if(data.result.previsao == 'false')
+                                    $scope.selectedExpense.previsao = false
+                                else if(data.result.previsao == 'true')
+                                    $scope.selectedExpense.previsao = true;
+                            }
+                        });
+
+                });
+        }
+
+    }
+
 });
+

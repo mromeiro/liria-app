@@ -34,14 +34,6 @@
                             <div class="panel-body">
                                 <div class="row">
 
-                                    <!--<div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Tratamento:</label>
-                                            <select class="form-control" name="nome" id="nome" ng-change="fillPrice()" ng-model="tratamentoData.tratamento" >
-                                                <option ng-repeat="option in dataTratamento.result" value="{{option}}">{{option.nome}}</option>
-                                            </select>
-                                        </div>
-                                    </div>-->
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Tratamento:</label>
@@ -54,7 +46,7 @@
                                             <input class="form-control" id="data_inicio" name="data_inicio" ng-model="tratamentoData.data_inicio" ui-mask="99/99/9999" model-view-value="true">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <!--<div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Preço:</label>
                                             <input class="form-control" id="preco" name="preco" ng-model="tratamentoData.preco">
@@ -85,19 +77,19 @@
                                             <label>Numero de parcelas:</label>
                                             <input class="form-control" id="nro_pacelas" ng-disabled="!tratamentoData.forma_pagamento" name="nro_parcelas" ng-model="tratamentoData.nro_parcelas" >
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Numero de sessões:</label>
-                                            <input class="form-control" id="nro_sessoes" name="nro_sessoes" ng-disabled="!tratamentoData.forma_pagamento" ng-model="tratamentoData.nro_sessoes" >
+                                            <input class="form-control" id="nro_sessoes" name="nro_sessoes" ng-model="tratamentoData.nro_sessoes" >
                                         </div>
                                     </div>
-                                    <div class="col-lg-3" ng-show="showFirstPaymentDate" >
+                                    <!--<div class="col-lg-3" ng-show="showFirstPaymentDate" >
                                         <div class="form-group">
                                             <label>Data da Primeira Parcela</label>
                                             <input class="form-control" id="data_primeira_parcela" name="data_primeira_parcela" ng-model="tratamentoData.data_primeira_parcela" ui-mask="99/99/9999" model-view-value="true">
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-lg-12">
                                             <button type="submit" class="btn btn-primary btn-lg">Incluir Tratamento</button>
                                     </div>
@@ -134,10 +126,6 @@
                                 <thead>
                                 <tr>
                                     <th>Nome</th>
-                                    <th>Preço</th>
-                                    <th>Desconto</th>
-                                    <th>Forma de Pagamento</th>
-                                    <th>Número de parcelas</th>
                                     <th>Número de sessões</th>
                                     <th>Data de início</th>
                                     <th>Data do cadastro</th>
@@ -146,10 +134,6 @@
                                 <tbody>
                                 <tr ng-repeat="treatment in cliente.treatments | orderBy:orderByField:reverseSort | filter:searchClient">
                                     <td>{{ treatment.nome }}</td>
-                                    <td>{{ treatment.preco}}</td>
-                                    <td>{{ treatment.desconto }}</td>
-                                    <td>{{ treatment.forma_pagamento}}</td>
-                                    <td>{{ treatment.nro_parcelas}}</td>
                                     <td>{{ treatment.nro_sessoes}}</td>
                                     <td>{{ treatment.data_inicio}}</td>
                                     <td>{{ treatment.created_at}}</td>

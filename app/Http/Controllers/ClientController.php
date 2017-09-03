@@ -82,7 +82,7 @@ class ClientController extends Controller
 
     public function getClient(Request $request){
 
-        $client = Clients::with('treatments.sessions','treatments.payments')->find($request->clientId);
+        $client = Clients::with('treatments')->find($request->clientId);
          return  response()->json(['result' => $client]);
     }
 

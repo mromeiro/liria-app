@@ -17,15 +17,8 @@ class ClientTreatments extends Migration
             $table->increments('id');
             $table->unsignedInteger('cliente_id');
             $table->string('nome');
-            $table->decimal('preco',7,2);
-            $table->decimal('preco_final',7,2)->nullable();
-            $table->string('forma_pagamento')->nullable();
-            $table->unsignedInteger('nro_parcelas')->nullable();
-            $table->decimal('taxa_cartao_utilizada',5,4)->nullable();
             $table->unsignedInteger('nro_sessoes')->nullable();
-            $table->decimal('desconto',7,2)->nullable();
             $table->date('data_inicio')->nullable();
-            $table->date('data_primeira_parcela')->nullable();
             $table->string('alterado_por')->nullable();
             $table->timestamps();
         });

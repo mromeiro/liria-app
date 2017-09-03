@@ -8,10 +8,10 @@
 
 <div class="row">
     <div class="col-lg-2" style="max-width: 160px">
-        <button class="btn btn-primary">Cadastrar Despesas</button>
+        <button class="btn btn-primary">Cadastrar Saídas</button>
     </div>
     <div class="col-lg-2">
-        <button class="btn btn-tab-unselected" ng-click="redirectToPage('/financeiro/despesas/consulta')">Consultar Despesas</button>
+        <button class="btn btn-tab-unselected" ng-click="redirectToPage('/financeiro/despesas/consulta')">Consultar Saídas</button>
     </div>
 </div>
 <hr>
@@ -21,7 +21,7 @@
         <form role="form" >
             <div class="panel  panel-primary">
                 <div class="panel-heading">
-                    Dados do tratamento
+                    Dados da despesa
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -40,7 +40,7 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Valor:</label>
-                                <input class="form-control" id="valor" name="valor" ng-model="expenseData.valor">
+                                <input class="form-control" id="valor_total" name="valor_total" ng-model="expenseData.valor_total">
                             </div>
                         </div>
                     </div>
@@ -73,6 +73,13 @@
                                 <input class="form-control" id="total_parcelas" name="total_parcelas" ng-disabled="!(expenseData.metodo_pagamento =='Crédito')" ng-model="expenseData.total_parcelas">
                             </div>
                         </div>
+                        <div class="col-lg-4" style="padding-top: 35px;">
+                            <input id="box1" type="checkbox" ng-model="expenseData.previsao"/>
+                            <label for="box1" style="font-size: 23px;">Previsão</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <input ngf-select ng-model="photo.picFile" type="file" name="file[]" id="file" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />

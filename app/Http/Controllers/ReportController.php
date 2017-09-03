@@ -17,20 +17,17 @@ class ReportController extends Controller
     public function monthlyBalanceReport(Request $request) {
 
         $confirmedPayments = DB::table('pagamentos')
-            ->join('tratamentos_cliente', 'pagamentos.tratamento_cliente_id', '=', 'tratamentos_cliente.id')
-            ->join('clientes', 'tratamentos_cliente.cliente_id', '=', 'clientes.id')
-            ->select(DB::raw('clientes.name as nome_cliente, tratamentos_cliente.nome as tratamento, DATE_FORMAT(pagamentos.data_pagamento,\'%d/%m/%Y\') as data_pagamento, 
-		                      pagamentos.valor_parcela, pagamentos.nro_parcela, tratamentos_cliente.nro_parcelas, DATE_FORMAT(pagamentos.data_prevista,\'%d/%m/%Y\') as data_prevista'))
-            ->whereRaw('month(pagamentos.data_pagamento) = ' . $request->mes . ' and year(pagamentos.data_pagamento) = ' . $request->ano .
-                        ' and tratamentos_cliente.forma_pagamento is not null')
+            ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(pagamentos.data_pagamento_confirmado,\'%d/%m/%Y\') as data_pagamento_confirmado, 
+		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
+		                      DATE_FORMAT(data_pagamento_efetuado,\' % d /%m /%Y\') as data_pagamento_efetuado'))
+            ->whereRaw('month(data_pagamento_confirmado) = ' . $request->mes . ' and year(data_pagamento_confirmado) = ' . $request->ano .
+                        ' and data_pagamento_confirmado is not null')
             ->get();
 
         $totalConfirmedPayments = DB::table('pagamentos')
-            ->join('tratamentos_cliente', 'pagamentos.tratamento_cliente_id', '=', 'tratamentos_cliente.id')
-            ->join('clientes', 'tratamentos_cliente.cliente_id', '=', 'clientes.id')
             ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_confirmed'))
-            ->whereRaw('month(pagamentos.data_pagamento) = ' . $request->mes . ' and year(pagamentos.data_pagamento) = ' . $request->ano .
-                ' and tratamentos_cliente.forma_pagamento is not null')
+            ->whereRaw('month(data_pagamento_confirmado) = ' . $request->mes . ' and year(data_pagamento_confirmado) = ' . $request->ano .
+                ' and data_pagamento_confirmado is not null')
             ->get();
 
         //Payments waiting confirmation does not have data_pagamento, only data_prevista

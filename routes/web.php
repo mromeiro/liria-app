@@ -55,10 +55,16 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('treatments/create/{clienteId}', 'TreatmentsController@createTreatmentForClient');
 
         //Create a treatment for a specific cliente along with its payments
+        Route::post('payments/updatePayment', 'PaymentsController@updatePayment');
         Route::post('payments/updatePaymentDate', 'PaymentsController@updatePaymentDate');
+
+        Route::post('payments/removePayment', 'PaymentsController@removePayment');
 
         //Search Payments by date
         Route::post('payments/searchByDate', 'PaymentsController@searchPaymentByDate');
+        Route::post('payments/forecast/searchByDate', 'PaymentsController@searchPaymentForecastByDate');
+
+        Route::post('payments/submit', 'PaymentsController@createPayments');
 
         Route::post('/logout', 'APIController@logout');
 
@@ -66,7 +72,9 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('/expenses/monthly/new', 'MonthlyExpensesController@create');
         Route::post('/expenses/receipt', 'ExpensesController@saveReceipt');
         Route::post('/expenses/new', 'ExpensesController@create');
+        Route::post('/expenses/update', 'ExpensesController@updateExpense');
         Route::post('/expenses/get','ExpensesController@getExpenses');
+        Route::post('/expenses/forecast/searchByDate','ExpensesController@searchExpenseForecastByDate');
 
         Route::post('/schedule/createEvent', 'ScheduleController@createEvent');
         Route::post('/schedule/updateEvent', 'ScheduleController@updateEvent');
