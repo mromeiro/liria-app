@@ -11,6 +11,9 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
     $rootScope.logged = true;
     $scope.logged = true;
 
+    var dateObj = new Date();
+    $scope.day = dateObj.getUTCDate();
+
     Login.checkLogin()
 
         .success(function (data) {

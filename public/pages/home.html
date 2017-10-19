@@ -14,12 +14,16 @@
         <div class="panel-body">
             <div ng-repeat="aniversariante in listaAniversariantes track by $index" class="row">
                 <div class="panel-body" style="padding: 5px">
+                    <div class="col-lg-1" ng-show="day==aniversariante.dia_mes">
+                        <img class="img-circle-birthday" src="images/party.png" alt="User Avatar">
+                    </div>
+                    <div class="col-lg-1" ng-show="day!=aniversariante.dia_mes"></div>
                     <div class="col-lg-2">
                         <div class="widget-user-image">
                             <img class="img-circle-birthday" src="images/clientes/{{aniversariante.foto}}" alt="User Avatar">
                         </div>
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-7">
                         <h5 class="widget-user-username">{{aniversariante.name}} {{aniversariante.sobrenome}}</h5>
                     </div>
                     <div class="col-lg-1">
