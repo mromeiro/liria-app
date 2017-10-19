@@ -113,7 +113,7 @@ class ClientController extends Controller
 
     public function getBirthdaysClient(Request $request){
 
-        $clients = DB::table('clientes')
+        $clients = DB::table('clientes') //
             ->select(DB::raw('name, sobrenome, foto, DATE_FORMAT(data_nascimento,\'%d/%m\') as dia_aniversario'))
             ->whereRaw('month(data_nascimento) = ' . $request->mes)
             ->orderByRaw('day(data_nascimento)', 'asc')
