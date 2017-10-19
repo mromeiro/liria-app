@@ -116,7 +116,7 @@ class ClientController extends Controller
         $clients = DB::table('clientes')
             ->select(DB::raw('name, sobrenome, foto, DATE_FORMAT(data_nascimento,\'%d/%m\') as dia_aniversario'))
             ->whereRaw('month(data_nascimento) = ' . $request->mes)
-            ->orderBy('data_nascimento', 'asc')
+            ->orderByRaw('day(data_nascimento)', 'asc')
             ->get();
 
         return response()->json(['result' => $clients]);
