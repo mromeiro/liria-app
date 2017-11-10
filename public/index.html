@@ -6,6 +6,7 @@
 <head>
 
     <meta charset="UTF-8">
+    <base href="/">
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
@@ -55,6 +56,7 @@
     <script src="js/controllers/homeCtrl.js"></script>
     <script src="js/services/relatorioService.js"></script>
     <script src="js/controllers/relatorioCtrl.js"></script>
+    <script src="js/controllers/sumupCtrl.js"></script>
 
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/metisMenu/metisMenu.min.js"></script>
@@ -148,6 +150,12 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#/relatorios/fluxo">Fluxo de caixa</a>
+                        </li>
+                        <li>
+                            <a href="#/relatorios/atendimentos">Atendimentos</a>
+                        </li>
+                        <li>
+                            <a ng-href="#/relatorios/conciliacao">Conciliacao</a>
                         </li>
                     </ul>
                 </li>

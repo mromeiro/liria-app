@@ -4,13 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use App\Expenses;
+use App\Utils\Constants;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class ReportController extends Controller
 {
     public function scheduleReport(Request $request){
+
+    }
+
+    public function conciliationReport(Request $request){
+
+        $configList = ConfigController::getConfigForController();
+        $sumupToken = SumupController::getSumupToken($configList);
+
+        //Get the transaction history for conciliation
+        $client = new Client();
+        $result = $client->get($configList[Constants::$SUMUP_TRANSACTION_HISTORY_API], [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sumupToken,
+            ]
+        ]);
+
+        $SumupData = json_decode($result->getBody());
 
     }
 

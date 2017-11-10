@@ -2,6 +2,9 @@ liriaApp.controller('clientesController', function($rootScope, $scope, $http, Cl
 
     //$wamp.open();
     $rootScope.userName = window.localStorage.getItem('name');
+    $rootScope.client_id = window.localStorage.getItem('client_id');
+    $rootScope.client_secret = window.localStorage.getItem('client_secret');
+    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
     $scope.clientData = {};
 
     $rootScope.logged = true;

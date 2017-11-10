@@ -68,6 +68,14 @@ liriaApp
                 templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
                 controller  : 'relatorioController'
             })
+            .when('/relatorios/conciliacao', {
+                templateUrl : 'pages/relatorio_conciliacao.html',
+                controller  : 'sumupController'
+            })
+            .when('/relatorios/atendimentos', {
+                templateUrl : 'pages/relatorio_atendimentos.html',
+                controller  : 'relatorioController'
+            })
             .when('/financeiro/pagamentos/registrar', {
                 templateUrl : 'pages/registrar_pagamento.html',
                 controller  : 'pagamentosController'
@@ -79,7 +87,8 @@ liriaApp
             .when('/financeiro/despesas/previsao/atualizar', {
                 templateUrl : 'pages/atualizar_previsao_despesas.html',
                 controller  : 'despesasController'
-            })
+            });
+
     })
 
     .config(['$httpProvider', function($httpProvider) {

@@ -9,6 +9,27 @@ liriaApp.factory('Utils', function($http) {
             return 'http://localhost:80/';
         },
 
+        getAppConfig : function(scope){
+
+            return $http({
+                method: 'GET',
+                url: 'api/config',
+                headers: { 'Content-Type' : 'application/x-www-form-urlencoded' }
+            })
+
+        },
+
+
+        getConfig : function(config, configName){
+
+            for(var i = 0; i < config.length ; i++){
+                if(config[i].nome = configName)
+                    return config[i].valor
+            }
+
+            return null;
+        },
+
         //input: DD/MM/YYYY HH:MI
         //output: YYYY-MM-DD HH:MI:00
         formatDateToCalendar : function(date){

@@ -1,4 +1,4 @@
-liriaApp.controller('loginController', function($rootScope, $scope, $http, Login, $location) {
+liriaApp.controller('loginController', function($rootScope, $scope, $http, Login, $location, Utils) {
 
 	//Hide menu
     $("#page-wrapper").css("margin", "0 0 0 0px");
@@ -29,6 +29,13 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
                     window.localStorage.setItem('name',data.result.name);
                     window.localStorage.setItem('role',data.result.role);
 					$location.path('/home');
+
+					$scope.config = null;
+                    Utils.getAppConfig($scope)
+
+                        .success(function(data){
+
+                        })
 
 					//Once the client is connected it subscribes to the publisher for warnings
                     /*var socket = io.connect('http://localhost:8890');

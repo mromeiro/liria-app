@@ -5,6 +5,8 @@
 
     RewriteEngine On
 
+    Redirect /relatorios/consolidacao /#/relatorios/consolidacao
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
@@ -14,4 +16,5 @@
     RewriteRule ^ index.php [L]
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
 </IfModule>

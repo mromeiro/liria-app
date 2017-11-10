@@ -1,4 +1,4 @@
-liriaApp.controller('homeController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils, $routeParams) {
+liriaApp.controller('homeController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils) {
 
     //Show menu
     //$("#page-wrapper").css("margin", "0 0 0 250px");
@@ -32,4 +32,5 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
 			$scope.listaAniversariantes = data.result;
 			$scope.birthdaysFound = true;
 		})
+
 });

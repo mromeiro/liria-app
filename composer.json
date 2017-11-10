@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "tymon/jwt-auth": "^0.5.9",
         "askedio/laravel-ratchet": "^0.6.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -85,6 +85,9 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('/clients/search/birthdays','ClientController@getBirthdaysClient');
 
         Route::post('/reports/monthlyBalance','ReportController@monthlyBalanceReport');
+        Route::post('/reports/conciliation','ReportController@conciliationReport');
+
+        Route::get('/config','ConfigController@getConfigs');
     });
 
 
