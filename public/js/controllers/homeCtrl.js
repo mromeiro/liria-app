@@ -35,7 +35,7 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
 
 		.success(function(data){
 			$scope.listaAniversariantes = data.result;
-			$scope.birthdaysFound = true;//
+			$scope.birthdaysFound = true;////
 		})
 
 });
