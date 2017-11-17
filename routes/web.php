@@ -88,6 +88,7 @@ Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
         Route::post('/reports/conciliation','ReportController@conciliationReport');
 
         Route::get('/config','ConfigController@getConfigs');
+        Route::POST('/sumup/authorize','SumupController@authorization');
     });
 
 

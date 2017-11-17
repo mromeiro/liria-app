@@ -1,4 +1,4 @@
-liriaApp.controller('homeController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils) {
+liriaApp.controller('homeController', function($rootScope, $scope, $http, Clients, $location, Upload, Login, Utils, Sumup, $routeParams) {
 
     //Show menu
     //$("#page-wrapper").css("margin", "0 0 0 250px");
@@ -22,6 +22,11 @@ liriaApp.controller('homeController', function($rootScope, $scope, $http, Client
                 $location.path('/login');
             }
         });
+
+    if ($routeParams.code != null) {
+        Sumup.authorizeSumup($routeParams.code, window.localStorage.getItem('config'))
+        $location.url($location.path());
+    }
 
     var date = new Date();
     $scope.searchString = new Object();

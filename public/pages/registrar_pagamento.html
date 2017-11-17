@@ -36,32 +36,38 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Forma de pagamento:</label>
-                                <select class="form-control" ng-model="dadosPagamento.forma_pagamento" ng-change="evaluateFirstPaymentDate()">
+                                <select class="form-control" ng-model="dadosPagamento.forma_pagamento">
                                     <option value="" selected></option>
                                     <option value="Cheque">Cheque</option>
                                     <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Visa Débito">Visa Débito</option>
-                                    <option value="Visa Crédito">Visa Crédito</option>
-                                    <option value="Mastercard Débito">Mastercard Débito</option>
-                                    <option value="Mastercard Crédito">Mastercard Crédito</option>
+                                    <option value="Cartão">Cartão</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label>Valor:</label>
-                                <input class="form-control" id="valor_bruto" name="valor_bruto" ng-model="dadosPagamento.valor_bruto">
+                                <label>ID da Transação:</label>
+                                <input ng-disabled="dadosPagamento.forma_pagamento!='Cartão'" class="form-control" id="id_transacao" name="id_transacao" ng-model="dadosPagamento.id_transacao">
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
+                                <label>Valor:</label>
+                                <input ng-disabled="dadosPagamento.forma_pagamento=='Cartão'" class="form-control" id="valor_bruto" name="valor_bruto" ng-model="dadosPagamento.valor_bruto">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
                                 <label>Numero de parcelas:</label>
-                                <input class="form-control" id="nro_pacelas" ng-disabled="!dadosPagamento.forma_pagamento" name="nro_parcelas" ng-model="dadosPagamento.nro_parcelas" >
+                                <input class="form-control" id="nro_pacelas" ng-disabled="dadosPagamento.forma_pagamento=='Cartão'" name="nro_parcelas" ng-model="dadosPagamento.nro_parcelas" >
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-9">
                             <button type="submit" class="btn btn-primary">Incluir Pagamento</button>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
 
     RewriteEngine On
 
-    Redirect /relatorios/consolidacao /#/relatorios/consolidacao
+    Redirect /home /#/home
 
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]

@@ -35,6 +35,19 @@ liriaApp.controller('loginController', function($rootScope, $scope, $http, Login
 
                         .success(function(data){
 
+                            window.localStorage.setItem('config',data.result);
+
+                            //Checks if sumup was already authorized for the application
+                        	if(data.result.refresh_token == null){
+
+                                window.location = 'https://api.sumup.com/authorize?' +
+								'scope=transactions.history' +
+								'&response_type=code' +
+								'&client_id=' + data.result.client_id +
+								'&client_secret=' + data.result.client_secret +
+								'&redirect_uri=' + data.result.redirect_uri;
+
+							}
                         })
 
 					//Once the client is connected it subscribes to the publisher for warnings

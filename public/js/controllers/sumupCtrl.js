@@ -1,12 +1,9 @@
 /**
  * Created by root on 12/02/17.
  */
-liriaApp.controller('sumupController', function($rootScope, $scope, $http, $location, Login, Relatorio, $routeParams) {
+liriaApp.controller('sumupController', function($rootScope, $scope, $http, $location, Login, Relatorio, $routeParams, Sumup) {
 
     $rootScope.userName = window.localStorage.getItem('name');
-    $rootScope.client_id = window.localStorage.getItem('client_id');
-    $rootScope.client_secret = window.localStorage.getItem('client_secret');
-    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
 
     $rootScope.logged = true;
     $scope.relatorioPronto = false;
@@ -23,6 +20,11 @@ liriaApp.controller('sumupController', function($rootScope, $scope, $http, $loca
                 $scope.logged = false;
             }
         });
+
+    $scope.authorizeSumup = function(code, config){
+
+        Sumup.authorizeSumup(code, config)
+    }
 
     $scope.generateConciliationReport = function(){
 

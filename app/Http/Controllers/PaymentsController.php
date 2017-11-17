@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\CardTax;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class PaymentsController extends Controller
 {
@@ -108,20 +110,20 @@ class PaymentsController extends Controller
 
     }
 
-    public function createPayments(Request $request){
+    public function createPaymentsSumup(Request $request){
 
-        $usedTax = 0;
-        $paymentsList = array();
+        $configList = ConfigController::getConfigForController();
+        $transaction = SumupController::getTransactionDetails($configList, $request->id_transacao);
 
         $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
         $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
 
         //Recover the correct tax for the treatment
         $pieces = explode(" ", $request->forma_pagamento);
-        if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
+        /*if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
 
             //Payment method has the format "<Carrier> <Payment Method>"
-            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
+            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and
                            bandeira = ? and forma_pagamento = ?',
                 [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
 
@@ -142,8 +144,8 @@ class PaymentsController extends Controller
 
 
         $percentage = bcsub('1',strval($usedTax),4);
-        $finalPrice = bcmul($request->valor_bruto,$percentage,2);
-        $paymentAmount = bcdiv($finalPrice, $request->nro_parcelas,2);
+        $finalPrice = bcmul($request->valor_bruto,$percentage,2);*/
+        $paymentAmount = bcdiv($request->valor_bruto, $request->nro_parcelas,2);
 
         $originalPayment = 0;
         for ($x = 1; $x <= $request->nro_parcelas; $x++){
@@ -155,12 +157,12 @@ class PaymentsController extends Controller
             $payment->descricao = $request->descricao;
             $payment->valor_parcela = $paymentAmount;
             $payment->valor_bruto = $request->valor_bruto;
-            $payment->valor_depois_taxa = $finalPrice;
+            $payment->valor_depois_taxa = $paymentAmount;
             $payment->forma_pagamento = $request->forma_pagamento;
             $payment->nro_parcelas = $request->nro_parcelas;
             $payment->alterado_por = $request->usuario;
             $payment->cliente = $request->cliente;
-            $payment->taxa_cartao_utilizada = $usedTax;
+            $payment->taxa_cartao_utilizada = '0';
 
             if($request->forma_pagamento == 'Dinheiro'){
                 $payment->data_pagamento_confirmado = $paymentDate;
@@ -179,6 +181,88 @@ class PaymentsController extends Controller
 
             $paymentsList[] = $payment;
             $paymentForecastDate->addDays(30);
+        }
+    }
+
+    public function createPayments(Request $request){
+
+        $usedTax = 0;
+        $paymentsList = array();
+
+        if($request->forma_pagamento == 'Cartão'){
+
+            $paymentsList = $this->createPaymentsSumup($request);
+
+        }else{
+
+            $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+            $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+
+            //Recover the correct tax for the treatment
+            $pieces = explode(" ", $request->forma_pagamento);
+            /*if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
+
+                //Payment method has the format "<Carrier> <Payment Method>"
+                $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and
+                               bandeira = ? and forma_pagamento = ?',
+                    [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
+
+                foreach ($cardTaxes as $cardTax) {
+                    $usedTax = $cardTax->taxa;
+                }
+
+                if($pieces[1] == 'Débito'){
+
+                    $paymentForecastDate = $paymentForecastDate->addDays(5);
+
+                }else{
+
+                    $paymentForecastDate = $paymentForecastDate->addDays(30);
+
+                }
+            }
+
+
+            $percentage = bcsub('1',strval($usedTax),4);
+            $finalPrice = bcmul($request->valor_bruto,$percentage,2);*/
+            $paymentAmount = bcdiv($request->valor_bruto, $request->nro_parcelas,2);
+
+            $originalPayment = 0;
+            for ($x = 1; $x <= $request->nro_parcelas; $x++){
+
+                $payment = new Payments();
+                $payment->nro_parcela = $x;
+                $payment->data_prevista = $paymentForecastDate;
+                $payment->data_pagamento_efetuado = $paymentDate;
+                $payment->descricao = $request->descricao;
+                $payment->valor_parcela = $paymentAmount;
+                $payment->valor_bruto = $request->valor_bruto;
+                $payment->valor_depois_taxa = $paymentAmount;
+                $payment->forma_pagamento = $request->forma_pagamento;
+                $payment->nro_parcelas = $request->nro_parcelas;
+                $payment->alterado_por = $request->usuario;
+                $payment->cliente = $request->cliente;
+                $payment->taxa_cartao_utilizada = '0';
+
+                if($request->forma_pagamento == 'Dinheiro'){
+                    $payment->data_pagamento_confirmado = $paymentDate;
+                    $payment->pago = 'SIM';
+                }
+
+                if($x != 1){
+                    $payment->id_pagamento_original = $originalPayment;
+                }
+
+                $payment->save();
+
+                if($x == 1){
+                    $originalPayment = $payment->id;
+                }
+
+                $paymentsList[] = $payment;
+                $paymentForecastDate->addDays(30);
+            }
+
         }
 
         return response()->json(['result' => $paymentsList]);

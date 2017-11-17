@@ -24,7 +24,7 @@ class ReportController extends Controller
 
         //Get the transaction history for conciliation
         $client = new Client();
-        $result = $client->get($configList[Constants::$SUMUP_TRANSACTION_HISTORY_API], [
+        $result = $client->get($configList[Constants::$SUMUP_TRANSACTION_HISTORY_API_CONFIG], [
             'headers' => [
                 'Authorization' => 'Bearer ' . $sumupToken,
             ]
