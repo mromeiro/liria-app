@@ -35,7 +35,9 @@ class PaymentsController extends Controller
 
         $updatedPayment = new Payments();
         $remainingPayments = array();
+
         $paymentList = $this->recreatePayments($request);
+
         $isFirst = true;
         foreach ($paymentList as $payment){
 
@@ -112,64 +114,28 @@ class PaymentsController extends Controller
 
     public function createPaymentsSumup(Request $request){
 
+        $paymentsList = array();
         $configList = ConfigController::getConfigForController();
         $transaction = SumupController::getTransactionDetails($configList, $request->id_transacao);
 
-        $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-        $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-
-        //Recover the correct tax for the treatment
-        $pieces = explode(" ", $request->forma_pagamento);
-        /*if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
-
-            //Payment method has the format "<Carrier> <Payment Method>"
-            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and
-                           bandeira = ? and forma_pagamento = ?',
-                [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
-
-            foreach ($cardTaxes as $cardTax) {
-                $usedTax = $cardTax->taxa;
-            }
-
-            if($pieces[1] == 'Débito'){
-
-                $paymentForecastDate = $paymentForecastDate->addDays(5);
-
-            }else{
-
-                $paymentForecastDate = $paymentForecastDate->addDays(30);
-
-            }
-        }
-
-
-        $percentage = bcsub('1',strval($usedTax),4);
-        $finalPrice = bcmul($request->valor_bruto,$percentage,2);*/
-        $paymentAmount = bcdiv($request->valor_bruto, $request->nro_parcelas,2);
-
         $originalPayment = 0;
-        for ($x = 1; $x <= $request->nro_parcelas; $x++){
+        for ($x = 0; $x < $transaction->installments_count; $x++){
 
             $payment = new Payments();
-            $payment->nro_parcela = $x;
-            $payment->data_prevista = $paymentForecastDate;
-            $payment->data_pagamento_efetuado = $paymentDate;
+            $payment->id_transacao = $transaction->transaction_code;
+            $payment->nro_parcela = $transaction->events[$x]->installment_number;
+            $payment->data_prevista = Carbon::createFromFormat('Y-m-d', $transaction->transaction_events[$x]->due_date);
+            $payment->data_pagamento_efetuado = Carbon::createFromFormat('Y-m-d', $transaction->timestamp);
             $payment->descricao = $request->descricao;
-            $payment->valor_parcela = $paymentAmount;
-            $payment->valor_bruto = $request->valor_bruto;
-            $payment->valor_depois_taxa = $paymentAmount;
+            $payment->valor_parcela = bcadd($transaction->events[$x]->amount, $transaction->events[$x]->fee_amount);
+            $payment->valor_bruto = $transaction->amount;
+            $payment->valor_depois_taxa = $transaction->events[$x]->amount;
             $payment->forma_pagamento = $request->forma_pagamento;
-            $payment->nro_parcelas = $request->nro_parcelas;
+            $payment->nro_parcelas = $transaction->installments_count;
             $payment->alterado_por = $request->usuario;
             $payment->cliente = $request->cliente;
-            $payment->taxa_cartao_utilizada = '0';
 
-            if($request->forma_pagamento == 'Dinheiro'){
-                $payment->data_pagamento_confirmado = $paymentDate;
-                $payment->pago = 'SIM';
-            }
-
-            if($x != 1){
+            if($x != 0){
                 $payment->id_pagamento_original = $originalPayment;
             }
 
@@ -180,13 +146,13 @@ class PaymentsController extends Controller
             }
 
             $paymentsList[] = $payment;
-            $paymentForecastDate->addDays(30);
         }
+
+        return $paymentsList;
     }
 
     public function createPayments(Request $request){
 
-        $usedTax = 0;
         $paymentsList = array();
 
         if($request->forma_pagamento == 'Cartão'){
@@ -199,32 +165,32 @@ class PaymentsController extends Controller
             $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
 
             //Recover the correct tax for the treatment
-            $pieces = explode(" ", $request->forma_pagamento);
-            /*if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
+            /* $pieces = explode(" ", $request->forma_pagamento);
+             if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
 
-                //Payment method has the format "<Carrier> <Payment Method>"
-                $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and
-                               bandeira = ? and forma_pagamento = ?',
-                    [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
+                 //Payment method has the format "<Carrier> <Payment Method>"
+                 $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and
+                                bandeira = ? and forma_pagamento = ?',
+                     [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
 
-                foreach ($cardTaxes as $cardTax) {
-                    $usedTax = $cardTax->taxa;
-                }
+                 foreach ($cardTaxes as $cardTax) {
+                     $usedTax = $cardTax->taxa;
+                 }
 
-                if($pieces[1] == 'Débito'){
+                 if($pieces[1] == 'Débito'){
 
-                    $paymentForecastDate = $paymentForecastDate->addDays(5);
+                     $paymentForecastDate = $paymentForecastDate->addDays(5);
 
-                }else{
+                 }else{
 
-                    $paymentForecastDate = $paymentForecastDate->addDays(30);
+                     $paymentForecastDate = $paymentForecastDate->addDays(30);
 
-                }
-            }
+                 }
+             }
 
 
-            $percentage = bcsub('1',strval($usedTax),4);
-            $finalPrice = bcmul($request->valor_bruto,$percentage,2);*/
+             $percentage = bcsub('1',strval($usedTax),4);
+             $finalPrice = bcmul($request->valor_bruto,$percentage,2);*/
             $paymentAmount = bcdiv($request->valor_bruto, $request->nro_parcelas,2);
 
             $originalPayment = 0;
@@ -268,81 +234,81 @@ class PaymentsController extends Controller
         return response()->json(['result' => $paymentsList]);
     }
 
-    private function recreatePayments(Request $request){
+    public function recreatePayments(Request $request){
 
-        $usedTax = 0;
         $paymentsList = array();
 
-        $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
-        $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+        if($request->forma_pagamento == 'Cartão'){
 
-        //Recover the correct tax for the treatment
-        $pieces = explode(" ", $request->forma_pagamento);
-        if ($request->forma_pagamento != "Dinheiro" && $request->forma_pagamento != "Cheque" && $request->forma_pagamento != null) {
+            $paymentsList = $this->createPaymentsSumup($request);
 
-            //Payment method has the format "<Carrier> <Payment Method>"
-            $cardTaxes = CardTax::whereRaw('nro_parcelas_inicio <= ? and nro_parcelas_fim >= ? and 
-                           bandeira = ? and forma_pagamento = ?',
-                [$request->nro_parcelas, $request->nro_parcelas, $pieces[0], $pieces[1]])->get();
+        }else{
 
-            foreach ($cardTaxes as $cardTax) {
-                $usedTax = $cardTax->taxa;
+            $paymentForecastDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+            $paymentDate = Carbon::createFromFormat('d/m/Y', $request->data_pagamento_efetuado);
+
+            $paymentAmount = bcdiv($request->valor_bruto, $request->nro_parcelas,2);
+
+            $originalPayment = 0;
+            for ($x = 1; $x <= $request->nro_parcelas; $x++){
+
+                $payment = new Payments();
+                $payment->nro_parcela = $x;
+                $payment->data_prevista = $paymentForecastDate;
+                $payment->data_pagamento_efetuado = $paymentDate;
+                $payment->descricao = $request->descricao;
+                $payment->valor_parcela = $paymentAmount;
+                $payment->valor_bruto = $request->valor_bruto;
+                $payment->valor_depois_taxa = $paymentAmount;
+                $payment->forma_pagamento = $request->forma_pagamento;
+                $payment->nro_parcelas = $request->nro_parcelas;
+                $payment->alterado_por = $request->usuario;
+                $payment->cliente = $request->cliente;
+                $payment->taxa_cartao_utilizada = '0';
+
+                if($request->forma_pagamento == 'Dinheiro'){
+                    $payment->data_pagamento_confirmado = $paymentDate;
+                    $payment->pago = 'SIM';
+                }
+
+                if($x != 1){
+                    $payment->id_pagamento_original = $originalPayment;
+                }
+
+                $payment->save();
+
+                if($x == 1){
+                    $originalPayment = $payment->id;
+                }
+
+                $paymentsList[] = $payment;
+                $paymentForecastDate->addDays(30);
             }
 
-            if($pieces[1] == 'Débito'){
-
-                $paymentForecastDate = $paymentForecastDate->addDays(5);
-
-            }else{
-
-                $paymentForecastDate = $paymentForecastDate->addDays(30);
-
-            }
         }
-
-
-        $percentage = bcsub('1',strval($usedTax),4);
-        $finalPrice = bcmul($request->valor_bruto,$percentage,2);
-        $paymentAmount = bcdiv($finalPrice, $request->nro_parcelas,2);
-
-        $originalPayment = 0;
-        for ($x = 1; $x <= $request->nro_parcelas; $x++){
-
-            $payment = new Payments();
-            $payment->nro_parcela = $x;
-            $payment->data_prevista = $paymentForecastDate;
-            $payment->data_pagamento_efetuado = $paymentDate;
-            $payment->descricao = $request->descricao;
-            $payment->valor_parcela = $paymentAmount;
-            $payment->valor_bruto = $request->valor_bruto;
-            $payment->valor_depois_taxa = $finalPrice;
-            $payment->forma_pagamento = $request->forma_pagamento;
-            $payment->nro_parcelas = $request->nro_parcelas;
-            $payment->alterado_por = $request->usuario;
-            $payment->cliente = $request->cliente;
-            $payment->taxa_cartao_utilizada = $usedTax;
-
-            if($request->forma_pagamento == 'Dinheiro'){
-                $payment->data_pagamento_confirmado = $paymentDate;
-                $payment->pago = 'SIM';
-            }
-
-            if($x != 1){
-                $payment->id_pagamento_original = $originalPayment;
-            }
-
-            $payment->save();
-
-            if($x == 1){
-                $originalPayment = $payment->id;
-            }
-
-            $paymentsList[] = $payment;
-            $paymentForecastDate->addDays(30);
-        }
-
 
         return $paymentsList;
     }
 
+    // URL: /finances/conciliation
+    public function conciliation(Request $request){
+
+        $configList = ConfigController::getConfigForController();
+        $pagamentos = DB::table('pagamentos')
+            ->whereRaw('month(data_prevista) = ' . $request->mes
+                . ' and year(data_prevista) = ' . $request->ano)->get();
+
+        foreach ($pagamentos as $pagamento) {
+
+            $transaction = SumupController::getTransactionDetails($configList,$pagamento->id_transacao);
+
+            foreach ($transaction->transaction_events as $parcela){
+
+                if($parcela->installment_number == $pagamento->nro_parcela && $parcela->status == 'PAID_OUT'){
+                    $pagamento->data_pagamento_confirmado = Carbon::createFromFormat('Y-m-d', $parcela->date);
+                    $pagamento->save();
+                }
+            }
+        }
+    }
 }

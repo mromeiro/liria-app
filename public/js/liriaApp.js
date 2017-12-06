@@ -68,7 +68,7 @@ liriaApp
                 templateUrl : 'pages/relatorio_fluxo_de_caixa.html',
                 controller  : 'relatorioController'
             })
-            .when('/relatorios/conciliacao', {
+            .when('/financeiro/conciliacao', {
                 templateUrl : 'pages/relatorio_conciliacao.html',
                 controller  : 'sumupController'
             })

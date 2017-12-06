@@ -32,7 +32,7 @@ liriaApp.factory('Relatorio', function($http, Utils) {
 
             return $http({
                 method: 'POST',
-                url: 'api/reports/conciliation',
+                url: 'api/finances/conciliation',
                 headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                 data: $.param(searchString)
             });

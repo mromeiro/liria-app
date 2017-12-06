@@ -48,6 +48,12 @@ class SumupController extends Controller
             ]
         ]);
 
+        /*{
+            "access_token":"ACCESS_TOKEN",
+            "token_type":"Bearer",
+            "expires_in":3600
+            "scope":"REQUEST_SCOPES"
+        }*/
         $json_response = json_decode($result->getBody());
 
         return $json_response->access_token;
@@ -56,8 +62,6 @@ class SumupController extends Controller
     static function getTransactionDetails($configList, $transaction_id){
 
         $token = SumupController::getToken($configList);
-
-        dd($token);
 
         $client = new Client();
         $result = $client->post($configList[Constants::$SUMUP_TRANSACTION_HISTORY_DETAIL_API_CONFIG] . '?transaction_code=' . $transaction_id, [

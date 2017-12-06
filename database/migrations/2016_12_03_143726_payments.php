@@ -30,6 +30,7 @@ class Payments extends Migration
             $table->string('forma_pagamento')->nullable();
             $table->unsignedInteger('nro_parcelas')->nullable();
             $table->decimal('taxa_cartao_utilizada',5,4)->nullable();
+            $table->string('id_transacao')->nullable();
         });
     }
 
