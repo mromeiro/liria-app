@@ -153,9 +153,9 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
             });
     }
 
-    $scope.searchPayments = function(){
+    $scope.searchCheckPayments = function(){
 
-        Pagamentos.searchPayments($scope.searchString)
+        Pagamentos.searchCheckPayments($scope.searchString)
 
             .success(function(data) {
 

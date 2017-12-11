@@ -33,7 +33,7 @@ liriaApp.factory('Pagamentos', function($http, Utils) {
             });
         },
 
-        searchPayments : function(searchString) {
+        searchCheckPayments : function(searchString) {
 
             return $http({
                 method: 'POST',

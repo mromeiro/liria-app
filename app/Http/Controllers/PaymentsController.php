@@ -6,9 +6,6 @@ use App\Payments;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\CardTax;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
@@ -75,7 +72,7 @@ class PaymentsController extends Controller
                         ->where([
                             ['data_prevista','>=', $dataInicial],
                             ['data_prevista','<=', $dataFinal],
-                            ['forma_pagamento','<>','']])
+                            ['forma_pagamento','=','Cheque']])
                         ->orderBy('data_prevista', 'asc')
                         ->get();
 
@@ -83,6 +80,9 @@ class PaymentsController extends Controller
 
     }
 
+    /*
+     * Retorna pagamentos não confirmados para Dinheiro e Cheque
+     */
     public function searchPaymentForecastByDate(Request $request){
 
         $payments = DB::table('pagamentos')
@@ -91,7 +91,7 @@ class PaymentsController extends Controller
                               DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, taxa_cartao_utilizada,
                               DATE_FORMAT(data_pagamento_confirmado,\'%d/%m/%Y\') as data_pagamento_confirmado'))
             ->whereRaw('id_pagamento_original is null and  data_pagamento_confirmado is null and '.
-                'month(data_pagamento_efetuado) = ' . $request->mes . ' and year(data_pagamento_efetuado) = ' . $request->ano)
+                'month(data_pagamento_efetuado) = ' . $request->mes . ' and year(data_pagamento_efetuado) = ' . $request->ano . ' and forma_pagamento = \'Previsao\'')
             ->get();
 
 
@@ -199,7 +199,6 @@ class PaymentsController extends Controller
 
             if($request->forma_pagamento == 'Dinheiro'){
                 $payment->data_pagamento_confirmado = $paymentDate;
-                $payment->pago = 'SIM';
             }
 
             if($x != 1){
@@ -219,7 +218,10 @@ class PaymentsController extends Controller
         return $paymentsList;
     }
 
-    // URL: /finances/conciliation
+    /*
+     * Realiza a confirmação de pagamentos para cartão
+     * URL: /finances/conciliation
+     */
     public function conciliation(Request $request){
 
         $configList = ConfigController::getConfigForController();

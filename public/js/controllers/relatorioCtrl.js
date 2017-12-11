@@ -11,6 +11,7 @@ liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $
     $scope.relatorioPronto = false;
     $scope.showPaymentsToConfirm = false;
     $scope.showExpensesToConfirm = false;
+    $scope.showPaymentsForcast = false
 
     Login.checkLogin()
 
@@ -41,19 +42,27 @@ liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $
                     $scope.relatorioPronto = true;
                     $scope.tab = "Entrada Confirmada";
 
-                    $scope.totalWithPaymentsToConfirm = parseFloat($scope.report.totalConfirmedPayments) + parseFloat($scope.report.totalPaymentsToConfirm)
+                    $scope.totalValue = parseFloat($scope.report.totalConfirmedPayments)
                                                             - parseFloat($scope.report.totalExpenses);
-
-                    $scope.totalWithPaymentsToConfirmAndExpensesToConfirm = parseFloat($scope.report.totalConfirmedPayments) + parseFloat($scope.report.totalPaymentsToConfirm)
-                        - parseFloat($scope.report.totalExpenses) - parseFloat($scope.report.totalExpensesWaitingToConfirm);
-
-                    $scope.totalWithExpensesToConfirm = parseFloat($scope.report.totalConfirmedPayments) - parseFloat($scope.report.totalExpenses)
-                        - parseFloat($scope.report.totalExpensesWaitingToConfirm);
-
-                    $scope.total = parseFloat($scope.report.totalConfirmedPayments) - parseFloat($scope.report.totalExpenses);
-
                 }
             });
+    }
+
+    $scope.updateTotalValue = function(){
+
+        $scope.totalValue = parseFloat($scope.report.totalConfirmedPayments)
+            - parseFloat($scope.report.totalExpenses);
+
+        if($scope.showPaymentsToConfirm){
+            $scope.totalValue += parseFloat($scope.report.totalPaymentsToConfirm);
+        }
+        if($scope.showPaymentsForcast){
+            $scope.totalValue += parseFloat($scope.report.totalForcastPayments);
+        }
+        if($scope.showExpensesToConfirm){
+            $scope.totalValue -= parseFloat($scope.report.totalExpensesWaitingToConfirm);
+        }
+
     }
 
 

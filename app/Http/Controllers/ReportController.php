@@ -55,33 +55,28 @@ class ReportController extends Controller
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
 		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
-                ' and pagamentos.data_pagamento_confirmado is null')
+                ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento <> \'Previsão\'')
             ->get();
 
         $totalPaymentsWaitingConfirmation = DB::table('pagamentos')
             ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_waiting_confirmation'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
-                ' and data_pagamento_confirmado is null')
+                ' and data_pagamento_confirmado is null and pagamentos.forma_pagamento <> \'Previsão\'')
             ->get();
 
-        /*$treatmentsWaitingConfirmation = DB::table('pagamentos')
-            ->join('tratamentos_cliente', 'pagamentos.tratamento_cliente_id', '=', 'tratamentos_cliente.id')
-            ->join('clientes', 'tratamentos_cliente.cliente_id', '=', 'clientes.id')
-            ->select(DB::raw('clientes.name as nome_cliente, tratamentos_cliente.nome as tratamento, 
-		                      pagamentos.valor_parcela, pagamentos.nro_parcela, tratamentos_cliente.nro_parcelas, DATE_FORMAT(pagamentos.data_prevista,\'%d/%m/%Y\') as data_prevista'))
-            ->whereRaw('month(pagamentos.data_prevista) = ' . $request->mes . ' and year(pagamentos.data_prevista) = ' . $request->ano .
-                ' and pagamentos.data_pagamento is null' .
-                ' and tratamentos_cliente.forma_pagamento is null')
+        //Payments waiting confirmation does not have data_pagamento, only data_prevista
+        $forcastPayments = DB::table('pagamentos')
+            ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
+		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+            ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
+                ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento = \'Previsão\'')
             ->get();
 
-        $totalTreatmentsWaitingConfirmation = DB::table('pagamentos')
-            ->join('tratamentos_cliente', 'pagamentos.tratamento_cliente_id', '=', 'tratamentos_cliente.id')
-            ->join('clientes', 'tratamentos_cliente.cliente_id', '=', 'clientes.id')
-            ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_treatment_waiting_confirmation'))
-            ->whereRaw('month(pagamentos.data_prevista) = ' . $request->mes . ' and year(pagamentos.data_prevista) = ' . $request->ano .
-                ' and pagamentos.data_pagamento is null' .
-                ' and tratamentos_cliente.forma_pagamento is null')
-            ->get();*/
+        $totalPaymentsForcast = DB::table('pagamentos')
+            ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_forcast'))
+            ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
+                ' and data_pagamento_confirmado is null and pagamentos.forma_pagamento = \'Previsão\'')
+            ->get();
 
         //Expenses
         $initialDate = Carbon::create($request->ano, $request->mes, 1,0,0,0);
@@ -110,12 +105,13 @@ class ReportController extends Controller
         $report = new Report();
         $report->totalConfirmedPayments = $totalConfirmedPayments[0]->total_confirmed;
         $report->totalPaymentsToConfirm = $totalPaymentsWaitingConfirmation[0]->total_waiting_confirmation;
-        //$report->totalTreatmentsNotConfirmed = $totalTreatmentsWaitingConfirmation[0]->total_treatment_waiting_confirmation;
+        $report->totalForcastPayments = $totalPaymentsForcast[0]->total_forcast;
         $report->totalExpenses = $totalExpenses;
         $report->totalExpensesWaitingToConfirm = $totalExpensesWaitingToConfirm;
+
         $report->confirmedPayments = $confirmedPayments;
         $report->paymentsToConfirm = $paymentsWaitingConfirmation;
-        //$report->treatmentsNotConfirmed = $treatmentsWaitingConfirmation;
+        $report->forcastPayments= $forcastPayments;
         $report->expenses = $expenses;
         $report->expensesWaitingToConfirm = $expensesWaitingToConfirm;
 
