@@ -11,7 +11,7 @@ liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $
     $scope.relatorioPronto = false;
     $scope.showPaymentsToConfirm = false;
     $scope.showExpensesToConfirm = false;
-    $scope.showPaymentsForcast = false
+    $scope.showPaymentsForcast = false;
 
     Login.checkLogin()
 

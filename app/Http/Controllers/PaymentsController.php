@@ -28,23 +28,25 @@ class PaymentsController extends Controller
 
     public function updatePayment(Request $request) {
 
+        //$updatedPayment = new Payments();
+        $remainingPayments = array();
+
+        $paymentList = $this->reCreatePayments($request);
+
         DB::table('pagamentos')->where('id', '=', $request->id)->delete();
         DB::table('pagamentos')->where('id_pagamento_original', '=', $request->id)->delete();
 
-        $updatedPayment = new Payments();
-        $remainingPayments = array();
-
-        $paymentList = $this->createPaymentsInternal($request);
-
         $isFirst = true;
-        foreach ($paymentList as $payment){
+        foreach ($paymentList as $payment) {
 
-            if($isFirst){
+            if ($isFirst) {
                 $updatedPayment = $payment;
                 $isFirst = false;
-            }else
+            } else {
                 $remainingPayments[] = $payment;
+            }
         }
+
 
         $updatedPayment->remainingPayments = $remainingPayments;
         return response()->json(['result' => $updatedPayment]);
@@ -169,6 +171,20 @@ class PaymentsController extends Controller
         }
 
         return response()->json(['result' => $paymentsList]);
+    }
+
+    private function reCreatePayments(Request $request){
+
+        if($request->forma_pagamento == 'Cartão'){
+
+            $paymentsList = $this->createPaymentsSumup($request);
+
+        }else {
+
+            $paymentsList = $this->createPaymentsCash($request);
+        }
+
+        return $paymentsList;
     }
 
     private function createPaymentsCash(Request $request){
