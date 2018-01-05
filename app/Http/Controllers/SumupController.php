@@ -64,7 +64,7 @@ class SumupController extends Controller
         $token = SumupController::getToken($configList);
 
         $client = new Client();
-        $result = $client->post($configList[Constants::$SUMUP_TRANSACTION_HISTORY_DETAIL_API_CONFIG] . '?transaction_code=' . $transaction_id, [
+        $result = $client->get($configList[Constants::$SUMUP_TRANSACTION_HISTORY_DETAIL_API_CONFIG] . '?transaction_code=' . $transaction_id, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
             ]

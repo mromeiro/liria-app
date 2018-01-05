@@ -126,18 +126,25 @@ class PaymentsController extends Controller
 
         Log::info('Sumup data: '. json_encode($transaction));
 
+        $events = array();
+        foreach ($transaction->events as $event){
+            $events[$event->installment_number] = $event;
+        }
+
         $originalPayment = 0;
         for ($x = 0; $x < $transaction->installments_count; $x++){
 
+            $installment_number = $transaction->transaction_events[$x]->installment_number;
+
             $payment = new Payments();
             $payment->id_transacao = $transaction->transaction_code;
-            $payment->nro_parcela = $transaction->events[$x]->installment_number;
+            $payment->nro_parcela = $installment_number;
             $payment->data_prevista = Carbon::createFromFormat('Y-m-d', $transaction->transaction_events[$x]->due_date);
             $payment->data_pagamento_efetuado = Carbon::createFromFormat('Y-m-d', substr($transaction->timestamp,0,10));
             $payment->descricao = $request->descricao;
-            $payment->valor_parcela = bcadd($transaction->events[$x]->amount, $transaction->events[$x]->fee_amount,2);
+            $payment->valor_parcela = bcadd($events[$installment_number]->amount, $events[$installment_number]->fee_amount,2);
             $payment->valor_bruto = $transaction->amount;
-            $payment->valor_depois_taxa = $transaction->events[$x]->amount;
+            $payment->valor_depois_taxa = $events[$installment_number]->amount;
             $payment->forma_pagamento = $request->forma_pagamento;
             $payment->nro_parcelas = $transaction->installments_count;
             $payment->alterado_por = $request->usuario;
