@@ -28,6 +28,8 @@ class SumupController extends Controller
 
         $json_response = json_decode($result->getBody());
 
+        dd($json_response);
+
         $config = new Config();
         $config->nome = 'refresh_token';
         $config->valor = $json_response->refresh_token;

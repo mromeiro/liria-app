@@ -251,7 +251,8 @@ class PaymentsController extends Controller
         $pagamentos = DB::table('pagamentos')
             ->whereRaw('month(data_prevista) = ' . $request->mes
                 . ' and year(data_prevista) = ' . $request->ano
-                . ' and forma_pagamento = \'Cartão\'')->get();
+                . ' and forma_pagamento = \'Cartão\'')
+            ->orderBy('data_prevista')->get();
 
         foreach ($pagamentos as $pagamento) {
 

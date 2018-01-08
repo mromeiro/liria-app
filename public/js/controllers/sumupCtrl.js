@@ -41,7 +41,7 @@ liriaApp.controller('sumupController', function($rootScope, $scope, $http, $loca
 
                 }else{
 
-
+                    $scope.conciliationList = data.result;
 
                 }
             });
