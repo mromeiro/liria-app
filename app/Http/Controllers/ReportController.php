@@ -38,14 +38,14 @@ class ReportController extends Controller
 
         $confirmedPayments = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_pagamento_confirmado,\'%d/%m/%Y\') as data_pagamento_confirmado, 
-		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
+		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
 		                      DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
             ->whereRaw('month(data_pagamento_confirmado) = ' . $request->mes . ' and year(data_pagamento_confirmado) = ' . $request->ano .
                         ' and data_pagamento_confirmado is not null')
             ->get();
 
         $totalConfirmedPayments = DB::table('pagamentos')
-            ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_confirmed'))
+            ->select(DB::raw('COALESCE(SUM(valor_depois_taxa),0) as total_confirmed'))
             ->whereRaw('month(data_pagamento_confirmado) = ' . $request->mes . ' and year(data_pagamento_confirmado) = ' . $request->ano .
                 ' and data_pagamento_confirmado is not null')
             ->get();
@@ -53,13 +53,13 @@ class ReportController extends Controller
         //Payments waiting confirmation does not have data_pagamento, only data_prevista
         $paymentsWaitingConfirmation = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
-		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento <> \'Previsão\'')
             ->get();
 
         $totalPaymentsWaitingConfirmation = DB::table('pagamentos')
-            ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_waiting_confirmation'))
+            ->select(DB::raw('COALESCE(SUM(valor_depois_taxa),0) as total_waiting_confirmation'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and data_pagamento_confirmado is null and pagamentos.forma_pagamento <> \'Previsão\'')
             ->get();
@@ -67,13 +67,13 @@ class ReportController extends Controller
         //Payments waiting confirmation does not have data_pagamento, only data_prevista
         $forcastPayments = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
-		                      valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento = \'Previsão\'')
             ->get();
 
         $totalPaymentsForcast = DB::table('pagamentos')
-            ->select(DB::raw('COALESCE(SUM(valor_parcela),0) as total_forcast'))
+            ->select(DB::raw('COALESCE(SUM(valor_depois_taxa),0) as total_forcast'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and data_pagamento_confirmado is null and pagamentos.forma_pagamento = \'Previsão\'')
             ->get();
