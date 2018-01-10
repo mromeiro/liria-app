@@ -95,6 +95,10 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                     show: 'true'
                 });
 
+                field = $('#cor');
+                field.val(calEvent.color);
+                field.trigger('input');
+
                 $scope.selectedEvent = calEvent;
             },
 
@@ -123,6 +127,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                             newEvent.end = Utils.formatDateToCalendar($scope.scheduleEntry[i].data_final);
                             newEvent.allDay = false;
                             newEvent.client = $scope.scheduleEntry[i].cliente;
+                            newEvent.color = $scope.scheduleEntry[i].cor;
                             $('#calendar').fullCalendar('renderEvent', newEvent);
                         }
                     });
@@ -182,6 +187,10 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
 
                 }
 
+                var cor = $('#cor');
+                cor.val("");
+                cor.trigger('input');
+
                 //Display the modal to input the schedule information
                 $('#myModalCalendarEvent').modal({
                     show: 'true'
@@ -219,6 +228,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                     newEvent.end = Utils.formatDateToCalendar($scope.entradaCalendario.dataFimEvento + " " + $scope.entradaCalendario.horaFimEvento);
                     newEvent.allDay = false;
                     newEvent.client = $scope.entradaCalendario.cliente;
+                    newEvent.color = $scope.entradaCalendario.cor;
                     $('#calendar').fullCalendar('renderEvent', newEvent);
 
                     $('#myModalCalendarEvent').modal('hide');
@@ -253,6 +263,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                     $scope.selectedEvent.end = Utils.formatDateToCalendar($('#dataFimEvento').val() + " " + $('#horaFimEvento').val());
                     $scope.selectedEvent.allDay = false;
                     $scope.selectedEvent.client = $('#cliente').val();
+                    $scope.selectedEvent.color = $scope.entradaCalendario.cor;
                     $('#calendar').fullCalendar('updateEvent', $scope.selectedEvent);
 
                     $('#myModalCalendarEvent').modal('hide');

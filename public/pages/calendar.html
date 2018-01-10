@@ -4,6 +4,22 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="col-lg-3" style="padding-left: 0px">
+            <img src="images/nathaly.png" style="height: 25px;width: 25px" /><b style="font-size: 18px"> Nathaly</b>
+        </div>
+        <div class="col-lg-3" style="padding-left: 0px">
+            <img src="images/marielle.png" style="height: 25px;width: 25px" /><b style="font-size: 18px"> Marielle</b>
+        </div>
+        <div class="col-lg-3" style="padding-left: 0px">
+            <img src="images/jessica.png" style="height: 25px;width: 25px" /><b style="font-size: 18px"> Jéssica</b>
+        </div>
+    </div>
+</div>
+<br>
+
 <div id='calendar'></div>
 
 <div class="modal fade" id="myModalCalendarEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -70,6 +86,17 @@
                                                 <div class="form-group">
                                                     <label>Hora Fim:</label>
                                                     <input class="form-control" id="horaFimEvento" name="horaFimEvento" ng-model="entradaCalendario.horaFimEvento" ui-mask="99:99" model-view-value="true">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Responsável</label>
+                                                    <select class="form-control" ng-model="entradaCalendario.cor" id="cor">
+                                                        <option value="#003399" selected></option>
+                                                        <option value="#993399">Nathaly</option>
+                                                        <option value="#cc6600">Marielle</option>
+                                                        <option value="#006600">Jéssica</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

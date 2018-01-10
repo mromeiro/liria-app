@@ -16,6 +16,7 @@ class ScheduleController extends Controller
         $schedule->tratamento = $request->tratamento;
         $schedule->data_inicio = Carbon::createFromFormat('d/m/Y H:i', $request->dataIniEvento . ' ' . $request->horaIniEvento);
         $schedule->data_final = Carbon::createFromFormat('d/m/Y H:i', $request->dataFimEvento . ' ' . $request->horaFimEvento);
+        $schedule->cor = $request->cor;
         $schedule->alterado_por = $request->usuario;
 
         $schedule->save();
@@ -29,6 +30,7 @@ class ScheduleController extends Controller
         $schedule->tratamento = $request->tratamento;
         $schedule->data_inicio = Carbon::createFromFormat('d/m/Y H:i', $request->dataIniEvento . ' ' . $request->horaIniEvento);
         $schedule->data_final = Carbon::createFromFormat('d/m/Y H:i', $request->dataFimEvento . ' ' . $request->horaFimEvento);
+        $schedule->cor = $request->cor;
         $schedule->alterado_por = $request->usuario;
 
         $schedule->update();
@@ -49,7 +51,7 @@ class ScheduleController extends Controller
 
         $schedule = DB::table('agenda')
             ->select(DB::raw('agenda.cliente, agenda.tratamento, DATE_FORMAT(agenda.data_inicio,\'%d/%m/%Y %H:%i\') as data_inicio, 
-                                          DATE_FORMAT(agenda.data_final,\'%d/%m/%Y %H:%i\') as data_final, agenda.id'))
+                                          DATE_FORMAT(agenda.data_final,\'%d/%m/%Y %H:%i\') as data_final, agenda.id, agenda.cor'))
             ->where([
             ['agenda.data_inicio','>=', $dataInicial],
             ['agenda.data_final','<=', $dataFinal]])->get();
