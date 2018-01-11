@@ -8,6 +8,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
     $scope.logged = true;
 
     $scope.entradaCalendario = new Object();
+    $scope.entradaCalendario.cor = "#003399";
 
     Login.checkLogin()
 
