@@ -1,9 +1,6 @@
 liriaApp.controller('despesasController', function($rootScope, $scope, $http, $location, Upload, Login, Expenses) {
 
     $rootScope.userName = window.localStorage.getItem('name');
-    $rootScope.client_id = window.localStorage.getItem('client_id');
-    $rootScope.client_secret = window.localStorage.getItem('client_secret');
-    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
 
     $rootScope.logged = true;
     $scope.logged = true;

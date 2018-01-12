@@ -4,9 +4,6 @@
 liriaApp.controller('relatorioController', function($rootScope, $scope, $http, $location, Login, Relatorio) {
 
     $rootScope.userName = window.localStorage.getItem('name');
-    $rootScope.client_id = window.localStorage.getItem('client_id');
-    $rootScope.client_secret = window.localStorage.getItem('client_secret');
-    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
     $rootScope.logged = true;
     $scope.relatorioPronto = false;
     $scope.showPaymentsToConfirm = false;

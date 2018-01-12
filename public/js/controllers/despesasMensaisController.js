@@ -5,9 +5,6 @@ liriaApp.controller('despesasMensaisController', function($rootScope, $scope, $h
     $scope.expenseData = {};
     $scope.expenseDataList = {};
     $rootScope.userName = window.localStorage.getItem('name');
-    $rootScope.client_id = window.localStorage.getItem('client_id');
-    $rootScope.client_secret = window.localStorage.getItem('client_secret');
-    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
 
     Login.checkLogin()
 

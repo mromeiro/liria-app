@@ -1,14 +1,13 @@
 liriaApp.controller('calendarController', function($rootScope, $scope, $log, Login, $location, Calendar, Utils, Tratamentos, Utils) {
 
     $rootScope.userName = window.localStorage.getItem('name');
-    $rootScope.client_id = window.localStorage.getItem('client_id');
-    $rootScope.client_secret = window.localStorage.getItem('client_secret');
-    $rootScope.redirect_uri = window.localStorage.getItem('redirect_uri');
     $rootScope.logged = true;
     $scope.logged = true;
 
     $scope.entradaCalendario = new Object();
-    $scope.entradaCalendario.cor = "#003399";
+
+    //Sets the default value for the combobox "Profissional"
+    $scope.entradaCalendario.cor = "#8ed4f2";
 
     Login.checkLogin()
 
@@ -51,6 +50,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
             slotDuration: "00:30:00",
             slotLabelInterval: "00:30:00",
             slotLabelFormat: 'H:mm',
+            eventTextColor: "#585d63",
             header: {
                 left: 'today prev,next',
                 center: 'title',
