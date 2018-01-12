@@ -32,7 +32,7 @@ body .fc { /* extra precedence to overcome jqui */
 .fc-unthemed .fc-popover,
 .fc-unthemed .fc-list-view,
 .fc-unthemed .fc-list-heading td {
-	border-color: #ddd;
+	border-color: rgba(2,2,2,0);
 }
 
 .fc-unthemed .fc-popover {
@@ -50,7 +50,8 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 .fc-unthemed td.fc-today {
-	background: #ecf0f5;
+	/*background: #ecf0f5;*/
+	background: #f5f5f5;
 }
 
 .fc-highlight { /* when user is selecting cells */
