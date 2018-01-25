@@ -52,6 +52,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
             slotLabelFormat: 'H:mm',
             eventTextColor: "#585d63",
             header: {
+
                 left: 'today prev,next',
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
@@ -134,7 +135,7 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
                     });
             },
 
-            //Addes the
+            //Addes the client to the event
             eventRender: function(event, element) {
                 var title = element.find('.fc-title').append("<br/>" + event.client);
             },

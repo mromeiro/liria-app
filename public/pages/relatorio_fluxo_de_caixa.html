@@ -78,6 +78,7 @@
                                 <th>Tratamento</th>
                                 <th>Data do Pagamento</th>
                                 <th>Data Prevista</th>
+                                <th>Forma de Pagamento</th>
                                 <th>Data do Recebimento</th>
                                 <th>Parcela</th>
                                 <th>Valor</th>
@@ -89,6 +90,7 @@
                                 <td style="padding: 5px 5px; text-align: left">{{ income.descricao}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.data_pagamento_efetuado}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.data_prevista}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.forma_pagamento}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.data_pagamento_confirmado }}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.nro_parcela}} de {{ income.nro_parcelas}} </td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.valor_parcela}}</td>
@@ -115,6 +117,7 @@
                                 <th>Cliente</th>
                                 <th>Tratamento</th>
                                 <th>Data Prevista</th>
+                                <th>Forma de Pagamento</th>
                                 <th>Parcela</th>
                                 <th>Valor</th>
                             </tr>
@@ -124,6 +127,7 @@
                                 <td style="padding: 5px 5px; text-align: left">{{ income.nome_cliente}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.descricao}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.data_prevista}}</td>
+                                <td style="padding: 5px 5px; text-align: left">{{ income.forma_pagamento}}</td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.nro_parcela}} de {{ income.nro_parcelas}} </td>
                                 <td style="padding: 5px 5px; text-align: left">{{ income.valor_parcela}}</td>
                             </tr>

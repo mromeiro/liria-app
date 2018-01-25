@@ -39,9 +39,10 @@ class ReportController extends Controller
         $confirmedPayments = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_pagamento_confirmado,\'%d/%m/%Y\') as data_pagamento_confirmado, 
 		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
-		                      DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+		                      DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado, forma_pagamento'))
             ->whereRaw('month(data_pagamento_confirmado) = ' . $request->mes . ' and year(data_pagamento_confirmado) = ' . $request->ano .
                         ' and data_pagamento_confirmado is not null')
+            ->orderByRaw('data_pagamento_efetuado', 'asc')
             ->get();
 
         $totalConfirmedPayments = DB::table('pagamentos')
@@ -53,9 +54,10 @@ class ReportController extends Controller
         //Payments waiting confirmation does not have data_pagamento, only data_prevista
         $paymentsWaitingConfirmation = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
-		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado, forma_pagamento'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento <> \'Previsão\'')
+            ->orderByRaw('data_prevista', 'asc')
             ->get();
 
         $totalPaymentsWaitingConfirmation = DB::table('pagamentos')
@@ -67,9 +69,10 @@ class ReportController extends Controller
         //Payments waiting confirmation does not have data_pagamento, only data_prevista
         $forcastPayments = DB::table('pagamentos')
             ->select(DB::raw('cliente as nome_cliente, descricao, DATE_FORMAT(data_prevista,\'%d/%m/%Y\') as data_prevista, 
-		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado'))
+		                      valor_depois_taxa as valor_parcela, nro_parcela, nro_parcelas, DATE_FORMAT(data_pagamento_efetuado,\'%d/%m/%Y\') as data_pagamento_efetuado, forma_pagamento'))
             ->whereRaw('month(data_prevista) = ' . $request->mes . ' and year(data_prevista) = ' . $request->ano .
                 ' and pagamentos.data_pagamento_confirmado is null and pagamentos.forma_pagamento = \'Previsão\'')
+            ->orderByRaw('data_prevista', 'asc')
             ->get();
 
         $totalPaymentsForcast = DB::table('pagamentos')

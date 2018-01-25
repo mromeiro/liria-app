@@ -7,6 +7,7 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
 
     $rootScope.logged = true;
     $scope.paymentsFound = false;
+    $scope.processing = false;
 
     Login.checkLogin()
 
@@ -190,6 +191,10 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
 
     $scope.submitPayments = function(){
 
+        $scope.paymentsFound = false;
+        $scope.processing = true;
+        $scope.paymentsList = null;
+
         Pagamentos.submitPayments($scope.dadosPagamento)
 
             .success(function(data) {
@@ -201,6 +206,7 @@ liriaApp.controller('pagamentosController', function($rootScope, $scope, $http, 
 
                 }else{
 
+                    $scope.processing = false;
                     $scope.paymentsList = data.result;
                     $scope.paymentsFound = true;
                 }

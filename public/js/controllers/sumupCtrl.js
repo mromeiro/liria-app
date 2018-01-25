@@ -3,12 +3,7 @@
  */
 liriaApp.controller('sumupController', function($rootScope, $scope, $http, $location, Login, Relatorio, $routeParams, Sumup) {
 
-    $rootScope.userName = window.localStorage.getItem('name');
-
     $rootScope.logged = true;
-    $scope.relatorioPronto = false;
-    $scope.showPaymentsToConfirm = false;
-    $scope.showExpensesToConfirm = false;
 
     Login.checkLogin()
 
@@ -27,8 +22,6 @@ liriaApp.controller('sumupController', function($rootScope, $scope, $http, $loca
     }
 
     $scope.generateConciliationReport = function(){
-
-        $scope.searchString.sumupCode = $routeParams.code;
 
         Relatorio.generateConciliationReport($scope.searchString)
 
