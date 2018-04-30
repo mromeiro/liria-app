@@ -138,6 +138,17 @@ liriaApp.controller('calendarController', function($rootScope, $scope, $log, Log
             //Addes the client to the event
             eventRender: function(event, element) {
                 var title = element.find('.fc-title').append("<br/>" + event.client);
+
+            },
+
+            dayRender: function (date, cell) {
+                var today = new Date();
+
+                if (date.getDate() === today.getDate()) {
+                    cell.css("background-color", "red");}
+                else{
+                    cell.css("background-color", "red");}
+
             },
 
             dayClick: function(date, jsEvent, view) {

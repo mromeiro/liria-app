@@ -6,7 +6,7 @@ liriaApp.factory('Utils', function($http) {
 
         apiUrl : function(){
 
-            return 'http://localhost:80/';
+            return 'http://192.168.10.10:80/';
         },
 
         getAppConfig : function(scope){
